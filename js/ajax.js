@@ -28,8 +28,9 @@ function enviarForm (evt){
             contenedor.innerHTML = response;
         } );
     }
+
 }
 
 formAjax.forEach(form =>{
     form.addEventListener("submit", enviarForm)
-});
+});     

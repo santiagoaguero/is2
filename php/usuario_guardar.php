@@ -81,3 +81,60 @@ if($email != ""){
         exit();
     }
 }
+
+//verifica usuario unico
+$check_usuario=con();
+//query: inserta la consulta directo a la bd
+$check_usuario=$check_usuario->query("SELECT usuario_usuario FROM usuario 
+WHERE usuario_usuario = '$usuario'");//checks if usuario exists
+if($check_usuario->rowCount()>0){//usuarios found
+    echo '
+    <div class="notification is-danger is-light">
+        <strong>¡Ocurrio un error inesperado!</strong><br>
+        El usuario ya está registrado en la base de datos, por favor elija otro usuario.
+    </div>';
+    exit();
+}
+$check_usuario=null;//close db connection
+
+
+//claves coinciden
+if($clave_1 != $clave_2){
+    echo '
+    <div class="notification is-danger is-light">
+        <strong>¡Ocurrio un error inesperado!</strong><br>
+        Las claves no coinciden.
+    </div>';
+    exit();
+} else {
+    $clave = password_hash($clave_1, PASSWORD_BCRYPT, ["cost"=>10]);
+}
+
+
+//guardando datos
+$guardar_usuario = con();
+//prepare: prepara la consulta antes de insertar directo a la bd. variables sin comillas ni $
+$guardar_usuario = $guardar_usuario->prepare("INSERT INTO
+    usuario(usuario_nombre, usuario_apellido, usuario_usuario, usuario_email, usuario_clave)
+    VALUES(:nombre, :apellido, :usuario, :email, :clave)");
+
+//evitando inyecciones sql xss
+$marcadores=[
+    ":nombre"=>$nombre, ":apellido"=>$apellido, ":usuario"=>$usuario, ":email"=>$email, ":clave"=>$clave];
+
+$guardar_usuario->execute($marcadores);
+
+if($guardar_usuario->rowCount()==1){// 1 usuario nuevo insertado
+    echo '
+    <div class="notification is-success is-light">
+        <strong>¡Usuario registrado!</strong><br>
+        El usuario se registró exitosamente.
+    </div>';
+} else {
+    echo '
+    <div class="notification is-danger is-light">
+        <strong>¡Ocurrio un error inesperado!</strong><br>
+        No se pudo registrar el usuario, intentelo nuevamente.
+    </div>';
+}
+$guardar_usuario=null; //cerrar conexion;
