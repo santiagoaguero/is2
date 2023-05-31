@@ -66,16 +66,16 @@ function renombrar_fotos($nombre){
 
 
 //paginacion
-function paginador($pag_actual, $pag_totales, $url, $botones){
+function paginador($pagina, $Npaginas, $url, $botones){
 	$tabla='<nav class="pagination is-centered is-rounded" role="navigation" aria-label="pagination">';
 
-	if($pag_actual<=1){//primera pagina
+	if($pagina<=1){//primera pagina
 		$tabla.='
 		<a class="pagination-previous is-disabled" disabled >Anterior</a>
 		<ul class="pagination-list">';
 	}else{
 		$tabla.='
-		<a class="pagination-previous" href="'.$url.($pag_actual-1).'" >Anterior</a>
+		<a class="pagination-previous" href="'.$url.($pagina-1).'" >Anterior</a>
 		<ul class="pagination-list">
 			<li><a class="pagination-link" href="'.$url.'1">1</a></li>
 			<li><span class="pagination-ellipsis">&hellip;</span></li>
@@ -83,11 +83,11 @@ function paginador($pag_actual, $pag_totales, $url, $botones){
 	}
 
 	$ci=0;//contador de paginas
-	for($i=$pag_actual; $i<=$pag_totales; $i++){
+	for($i=$pagina; $i<=$Npaginas; $i++){
 		if($ci>=$botones){
 			break;
 		}
-		if($pag_actual==$i){
+		if($pagina==$i){
 			$tabla.='<li><a class="pagination-link is-current" href="'.$url.$i.'">'.$i.'</a></li>';
 		}else{
 			$tabla.='<li><a class="pagination-link" href="'.$url.$i.'">'.$i.'</a></li>';
@@ -95,7 +95,7 @@ function paginador($pag_actual, $pag_totales, $url, $botones){
 		$ci++;
 	}
 
-	if($pag_actual==$pag_totales){//ultima pagina
+	if($pagina==$Npaginas){//ultima pagina
 		$tabla.='
 		</ul>
 		<a class="pagination-next is-disabled" disabled >Siguiente</a>
@@ -103,9 +103,9 @@ function paginador($pag_actual, $pag_totales, $url, $botones){
 	}else{
 		$tabla.='
 			<li><span class="pagination-ellipsis">&hellip;</span></li>
-			<li><a class="pagination-link" href="'.$url.$pag_totales.'">'.$pag_totales.'</a></li>
+			<li><a class="pagination-link" href="'.$url.$Npaginas.'">'.$Npaginas.'</a></li>
 		</ul>
-		<a class="pagination-next" href="'.$url.($pag_actual+1).'" >Siguiente</a>
+		<a class="pagination-next" href="'.$url.($pagina+1).'" >Siguiente</a>
 		';
 	}
 

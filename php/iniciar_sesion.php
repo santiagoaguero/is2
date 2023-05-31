@@ -1,5 +1,4 @@
 <?php
-require_once("main.php");
 
 //almacenando datos
 $usuario=limpiar_cadena($_POST["login_usuario"]);
@@ -48,7 +47,7 @@ $check_user=$check_user->query("SELECT * from usuario WHERE
             $_SESSION["apellido"]=$check_user["usuario_apellido"];
             $_SESSION["usuario"]=$check_user["usuario_usuario"];
 
-            if(headers_sent()){//si no se enviaron headers se redirecciona con php sino con js. 
+            if(headers_sent()){//si ya se enviaron headers se redirecciona con js porque con php da errores.  
                 echo '
                 <script>
                     window.location.href="index.php?vista=home"

@@ -20,7 +20,7 @@ if($nombre == "" || $apellido == "" || $usuario == "" || $clave_1 == "" || $clav
 }
 
 //verifica integridad de los datos
-if(verificar_datos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}",$nombre)){
+if(verificar_datos("[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{3,40}",$nombre)){
     echo '
     <div class="notification is-danger is-light">
         <strong>¡Ocurrio un error inesperado!</strong><br>
@@ -29,7 +29,7 @@ if(verificar_datos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}",$nombre)){
     exit();
 }
 
-if(verificar_datos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}",$apellido)){
+if(verificar_datos("[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{3,40}",$apellido)){
     echo '
     <div class="notification is-danger is-light">
         <strong>¡Ocurrio un error inesperado!</strong><br>
