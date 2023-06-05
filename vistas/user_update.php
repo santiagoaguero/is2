@@ -2,11 +2,12 @@
     require_once("./php/main.php");
 
     $id=(isset($_GET["user_id_upd"])) ? $_GET["user_id_upd"] : 0;
+    $id=limpiar_cadena($id);
 ?>
 
 <div class="container is-fluid mb-6">
 <?php
-    if($id==$_SESSION["id"]){///usuario que inició sesión
+    if($id == $_SESSION["id"]){///usuario que inició sesión
 ?> 
         <h1 class="title">Mi Cuenta</h1>
         <h2 class="subtitle">Actualizar datos de cuenta</h2>
@@ -23,41 +24,30 @@
 
 <div class="container pb-6 pt-6">
 
+<?php 
+    include("./inc/btn_back.php");
 
+    $check_usuario = con();
+    $check_usuario = $check_usuario->query("SELECT * FROM usuario WHERE usuario_id = '$id'");
 
-	<p class="has-text-right pt-4 pb-4">
-		<a href="#" class="button is-link is-rounded btn-back"><- Regresar atrás</a>
-	</p>
-	<script type="text/javascript">
-	    let btn_back = document.querySelector(".btn-back");
-
-	    btn_back.addEventListener('click', function(e){
-	        e.preventDefault();
-	        window.history.back();
-	    });
-	</script>
-
-
-
+    if($check_usuario->rowCount()>0){
+        $datos=$check_usuario->fetch();
+?>
 	<div class="form-rest mb-6 mt-6"></div>
-
-
-
-	<form action="" method="POST" class="FormularioAjax" autocomplete="off" >
-
-		<input type="hidden" name="usuario_id" required >
+	<form action="./php/usuario_actualizar.php" method="POST" class="formularioAjax" autocomplete="off" >
+		<input type="hidden" value="<?php echo $datos["usuario_id"];?>" name="usuario_id" required >
 		
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
 					<label>Nombres</label>
-				  	<input class="input" type="text" name="usuario_nombre" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}" maxlength="40" required >
+				  	<input class="input" type="text" value="<?php echo $datos["usuario_nombre"];?>" name="usuario_nombre" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}" maxlength="40" required >
 				</div>
 		  	</div>
 		  	<div class="column">
 		    	<div class="control">
 					<label>Apellidos</label>
-				  	<input class="input" type="text" name="usuario_apellido" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}" maxlength="40" required >
+				  	<input class="input" type="text" value="<?php echo $datos["usuario_apellido"];?>" name="usuario_apellido" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}" maxlength="40" required >
 				</div>
 		  	</div>
 		</div>
@@ -65,13 +55,13 @@
 		  	<div class="column">
 		    	<div class="control">
 					<label>Usuario</label>
-				  	<input class="input" type="text" name="usuario_usuario" pattern="[a-zA-Z0-9]{4,20}" maxlength="20" required >
+				  	<input class="input" type="text" value="<?php echo $datos["usuario_usuario"];?>" name="usuario_usuario" pattern="[a-zA-Z0-9]{4,20}" maxlength="20" required >
 				</div>
 		  	</div>
 		  	<div class="column">
 		    	<div class="control">
 					<label>Email</label>
-				  	<input class="input" type="email" name="usuario_email" maxlength="70" >
+				  	<input class="input" type="email" value="<?php echo $datos["usuario_email"];?>" name="usuario_email" maxlength="70" >
 				</div>
 		  	</div>
 		</div>
@@ -116,13 +106,11 @@
 			<button type="submit" class="button is-success is-rounded">Actualizar</button>
 		</p>
 	</form>
-
-
-
-	<div class="notification is-danger is-light mb-6 mt-6">
-	    <strong>¡Ocurrio un error inesperado!</strong><br>
-	    No podemos obtener la información solicitada
-	</div>
-
-	
+<?php 
+    } else {
+        include("./inc/error_alert.php");
+    }
+    $check_usuario=null;
+?>	
 </div>
+

@@ -3,7 +3,7 @@ const formAjax = document.querySelectorAll(".formularioAjax");
 function enviarForm (evt){
     evt.preventDefault();
 
-    let enviar=confirm("quieres registrar este usuario?")
+    let enviar=confirm("quieres enviar este formulario?")
 
     if(enviar){
         let data = new FormData(this);
