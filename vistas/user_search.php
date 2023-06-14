@@ -16,7 +16,7 @@
     if(!isset($_SESSION["busqueda_usuario"]) && empty($_SESSION["busqueda_usuario"]) ){
 
 
-        ?>
+?>
 
     <div class="columns">
         <div class="column">

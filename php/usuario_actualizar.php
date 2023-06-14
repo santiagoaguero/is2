@@ -8,7 +8,7 @@ $id = limpiar_cadena($_POST["usuario_id"]);//input hidden
 $check_usuario = con();
 $check_usuario = $check_usuario->query("SELECT * FROM usuario WHERE usuario_id = '$id'");
 
-if($check_usuario->rowCount()==0){//no existe id
+if($check_usuario->rowCount()<=0){//no existe id
     echo '
     <div class="notification is-danger is-light">
         <strong>¡Ocurrió un error inesperado!</strong><br>

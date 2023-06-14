@@ -19,7 +19,7 @@ if($check_usuario->rowCount()==1){
 
         if($eliminar_usuario->rowCount()==1){
             echo '
-            <div class="notification is-info is-light">
+            <div class="notification is-success is-light">
                 <strong>¡Usuario eliminado!</strong><br>
                 El usuario ha sido eliminado exitosamente.
             </div>';
