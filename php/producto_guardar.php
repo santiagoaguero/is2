@@ -1,5 +1,5 @@
 <?php
-require_once("./inc/session_start.php");
+require_once("../inc/session_start.php");
 require_once("main.php");
 
 //almacenando datos
@@ -97,3 +97,107 @@ if($check_categoria->rowCount()<=0){//categorias found
     exit();
 }
 $check_categoria=null;//close db connection
+
+//directorio imagenes productos
+$img_dir = "../img/productos/";
+
+//comprueba si se selecciono una img
+if($_FILES["producto_foto"]["name"] != "" && $_FILES["producto_foto"]["size"]>0){
+    //crea dir
+    if(!file_exists($img_dir)){
+        if(!mkdir($img_dir, 0777)){//crea carpeta con permisos de lectura y escritura
+            echo '
+            <div class="notification is-danger is-light">
+                <strong>¡Ocurrió un error inesperado!</strong><br>
+                No se pudo crear el directorio.
+            </div>';
+            exit();
+        }
+    }
+    //verifica formato imgs
+    if(mime_content_type($_FILES["producto_foto"]["tmp_name"]) != "image/jpeg" && mime_content_type($_FILES["producto_foto"]["tmp_name"]) != "image/png"){//verifica formato de archivo
+        echo '
+        <div class="notification is-danger is-light">
+            <strong>¡Ocurrió un error inesperado!</strong><br>
+            Formato de archivo no permitido.
+        </div>';
+        exit();
+    }
+    //verifica tamaño de img
+    if(($_FILES["producto_foto"]["size"] / 1024) > 3072){//mb to kb
+        echo '
+        <div class="notification is-danger is-light">
+            <strong>¡Ocurrió un error inesperado!</strong><br>
+            Tamaño de archivo supera el permitido.
+        </div>';
+        exit();
+    }
+    //verifica extension img
+    switch(mime_content_type($_FILES["producto_foto"]["tmp_name"])){
+        case "image/jpeg":
+            $img_ext = ".jpg";
+            break;
+        case "image/png":
+            $img_ext = ".png";
+            break;
+    }
+
+    chmod($img_dir, 0777);//permisos de escritura y lectura
+    $img_nombre = renombrar_fotos($nombre);
+    $foto = $img_nombre.$img_ext;
+
+    //mueve la img del form al directorio
+    if(!move_uploaded_file($_FILES["producto_foto"]["tmp_name"], $img_dir.$foto)){
+        echo '
+        <div class="notification is-danger is-light">
+            <strong>¡Ocurrió un error inesperado!</strong><br>
+            No se pudo guardar la imagen, intentelo nuevamente//guardando datos
+$guardar_usuario = con();
+//prepare: prepara la consulta antes de insertar directo a la bd. variables sin comillas ni $
+$guardar_usuario = $guardar_usuario->prepare("INSERT INTO
+    usuario(usuario_nombre, usuario_apellido, usuario_usuario, usuario_email, usuario_clave)
+    VALUES(:nombre, :apellido, :usuario, :email, :clave)");.
+        </div>';
+        exit();
+    }
+} else {
+    $foto = "";
+}
+
+//guardando datos
+$guardar_producto = con();
+//prepare: prepara la consulta antes de insertar directo a la bd. variables sin comillas ni $
+$guardar_producto = $guardar_producto->prepare("INSERT INTO
+    producto (producto_codigo, producto_nombre, producto_precio, producto_stock, producto_foto, categoria_id, usuario_id)
+    VALUES(:codigo, :nombre, :precio, :stock, :foto, :categoria, :usuario)");
+
+$marcadores=[
+    "codigo"=>$codigo,
+    "nombre"=>$nombre,
+    "precio"=>$precio,
+    "stock"=>$stock,
+    "foto"=>$foto,
+    "categoria"=>$categoria,
+    "usuario"=>$_SESSION["id"]
+];
+
+$guardar_producto->execute($marcadores);
+
+if($guardar_producto->rowCount()==1){// 1 producto nuevo insertado
+    echo '
+    <div class="notification is-success is-light">
+        <strong>¡Usuario registrado!</strong><br>
+        El producto se registró exitosamente.
+    </div>';
+} else {
+    if(is_file($img_dir.$foto)){
+        chmod($img_dir.$foto, 0777);//permisos de escritura y lectura
+        unlink($img_dir.$foto);//borrar img antes de borrar producto
+    }
+    echo '
+    <div class="notification is-danger is-light">
+        <strong>¡Ocurrió un error inesperado!</strong><br>
+        No se pudo registrar el producto, intentelo nuevamente.
+    </div>';
+}
+$guardar_producto=null; //cerrar conexion;
