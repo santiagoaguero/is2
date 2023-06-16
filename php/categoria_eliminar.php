@@ -20,7 +20,7 @@ if($check_category->rowCount()==1){
             if($eliminar_categoria->rowCount()==1){
                 echo '
                 <div class="notification is-success is-light">
-                    <strong>Categoría eliminada!</strong><br>
+                    <strong>¡Categoría eliminada!</strong><br>
                     La categoría ha sido eliminada exitosamente.
                 </div>';
             } else {
@@ -30,7 +30,6 @@ if($check_category->rowCount()==1){
                     No se pudo eliminar la categoría, inténtelo nuevamente.
                 </div>';
             }
-             
             $eliminar_usuario=null;
         } else {
             echo '

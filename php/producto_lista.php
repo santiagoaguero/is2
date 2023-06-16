@@ -40,6 +40,7 @@ if($total>=1 && $pagina <= $Npaginas){
     $pag_inicio=$inicio+1;//ej: mostrando usuario 1 al 7
 
     foreach($datos as $product){
+        $product["producto_precio"] = number_format($product["producto_precio"], 0, ',', '.');
         $tabla.='
                 <article class="media">
                 <figure class="media-left">
@@ -60,10 +61,10 @@ if($total>=1 && $pagina <= $Npaginas){
                     <div class="content">
                         <p>
                             <strong>'.$contador.' - '.$product["producto_nombre"].'</strong><br>
-                            <strong>COD. BARRA:</strong> '.$product["producto_codigo"].', 
-                            <strong>PRECIO:</strong> ₲ '.$product["producto_precio"].', 
-                            <strong>STOCK:</strong> '.$product["producto_stock"].', 
-                            <strong>CATEGORIA:</strong> '.$product["categoria_nombre"].', 
+                            <strong>COD. BARRA:</strong> '.$product["producto_codigo"].' - 
+                            <strong>PRECIO:</strong> ₲s '.$product["producto_precio"].' - 
+                            <strong>STOCK:</strong> '.$product["producto_stock"].' - 
+                            <strong>CATEGORIA:</strong> '.$product["categoria_nombre"].' - 
                             <strong>REGISTRADO POR:</strong> '.$product["usuario_nombre"].' '.$product["usuario_apellido"].'
                         </p>
                     </div>

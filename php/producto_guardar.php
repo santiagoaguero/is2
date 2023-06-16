@@ -151,12 +151,7 @@ if($_FILES["producto_foto"]["name"] != "" && $_FILES["producto_foto"]["size"]>0)
         echo '
         <div class="notification is-danger is-light">
             <strong>¡Ocurrió un error inesperado!</strong><br>
-            No se pudo guardar la imagen, intentelo nuevamente//guardando datos
-$guardar_usuario = con();
-//prepare: prepara la consulta antes de insertar directo a la bd. variables sin comillas ni $
-$guardar_usuario = $guardar_usuario->prepare("INSERT INTO
-    usuario(usuario_nombre, usuario_apellido, usuario_usuario, usuario_email, usuario_clave)
-    VALUES(:nombre, :apellido, :usuario, :email, :clave)");.
+            No se pudo guardar la imagen, intentelo nuevamente
         </div>';
         exit();
     }
