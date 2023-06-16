@@ -1,1 +1,5 @@
 000webhost.txt
+
+img/productos/*.jpg
+img/productos/*.png
+!img/productos/.gitignore
