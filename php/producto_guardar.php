@@ -151,7 +151,7 @@ if($_FILES["producto_foto"]["name"] != "" && $_FILES["producto_foto"]["size"]>0)
         echo '
         <div class="notification is-danger is-light">
             <strong>¡Ocurrió un error inesperado!</strong><br>
-            No se pudo guardar la imagen, intentelo nuevamente
+            No se pudo guardar la imagen, inténtelo nuevamente
         </div>';
         exit();
     }
