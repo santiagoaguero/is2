@@ -39,24 +39,22 @@
           <a class="navbar-item" href="index.php?vista=provee_new">Nuevo</a>
           <a class="navbar-item" href="index.php?vista=provee_list">Lista</a>
           <a class="navbar-item" href="index.php?vista=provee_search">Buscar</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">Usuarios</a>
+            <div class="navbar-dropdown">
+                <a class="navbar-item" href="index.php?vista=user_new">Nuevo</a>
+                <a class="navbar-item" href="index.php?vista=user_list">Lista</a>
+                <a class="navbar-item" href="index.php?vista=user_search">Buscar</a>
+            </div>
         </div>
-      </div>
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">Clientes</a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item" href="index.php?vista=client_new">Nuevo</a>
-          <a class="navbar-item" href="index.php?vista=client_list">Lista</a>
-          <a class="navbar-item" href="index.php?vista=client_search">Buscar</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">Categorias</a>
+            <div class="navbar-dropdown">
+                <a class="navbar-item" href="index.php?vista=category_new">Nueva</a>
+                <a class="navbar-item" href="index.php?vista=category_list">Lista</a>
+                <a class="navbar-item" href="index.php?vista=category_search">Buscar</a>
+            </div>
         </div>
-      </div>
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">Usuarios</a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item" href="index.php?vista=user_new">Nuevo</a>
-          <a class="navbar-item" href="index.php?vista=user_list">Lista</a>
-          <a class="navbar-item" href="index.php?vista=user_search">Buscar</a>
-        </div>
-      </div>
     </div>
 <!-- ñ -->
     <div class="navbar-end">
