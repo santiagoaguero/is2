@@ -1,3 +1,10 @@
+<div class="container is-fluid mb-6">
+	<h1 class="title">Clientes</h1>
+	<h2 class="subtitle">Nuevo cliente</h2>
+</div>
+<div class="container pb-6 pt-6">
+
+	 <div class="form-rest mb-6 mt-6"></div><!--to show notifications -->
 
 	<form action="./php/cliente_guardar.php" method="POST" class="formularioAjax" id="formul" autocomplete="off" >
 		<div class="columns">
@@ -38,7 +45,7 @@
 		  	<div class="column">
 		    	<div class="control">
 					<label>Dirección</label>
-				  	<input class="input" type="text" name="cliente_direccion" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{3,255}" maxlength="255" >
+				  	<input class="input" type="text" name="cliente_direccion" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ.- ]{3,255}" maxlength="255" >
 				</div>
 		  	</div>
 		</div>

@@ -1,6 +1,24 @@
 <?php
 require_once("main.php");
 
+$id = limpiar_cadena($_POST["cliente_id"]);//input hidden
+
+//verificar en bd
+$check_provee = con();
+$check_provee = $check_provee->query("SELECT * FROM clientes WHERE cliente_id = '$id'");
+
+if($check_provee->rowCount()<=0){//no existe id
+    echo '
+    <div class="notification is-danger is-light">
+        <strong>¡Ocurrió un error inesperado!</strong><br>
+        No se encontró el cliente.
+    </div>';
+    exit();
+} else {
+    $datos = $check_provee->fetch();
+}
+$check_provee=null;
+
 //almacenando datos
 $nombre=limpiar_cadena($_POST["cliente_nombre"]);
 $apellido=limpiar_cadena($_POST["cliente_apellido"]);
@@ -30,14 +48,6 @@ if(verificar_datos("[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ. ]{3,40}",$nombre)){
 }
 
 //Apellido no obligatorio porque algunos piden a nombre de Empresas
-// if(verificar_datos("[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{3,40}",$apellido)){
-//     echo '
-//     <div class="notification is-danger is-light">
-//         <strong>¡Ocurrió un error inesperado!</strong><br>
-//         El APELLIDO no coincide con el formato esperado.
-//     </div>';
-//     exit();
-// }
 
 if(verificar_datos("[a-zA-Z0-9.-]{4,12}",$ruc)){
     echo '
@@ -88,30 +98,32 @@ if($check_ruc->rowCount()>0){//usuarios found
 }
 $check_ruc=null;//close db connection
 
-//guardando datos
-$guardar_cliente = con();
-//prepare: prepara la consulta antes de insertar directo a la bd. variables sin comillas ni $
-$guardar_cliente = $guardar_cliente->prepare("INSERT INTO
-    clientes(cliente_nombre, cliente_apellido, cliente_ruc, cliente_email, cliente_telefono, cliente_direccion)
-    VALUES(:nombre, :apellido, :ruc, :email, :telefono, :direccion)");
+//Actualizando datos
+$actualizar_cliente = con();
+$actualizar_cliente = $actualizar_cliente->prepare("UPDATE clientes SET 
+cliente_nombre = :nombre, cliente_apellido = :apellido, cliente_ruc = :ruc, cliente_email = :email, cliente_telefono = :telefono, cliente_direccion = :direccion WHERE cliente_id = :id");
 
-//evitando inyecciones sql xss
-$marcadores=[
-    ":nombre"=>$nombre, ":apellido"=>$apellido, ":ruc"=>$ruc, ":email"=>$email, ":telefono"=>$telefono, ":direccion"=>$direccion];
+$marcadores = [
+"nombre" => $nombre,
+"apellido" => $apellido,
+"ruc" => $ruc,
+"email" => $email,
+"telefono" => $telefono,
+"direccion" => $direccion,
+"id" => $id];
 
-$guardar_cliente->execute($marcadores);
-
-if($guardar_cliente->rowCount()==1){// 1 usuario nuevo insertado
+if($actualizar_cliente->execute($marcadores)){
     echo '
     <div class="notification is-success is-light">
-        <strong>Cliente registrado!</strong><br>
-        El cliente se registró exitosamente.
+        <strong>Cliente actualizado!</strong><br>
+        El cliente se actualizó exitosamente.
     </div>';
 } else {
     echo '
     <div class="notification is-danger is-light">
         <strong>¡Ocurrió un error inesperado!</strong><br>
-        No se pudo registrar el cliente, inténtelo nuevamente.
-    </div>';
+        No se pudo actualizar el cliente, inténtelo nuevamente.
+    </div>';   
 }
-$guardar_cliente=null; //cerrar conexion;
+
+$actualizar_categoria=null;

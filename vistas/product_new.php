@@ -57,6 +57,25 @@
 				  	</select>
 				</div>
 		  	</div>
+			  <div class="column">
+				<label>Proveedor</label><br>
+		    	<div class="select is-rounded">
+				  	<select name="producto_provee" >
+				    	<option value="" selected="" >Seleccione una opción</option>
+                        <?php
+                        $proveedores = con();
+                        $proveedores = $proveedores->query("SELECT * FROM proveedor");
+                        if($proveedores->rowCount()>0){
+                            $proveedores = $proveedores->fetchAll();
+                            foreach($proveedores as $prov){
+                                echo '<option value="'.$prov['prov_id'].'" >'.$prov['prov_nombre'].'</option>';
+                            }
+                        }
+                        $proveedores=null;
+                        ?>
+				  	</select>
+				</div>
+		  	</div>
 		</div>
 		<div class="columns">
 			<div class="column">

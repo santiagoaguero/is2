@@ -1,7 +1,7 @@
 <?php
 $client_id_del = limpiar_cadena($_GET["client_id_del"]);
 
-//verifica producto
+//verifica cliente
 $check_cliente = con();
 $check_cliente=$check_cliente->query("SELECT * FROM clientes WHERE cliente_id = '$client_id_del'");
 
@@ -17,7 +17,7 @@ if($check_cliente->rowCount()==1){
 
         echo '
         <div class="notification is-success is-light">
-            <strong>¡Producto eliminado!</strong><br>
+            <strong>Cliente eliminado!</strong><br>
             El cliente ha sido eliminado exitosamente.
         </div>';
     } else {

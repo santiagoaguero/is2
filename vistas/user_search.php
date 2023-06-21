@@ -4,7 +4,6 @@
 </div>
 
 <div class="container pb-6 pt-6">
-
 <?php 
     require_once("./php/main.php");
 
@@ -17,7 +16,6 @@
 
 
 ?>
-
     <div class="columns">
         <div class="column">
             <form action="" method="POST" autocomplete="off" >
