@@ -4,9 +4,9 @@ $inicio = ($pagina>0) ? (($registros*$pagina)-$registros): 0;
 $tabla = "";
 
 if(isset($busqueda) && $busqueda != ""){//busqueda especifica por nombre, apellido, ruc o email
-    $consulta_datos = "SELECT * FROM clientes WHERE cliente_nombre LIKE '%$busqueda%' OR cliente_apellido LIKE '%$busqueda%' OR cliente_ruc LIKE '%$busqueda%' OR cliente_email LIKE '%$busqueda%' ORDER BY cliente_nombre ASC LIMIT $inicio, $registros";
+    $consulta_datos = "SELECT * FROM clientes WHERE cliente_nombre LIKE '%$busqueda%' OR cliente_apellido LIKE '%$busqueda%' OR cliente_ruc LIKE '%$busqueda%' OR cliente_telefono LIKE '%$busqueda%' OR cliente_email LIKE '%$busqueda%' ORDER BY cliente_nombre ASC LIMIT $inicio, $registros";
 
-    $consulta_total = "SELECT COUNT(cliente_id) FROM clientes WHERE cliente_nombre LIKE '%$busqueda%' OR cliente_apellido LIKE '%$busqueda%' OR cliente_ruc LIKE '%$busqueda%' OR cliente_email LIKE '%$busqueda%'";
+    $consulta_total = "SELECT COUNT(cliente_id) FROM clientes WHERE cliente_nombre LIKE '%$busqueda%' OR cliente_apellido LIKE '%$busqueda%' OR cliente_ruc LIKE '%$busqueda%' OR cliente_telefono LIKE '%$busqueda%' OR cliente_email LIKE '%$busqueda%'";
 
 } else {//busqueda total categorías
     $consulta_datos = "SELECT * FROM clientes ORDER BY cliente_nombre ASC LIMIT $inicio, $registros";
