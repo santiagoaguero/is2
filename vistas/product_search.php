@@ -21,7 +21,6 @@
 
 
 ?>
-
     <div class="columns">
         <div class="column">
             <form action="" method="POST" autocomplete="off" >

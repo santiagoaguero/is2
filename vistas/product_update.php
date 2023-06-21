@@ -45,7 +45,8 @@
 		    	<div class="control">
 					<label>Precio</label>
 				  	<input class="input" type="text" name="producto_precio" pattern="[0-9.]{1,25}" maxlength="25" required value="<?php 
-                    echo number_format($datos["producto_precio"], 0, ',', '.');
+                    //echo number_format($datos["producto_precio"], 0, ',', '.');se guarda como entero -> 9.000 y no 9000
+					echo $datos["producto_precio"];
                     ?>" >
 				</div>
 		  	</div>
@@ -75,6 +76,30 @@
                             }
                         }
                         $categorias=null;
+                        ?>
+				  	</select>
+				</div>
+		  	</div>
+			  <div class="column">
+				<label>Proveedor</label><br>
+		    	<div class="select is-rounded">
+				  	<select name="producto_provee" >   
+                        <?php
+                        $proveedores = con();
+                        $proveedores = $proveedores->query("SELECT * FROM proveedor");
+                        if($proveedores->rowCount()>0){
+                            $proveedores = $proveedores->fetchAll();
+                            foreach($proveedores as $prov){
+                                if($datos["prov_id"] == $prov['prov_id']){
+                                    echo '
+                                    <option value="'.$prov['prov_id'].'" selected="" >'.$prov['prov_nombre'].' (Actual)</option>
+                                    ';
+                                } else {
+                                    echo '<option value="'.$prov['prov_id'].'" >'.$prov['prov_nombre'].'</option>';
+                                }
+                            }
+                        }
+                        $proveedores=null;
                         ?>
 				  	</select>
 				</div>

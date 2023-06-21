@@ -1,5 +1,3 @@
-<!-- client_new -->
-
 <div class="container is-fluid mb-6">
 	<h1 class="title">Clientes</h1>
 	<h2 class="subtitle">Nuevo cliente</h2>
@@ -47,7 +45,7 @@
 		  	<div class="column">
 		    	<div class="control">
 					<label>Dirección</label>
-				  	<input class="input" type="text" name="cliente_direccion" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{3,255}" maxlength="255" >
+				  	<input class="input" type="text" name="cliente_direccion" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ.- ]{3,255}" maxlength="255" >
 				</div>
 		  	</div>
 		</div>

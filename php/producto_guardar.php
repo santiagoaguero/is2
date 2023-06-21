@@ -8,9 +8,10 @@ $nombre=limpiar_cadena($_POST["producto_nombre"]);
 $precio=limpiar_cadena($_POST["producto_precio"]);
 $stock=limpiar_cadena($_POST["producto_stock"]);
 $categoria=limpiar_cadena($_POST["producto_categoria"]);
+$proveedor=limpiar_cadena($_POST["producto_provee"]);
 
 //verifica campos obligatorios
-if($codigo == "" || $nombre == "" || $precio == "" || $stock == "" || $categoria == ""){
+if($codigo == "" || $nombre == "" || $precio == "" || $stock == "" || $categoria == "" || $proveedor == ""){
     echo '
     <div class="notification is-danger is-light">
         <strong>¡Ocurrió un error inesperado!</strong><br>
@@ -98,6 +99,20 @@ if($check_categoria->rowCount()<=0){//categorias found
 }
 $check_categoria=null;//close db connection
 
+//verifica proveedor exista
+$check_provee=con();
+$check_provee=$check_provee->query("SELECT prov_id FROM proveedor 
+WHERE prov_id = '$proveedor'");//checks if proveedor exists
+if($check_provee->rowCount()<=0){//proveedor found
+    echo '
+    <div class="notification is-danger is-light">
+        <strong>¡Ocurrió un error inesperado!</strong><br>
+        El proveedor seleccionado no existe.
+    </div>';
+    exit();
+}
+$check_provee=null;//close db connection
+
 //directorio imagenes productos
 $img_dir = "../img/productos/";
 
@@ -163,8 +178,8 @@ if($_FILES["producto_foto"]["name"] != "" && $_FILES["producto_foto"]["size"]>0)
 $guardar_producto = con();
 //prepare: prepara la consulta antes de insertar directo a la bd. variables sin comillas ni $
 $guardar_producto = $guardar_producto->prepare("INSERT INTO
-    producto (producto_codigo, producto_nombre, producto_precio, producto_stock, producto_foto, categoria_id, usuario_id)
-    VALUES(:codigo, :nombre, :precio, :stock, :foto, :categoria, :usuario)");
+    producto (producto_codigo, producto_nombre, producto_precio, producto_stock, producto_foto, categoria_id, usuario_id, prov_id)
+    VALUES(:codigo, :nombre, :precio, :stock, :foto, :categoria, :usuario, :proveedor)");
 
 $marcadores=[
     "codigo"=>$codigo,
@@ -173,7 +188,8 @@ $marcadores=[
     "stock"=>$stock,
     "foto"=>$foto,
     "categoria"=>$categoria,
-    "usuario"=>$_SESSION["id"]
+    "usuario"=>$_SESSION["id"],
+    "proveedor"=>$proveedor
 ];
 
 $guardar_producto->execute($marcadores);

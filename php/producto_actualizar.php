@@ -25,9 +25,10 @@ $nombre=limpiar_cadena($_POST["producto_nombre"]);
 $precio=limpiar_cadena($_POST["producto_precio"]);
 $stock=limpiar_cadena($_POST["producto_stock"]);
 $categoria=limpiar_cadena($_POST["producto_categoria"]);
+$proveedor=limpiar_cadena($_POST["producto_provee"]);
 
 //verifica campos obligatorios
-if($codigo == "" || $nombre == "" || $precio == "" || $stock == "" || $categoria == ""){
+if($codigo == "" || $nombre == "" || $precio == "" || $stock == "" || $categoria == "" || $proveedor == ""){
     echo '
     <div class="notification is-danger is-light">
         <strong>¡Ocurrió un error inesperado!</strong><br>
@@ -121,10 +122,26 @@ if($categoria != $datos["categoria_id"]){
     $check_categoria=null;//close db connection
 }
 
+//verifica proveedor exita 
+if($proveedor != $datos["prov_id"]){
+    $check_provee=con();
+    $check_provee=$check_provee->query("SELECT prov_id FROM proveedor 
+    WHERE prov_id = '$proveedor'");//checks if categoria exists
+    if($check_provee->rowCount()<=0){//categorias found
+        echo '
+        <div class="notification is-danger is-light">
+            <strong>¡Ocurrió un error inesperado!</strong><br>
+            El proveedor seleccionado no existe.
+        </div>';
+        exit();
+    }
+    $check_provee=null;//close db connection
+}
+
 //Actualizando datos
 $actualizar_producto = con();
 $actualizar_producto = $actualizar_producto->prepare("UPDATE producto SET 
-producto_codigo = :codigo, producto_nombre = :nombre, producto_precio = :precio, producto_stock = :stock, categoria_id = :categoria WHERE producto_id = :id");
+producto_codigo = :codigo, producto_nombre = :nombre, producto_precio = :precio, producto_stock = :stock, categoria_id = :categoria, prov_id = :proveedor WHERE producto_id = :id");
 
 $marcadores=[
     "codigo"=>$codigo,
@@ -132,7 +149,8 @@ $marcadores=[
     "precio"=>$precio,
     "stock"=>$stock,
     "categoria"=>$categoria,
-    "id"=>$id
+    "id"=>$id,
+    "proveedor"=>$proveedor
 ];
 
 if($actualizar_producto->execute($marcadores)){
