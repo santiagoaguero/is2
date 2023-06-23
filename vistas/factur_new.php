@@ -13,21 +13,9 @@
             <p class="subtitle has-text-centered">Agregar productos</p>
                 <?php
 
-				include("product_factur_search.php");
-                    // $productos = con();
-                    // $productos = $productos->query("SELECT * FROM producto");
-                    // if($productos->rowCount()>0){
-                    //     $productos = $productos->fetchAll();
-                    //     foreach($productos as $prod){
-                    //         echo '
-					// 		<p>'.$prod["producto_nombre"].' '.$prod["producto_precio"].'</p>
-					// 		<a href="index.php?vista=factur_new&product_id='.$prod["producto_id"].'" class="button is-link is-inverted is-fullwidth">Agregar</a>';
-                    //     }
-                    // } else {
-                    //     echo '<p class="has-text-centered" >No hay productos registradas</p>';
-                    // }
-                    // $productos=null;
-                    ?>
+				    include("product_factur_search.php");
+
+                ?>
         </div>
 
         <div class="box column">

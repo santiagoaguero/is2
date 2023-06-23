@@ -31,12 +31,12 @@
     ?>
     <div class="columns">
         <div class="column">
-            <form class="has-text-centered mt-1 mb-6" action="" method="POST" autocomplete="off" >
+            <form class="has-text-centered mt-1 mb-1" action="" method="POST" autocomplete="off" >
                 <input type="hidden" name="modulo_buscador" value="factura_producto"> 
                 <input type="hidden" name="eliminar_buscador" value="factura_producto">
                 <p>Estas buscando <strong>"<?php echo $_SESSION["busqueda_factura_producto"];?>"</strong></p>
                 <br>
-                <button type="submit" class="button is-danger is-rounded">Eliminar busqueda</button>
+                <button type="submit" class="button is-small is-danger is-rounded">Eliminar busqueda</button>
             </form>
         </div>
     </div>

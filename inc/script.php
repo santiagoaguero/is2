@@ -25,3 +25,4 @@
     });
 </script>
 <script src="./js/ajax.js"></script>
+<script src="./js/add_product_venta.js"></script>

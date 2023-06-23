@@ -197,7 +197,7 @@ $guardar_producto->execute($marcadores);
 if($guardar_producto->rowCount()==1){// 1 producto nuevo insertado
     echo '
     <div class="notification is-success is-light">
-        <strong>¡Usuario registrado!</strong><br>
+        <strong>Producto registrado!</strong><br>
         El producto se registró exitosamente.
     </div>';
 } else {
