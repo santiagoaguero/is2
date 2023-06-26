@@ -48,26 +48,22 @@ if($total>=1 && $pagina <= $Npaginas){
            
                     <div class="form-rest mb-2 mt-2"></div>
 
-                    <form action="./php/productos_detalle_temp.php" method="POST" class="formAgregarProd" autocomplete="off" >
+                    <div class="columna-visible">
+                        <table>
+                            <tr>
+                                <td><input type="number" name="cantidad_producto'.$product["producto_id"].'" min="1"></td>
 
-                        <input type="hidden" name="prod_id" value="'.$product["producto_id"].'" required >
+                                <td><button onclick="seleccionarProducto('.$product["producto_id"].')" class="button is-success is-rounded">Seleccionar</button></td>
 
-                        <div class="field is-grouped is-grouped-centered">
-                            <div class="control is-expanded">
+                                <td><input type="hidden" name="prod_precio'.$product["producto_id"].'" value="'.number_format($product["producto_precio"], 0,',', '').'"></td>
 
+                                <td><input type="hidden" name="prod_nombre'.$product["producto_id"].'" value="'.$product["producto_nombre"].'"></td>
+                            </tr>
+                            <!-- Agrega más productos aquí -->
+                        </table>
+                    </div>
+                    
 
-                                <input name="prod_cant" class="input is-rounded" type="number" pattern="[1-9]{1,3}" placeholder="Cantidad" maxlength="3" required >
-
-                                <input type="hidden" name="prod_precio" value="'.number_format($product["producto_precio"], 0,',', '').'">
-
-                            </div>
-                            <div class="control">
-                                <p class="has-text-centered">
-                                    <button type="submit" class="button is-success is-rounded">Agregar</button>
-                                </p>
-                            </div>
-                        </div>
-                    </form>
                 </div>
             <hr>
         ';

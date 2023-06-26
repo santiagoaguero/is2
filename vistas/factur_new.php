@@ -17,52 +17,85 @@
 
                 ?>
         </div>
+        <div class="column box">
+        <div class="columna-oculta hidden">
 
-        <div class="box column">
-            <?php 
-            $producto_id = (isset($_GET["product_id"])) ? $_GET["product_id"] : 0;
+        <table id="tabla-productos-seleccionados" class="table is-striped is-narrow is-hoverable is-fullwidth">
+            <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+            </thead>
+        </table>
+        <br>
+        <h3>Total de Venta: <span id="total-venta">0</span></h3>
+        <button onclick="imprimirFactura()">Imprimir Factura</button>
+    </div>
+    </div>
+</div>
 
-            $producto = con();
-            $producto = $producto->query("SELECT * FROM producto WHERE producto_id = '$producto_id'");
-            if($producto->rowCount()>0){
+    <script>
+        function seleccionarProducto(id) {
+            var cantidadInput = document.querySelector('input[name="cantidad_producto' + id + '"]');
+            var cantidad = cantidadInput.value;
+            var precioInput = document.querySelector('input[name="prod_precio' + id + '"]');
+            var precio = precioInput.value;
+            var productoInput = document.querySelector('input[name="prod_nombre' + id + '"]');
+            var producto = productoInput.value;
+            console.log("precio->", precio);
+            console.log("cantidad->",cantidad);
+            console.log("producto->", producto);
+            if (cantidad > 0) {
+                var total = cantidad * precio;
 
-                $producto = $producto->fetch();
+                var tablaProductosSeleccionados = document.getElementById('tabla-productos-seleccionados');
+                var fila = document.createElement('tr');
+                fila.innerHTML = '<td>' + producto + '</td>' +
+                                 '<td>' + cantidad + '</td>' +
+                                 '<td>' + precio + '</td>' +
+                                 '<td>' + total + '</td>' +
+                                 '<td><button onclick="quitarProducto(this)">Quitar</button></td>';
+                tablaProductosSeleccionados.appendChild(fila);
 
-                echo '
-                <h2 class="title has-text-centered">'.$producto["producto_nombre"].'</h2>
-                <p class="has-text-centered pb-6" >'.$producto["producto_precio"].'</p>
-                ';
+                var totalVenta = document.getElementById('total-venta');
+                totalVenta.innerHTML = parseInt(totalVenta.innerHTML) + total;
 
-                //ELIMINAR PRODUCTOS
-                if(isset($_GET["product_id_del"])){
-                    require_once("./php/producto_eliminar.php");
-                }
-
-                if(!isset($_GET["page"])){
-                    $pagina = 1;
-                } else {
-                    $pagina = (int)$_GET["page"];
-                    if($pagina<=1){
-                        $pagina = 1;//controlar que siempre sea 1
-                    }
-                }
-
-                $pagina = limpiar_cadena($pagina);
-                $url= "index.php?vista=factur_new&product_id=$producto_id&page=";
-                $registros=15;//cantidad de registros por pagina
-                $busqueda="";//de categorias
-                
-                require_once("./php/producto_factura.php");
-
-            } else {
-                echo '<h2 class="has-text-centered title" >Seleccione una producto</h2>';
+                cantidadInput.value = "";
+                mostrarColumnaOculta();
             }
+        }
 
-            $producto=null;
-            ?>
+        function quitarProducto(button) {
+            var fila = button.parentNode.parentNode;
+            var totalVenta = document.getElementById('total-venta');
+            totalVenta.innerHTML = parseInt(totalVenta.innerHTML) - parseInt(fila.cells[3].innerHTML);
+            fila.remove();
 
+            if (document.getElementById('tabla-productos-seleccionados').rows.length === 1) {
+                ocultarColumnaOculta();
+            }
+        }
 
-        </div>
+        function mostrarColumnaOculta() {
+            var columnaOculta = document.querySelector('.columna-oculta');
+            columnaOculta.classList.remove('hidden');
+        }
+
+        function ocultarColumnaOculta() {
+            var columnaOculta = document.querySelector('.columna-oculta');
+            columnaOculta.classList.add('hidden');
+        }
+
+        function imprimirFactura() {
+            // Aquí puedes implementar la lógica para imprimir la factura.
+            // Por simplicidad, este ejemplo solo muestra una alerta.
+            alert('Factura impresa.');
+        }
+    </script>
 
     </div>
 </div>
