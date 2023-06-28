@@ -28,6 +28,14 @@
         </div>
       </div>
       <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">Categorías</a>
+        <div class="navbar-dropdown">
+            <a class="navbar-item" href="index.php?vista=category_new">Nuevo</a>
+            <a class="navbar-item" href="index.php?vista=category_list">Lista</a>
+            <a class="navbar-item" href="index.php?vista=category_search">Buscar</a>
+        </div>
+      </div>
+      <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">Proveedores</a>
         <div class="navbar-dropdown">
           <a class="navbar-item" href="index.php?vista=provee_new">Nuevo</a>

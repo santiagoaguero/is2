@@ -50,9 +50,5 @@
 		<p class="has-text-centered">
 			<button type="submit" class="button is-info is-rounded">Guardar</button>
 		</p>
-
-		<div>
-			<h4 id="para" onclick="addProduct(120202133);">HOLAAA</h4>
-		</div>
 	</form>
 </div>

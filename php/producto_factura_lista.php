@@ -51,14 +51,16 @@ if($total>=1 && $pagina <= $Npaginas){
                     <div class="columna-visible">
                         <table>
                             <tr>
-                                <td><input type="number" name="cantidad_producto'.$product["producto_id"].'" min="1"></td>
-
-                                <td><button onclick="seleccionarProducto('.$product["producto_id"].')" class="button is-success is-rounded">Seleccionar</button></td>
+                            <tbody>
+                                <td><input type="hidden" name="prod_nombre'.$product["producto_id"].'" value="'.$product["producto_nombre"].'"></td>
 
                                 <td><input type="hidden" name="prod_precio'.$product["producto_id"].'" value="'.number_format($product["producto_precio"], 0,',', '').'"></td>
 
-                                <td><input type="hidden" name="prod_nombre'.$product["producto_id"].'" value="'.$product["producto_nombre"].'"></td>
+                                <td><input class="input is-rounded" type="number" name="cantidad_producto'.$product["producto_id"].'" min="1" placeholder="Cantidad"></td>
+                                
+                                <td><button onclick="seleccionarProducto('.$product["producto_id"].')" class="button is-success is-rounded">Agregar</button></td>
                             </tr>
+                            </tbody>
                             <!-- Agrega más productos aquí -->
                         </table>
                     </div>

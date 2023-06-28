@@ -6,4 +6,5 @@
     <!-- CSS -->
     <link rel="stylesheet" href="./css/style.css">
     <link rel="icon" href="./img/favicon.png" type="image/ico">
+    
     <title>Sistema de Inventario</title>
