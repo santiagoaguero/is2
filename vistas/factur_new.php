@@ -13,7 +13,7 @@
             <form action="" method="POST" autocomplete="off" >
                 <div class="control">
                     <input class="input is-rounded mb-3" type="text" name="campo" id="campo" placeholder="¿Qué estas buscando?" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,30}" maxlength="30" >
-                    <span id="lista"></span>
+                    <span id="lista_productos"></span>
                 </div>
             </form>
         </div>
@@ -36,16 +36,35 @@
     </div>
     <div id="modal" class="modal">
         <div class="modal-content">
-            <h2>Datos del Cliente</h2>
-            <form id="cliente-form" onsubmit="guardarFactura(event)">
-                <label for="boris">Nombre:</label>
-                <input type="text" id="boris" name="nombre" autocomplete="off" required>
-                <br>
-                <label for="rufo">RUC:</label>
-                <input type="text" id="rufo" name="ruc" autocomplete="off" required>
-                <br>
-                <button type="submit">Guardar Factura</button>
+            <h2 class=" subtitle has-text-centered">Datos del Cliente</h2>
+            <form id="cliente-form" onsubmit="guardarFactura(event)" action="./php/guardar_factura.php" method="POST" class="is-centered">
+                <div class="control">
+                    <input class="input is-rounded mb-2" type="text" name="busca_cliente" id="busca_cliente" placeholder="Razón Social o RUC" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,30}" maxlength="30" autofocus autocomplete="off">
+                    <span id="lista_clientes"></span>
+                </div>
+                <div class="field mt-5">
+                <label for="cliente">Nombre:</label>
+                    <p class="control has-icons-left">
+                        <input class="input" id="cliente" name="nombre" autocomplete="off" required>
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-user"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field">
+                <label for="ruc">RUC:</label>
+                    <p class="control has-icons-left">
+                        <input class="input" id="ruc" name="ruc"  autocomplete="off" required>
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-check"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field is-grouped is-grouped-centered">
+                    <button type="submit" class="button is-small is-success is-outlined is-rounded">Imprimir Factura</button>
+                </div>
             </form>
+            <div id="factura"></div>
         </div>
     </div>
     <script>
@@ -74,6 +93,13 @@
                 cantidadInput.value = "";
                 mostrarColumnaOculta();
             }
+        }
+
+        function seleccionarCliente(id, nombre, ruc) {
+
+            document.getElementById('cliente').value = nombre;
+            document.getElementById('ruc').value = ruc;
+            
         }
 
         function quitarProducto(button) {
