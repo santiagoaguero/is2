@@ -9,24 +9,52 @@ $ruc = $data['ruc'];
 $productos = $data['productos'];
 $usuario = $_SESSION["nombre"].$_SESSION["apellido"];
 
-// Construir la respuesta en formato HTML
-$htmlResponse = '<h2>Datos del cliente:</h2>';
-$htmlResponse .= '<p>Nombre: ' . $nombre . '</p>';
-$htmlResponse .= '<p>RUC: ' . $ruc . '</p>';
-
-$htmlResponse .= '<h2>Productos seleccionados:</h2>';
-$htmlResponse .= '<table>';
-$htmlResponse .= '<tr><th>Nombre</th><th>Cantidad</th><th>Precio</th></tr>';
+// Generar el contenido HTML de la factura
+$facturaHTML = '
+    <html>
+    <head>
+        <title>Factura de Venta</title>
+        <style>
+            /* Estilos CSS para la factura */
+            /* ... */
+        </style>
+    </head>
+    <body>
+        <h1>Factura de Venta</h1>
+        <p><strong>Nombre:</strong> ' . $nombre . '</p>
+        <p><strong>RUC:</strong> ' . $ruc . '</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>';
 
 foreach ($productos as $producto) {
-    $htmlResponse .= '<tr>';
-    $htmlResponse .= '<td>' . $producto['nombre'] . '</td>';
-    $htmlResponse .= '<td>' . $producto['cantidad'] . '</td>';
-    $htmlResponse .= '<td>' . $producto['precio'] . '</td>';
-    $htmlResponse .= '</tr>';
+    $nombreProducto = $producto['nombre'];
+    $cantidad = $producto['cantidad'];
+    $precioUnitario = $producto['precio'];
+    $total = $producto['total'];
+
+    $facturaHTML .= '
+        <tr>
+            <td>' . $nombreProducto . '</td>
+            <td>' . $cantidad . '</td>
+            <td>' . $precioUnitario . '</td>
+            <td>' . $total . '</td>
+        </tr>';
 }
 
-$htmlResponse .= '</table>';
+$facturaHTML .= '
+            </tbody>
+        </table>
+    </body>
+    </html>';
 
-// Responder con la cadena HTML como respuesta
-echo $htmlResponse;
+// Responder con el contenido HTML de la factura
+echo $facturaHTML;
+?>

@@ -8,4 +8,4 @@
     <link rel="icon" href="./img/favicon.png" type="image/ico">
     <!-- icons -->
     <script src="https://kit.fontawesome.com/cb22070f7a.js" crossorigin="anonymous"></script>
-    <title>Sistema de Inventario</title>
+    <title>PREMIUM</title>

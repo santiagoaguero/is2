@@ -1,8 +1,8 @@
 function guardarFactura(event) {
     event.preventDefault();
 
-    var nombre = document.getElementById('cliente').value;
-    var ruc = document.getElementById('ruc').value;
+    var nombre = document.getElementById('cliente_nombre').value;
+    var ruc = document.getElementById('cliente_ruc').value;
     var factura = document.getElementById('factura');
 
     var productosSeleccionados = document.getElementById('tabla-productos-seleccionados').getElementsByTagName('tr');
@@ -24,7 +24,6 @@ function guardarFactura(event) {
         ruc: ruc,
         productos: productos
     }
-    console.log("enviando->", data)
     
     fetch('./php/guardar_factura.php', {
         method: 'POST',
@@ -34,11 +33,17 @@ function guardarFactura(event) {
         body: JSON.stringify(data)
     })
     .then(response => response.text())
-    .then(result => {
-        // Aquí puedes manejar la respuesta del servidor, como mostrar un mensaje de éxito o error.
-        document.getElementById('cliente').value = "";
-        document.getElementById('ruc').value = "";
-        factura.innerHTML = result;
+    .then(html => {
+        // Abrir una nueva ventana con el contenido HTML de la factura
+        var facturaWindow = window.open('', '_blank');
+        facturaWindow.document.open();
+        facturaWindow.document.write(html);
+        facturaWindow.document.close();
+
+        // Habilitar la opción de imprimir la factura
+        facturaWindow.onload = function() {
+            facturaWindow.print();
+        }
     })
     .catch(error => {
         // Aquí puedes manejar errores de la solicitud HTTP.

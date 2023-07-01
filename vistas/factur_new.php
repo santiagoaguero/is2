@@ -42,19 +42,22 @@
                     <input class="input is-rounded mb-2" type="text" name="busca_cliente" id="busca_cliente" placeholder="Razón Social o RUC" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,30}" maxlength="30" autofocus autocomplete="off">
                     <span id="lista_clientes"></span>
                 </div>
+
+                <input type="hidden" id="cliente_id" name="id" autocomplete="off" required>
+
                 <div class="field mt-5">
-                <label for="cliente">Nombre:</label>
+                <label for="cliente_nombre">Nombre:</label>
                     <p class="control has-icons-left">
-                        <input class="input" id="cliente" name="nombre" autocomplete="off" required>
+                        <input class="input" id="cliente_nombre" name="nombre" autocomplete="off" required>
                         <span class="icon is-small is-left">
                             <i class="fas fa-user"></i>
                         </span>
                     </p>
                 </div>
                 <div class="field">
-                <label for="ruc">RUC:</label>
+                <label for="cliente_ruc">RUC:</label>
                     <p class="control has-icons-left">
-                        <input class="input" id="ruc" name="ruc"  autocomplete="off" required>
+                        <input class="input" id="cliente_ruc" name="ruc"  autocomplete="off" required>
                         <span class="icon is-small is-left">
                             <i class="fas fa-check"></i>
                         </span>
@@ -97,8 +100,9 @@
 
         function seleccionarCliente(id, nombre, ruc) {
 
-            document.getElementById('cliente').value = nombre;
-            document.getElementById('ruc').value = ruc;
+            document.getElementById('cliente_id').value = id;
+            document.getElementById('cliente_nombre').value = nombre;
+            document.getElementById('cliente_ruc').value = ruc;
             
         }
 
