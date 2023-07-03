@@ -38,6 +38,17 @@
 				  	<input class="input" type="text" name="producto_stock" pattern="[0-9]{1,25}" maxlength="25" required >
 				</div>
 		  	</div>
+			  <div class="column">
+				<label>IVA</label><br>
+		    	<div class="select is-rounded">
+				  	<select name="producto_iva" >
+				    	<option value="" selected="" >Seleccione una opción</option>
+						<option value="0">0</option>
+						<option value="5">5</option>
+						<option value="10">10</option>
+				  	</select>
+				</div>
+		  	</div>
 		  	<div class="column">
 				<label>Categoría</label><br>
 		    	<div class="select is-rounded">

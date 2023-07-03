@@ -23,6 +23,7 @@ $check_producto=null;
 $codigo=limpiar_cadena($_POST["producto_codigo"]);
 $nombre=limpiar_cadena($_POST["producto_nombre"]);
 $precio=limpiar_cadena($_POST["producto_precio"]);
+$iva=limpiar_cadena($_POST["producto_iva"]);
 $stock=limpiar_cadena($_POST["producto_stock"]);
 $categoria=limpiar_cadena($_POST["producto_categoria"]);
 $proveedor=limpiar_cadena($_POST["producto_provee"]);
@@ -141,12 +142,13 @@ if($proveedor != $datos["prov_id"]){
 //Actualizando datos
 $actualizar_producto = con();
 $actualizar_producto = $actualizar_producto->prepare("UPDATE producto SET 
-producto_codigo = :codigo, producto_nombre = :nombre, producto_precio = :precio, producto_stock = :stock, categoria_id = :categoria, prov_id = :proveedor WHERE producto_id = :id");
+producto_codigo = :codigo, producto_nombre = :nombre, producto_precio = :precio, producto_iva = :iva, producto_stock = :stock, categoria_id = :categoria, prov_id = :proveedor WHERE producto_id = :id");
 
 $marcadores=[
     "codigo"=>$codigo,
     "nombre"=>$nombre,
     "precio"=>$precio,
+    "iva"=>$iva,
     "stock"=>$stock,
     "categoria"=>$categoria,
     "id"=>$id,

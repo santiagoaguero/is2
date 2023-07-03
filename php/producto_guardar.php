@@ -6,6 +6,7 @@ require_once("main.php");
 $codigo=limpiar_cadena($_POST["producto_codigo"]);
 $nombre=limpiar_cadena($_POST["producto_nombre"]);
 $precio=limpiar_cadena($_POST["producto_precio"]);
+$iva=limpiar_cadena($_POST["producto_iva"]);
 $stock=limpiar_cadena($_POST["producto_stock"]);
 $categoria=limpiar_cadena($_POST["producto_categoria"]);
 $proveedor=limpiar_cadena($_POST["producto_provee"]);
@@ -178,13 +179,14 @@ if($_FILES["producto_foto"]["name"] != "" && $_FILES["producto_foto"]["size"]>0)
 $guardar_producto = con();
 //prepare: prepara la consulta antes de insertar directo a la bd. variables sin comillas ni $
 $guardar_producto = $guardar_producto->prepare("INSERT INTO
-    producto (producto_codigo, producto_nombre, producto_precio, producto_stock, producto_foto, categoria_id, usuario_id, prov_id)
-    VALUES(:codigo, :nombre, :precio, :stock, :foto, :categoria, :usuario, :proveedor)");
+    producto (producto_codigo, producto_nombre, producto_precio, producto_iva, producto_stock, producto_foto, categoria_id, usuario_id, prov_id)
+    VALUES(:codigo, :nombre, :precio, :iva, :stock, :foto, :categoria, :usuario, :proveedor)");
 
 $marcadores=[
     "codigo"=>$codigo,
     "nombre"=>$nombre,
     "precio"=>$precio,
+    "iva"=>$iva,
     "stock"=>$stock,
     "foto"=>$foto,
     "categoria"=>$categoria,

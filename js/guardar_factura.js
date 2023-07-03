@@ -3,7 +3,7 @@ function guardarFactura(event) {
 
     var nombre = document.getElementById('cliente_nombre').value;
     var ruc = document.getElementById('cliente_ruc').value;
-    var factura = document.getElementById('factura');
+    var totalVenta = document.getElementById('total-venta').innerText;
 
     var productosSeleccionados = document.getElementById('tabla-productos-seleccionados').getElementsByTagName('tr');
     var productos = [];
@@ -22,9 +22,12 @@ function guardarFactura(event) {
     var data = {
         nombre: nombre,
         ruc: ruc,
-        productos: productos
+        productos: productos,
+        totalVenta: totalVenta
     }
-    
+
+    console.log("enviando->" ,data);
+
     fetch('./php/guardar_factura.php', {
         method: 'POST',
         headers: {

@@ -56,6 +56,36 @@
 				  	<input class="input" type="text" name="producto_stock" pattern="[0-9]{1,25}" maxlength="25" required value="<?php echo $datos["producto_stock"] ;?>" >
 				</div>
 		  	</div>
+			  <div class="column">
+				<label>IVA</label><br>
+		    	<div class="select is-rounded">
+				  	<select name="producto_iva" >
+						<?php
+						$iva = $datos["producto_iva"];
+						switch ($iva) {
+							case $iva == 5:
+								echo '
+								<option value="5" selected="">5 (Actual)</option>
+								<option value="0">0</option>
+								<option value="10">10</option>';
+								break;
+							case $iva == 10:
+								echo '
+								<option value="10" selected="">10 (Actual)</option>
+								<option value="0">0</option>
+								<option value="5">5</option>';
+								break;
+							case $iva == 0:
+								echo '
+								<option value="0" selected="">0 (Actual)</option>
+								<option value="5">5</option>
+								<option value="10">10</option>';
+								break;
+						}
+						?>
+				  	</select>
+				</div>
+		  	</div>>
 		  	<div class="column">
 				<label>Categoría</label><br>
 		    	<div class="select is-rounded">

@@ -112,3 +112,10 @@ function paginador($pagina, $Npaginas, $url, $botones){
 	$tabla.='</nav>';
 	return $tabla;
 }
+
+function getFecha(){
+	$meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+ 	return date('d')." de ".$meses[date('n')-1]. " del ".date('Y') ;
+
+}

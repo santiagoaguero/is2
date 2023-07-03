@@ -138,11 +138,20 @@
             modal.style.display = "block";
         }
 
+            // Detectar el click en la pantalla(escritorio)
         window.onclick = function(event) {
             var modal = document.getElementById('modal');
             if (event.target == modal) {
                 modal.style.display = "none";
             }
         }
+        // Detectar el toque en la pantalla(disp. moviles)
+        window.addEventListener('touchstart', function(event) {
+            var modal = document.getElementById('modal');
+            // Cerrar la ventana modal si el toque no está dentro de ella
+            if (!modal.contains(event.target)) {
+                modal.style.display = 'none';
+            }
+        });
     </script>
 </div>
