@@ -3,7 +3,7 @@ require_once("main.php");
 
 //almacenando datos
 $nombre=limpiar_cadena($_POST["cliente_nombre"]);
-$apellido=limpiar_cadena($_POST["cliente_apellido"]);
+$contacto=limpiar_cadena($_POST["cliente_contacto"]);
 $ruc=limpiar_cadena($_POST["cliente_ruc"]);
 $email=limpiar_cadena($_POST["cliente_email"]);
 $telefono=limpiar_cadena($_POST["cliente_telefono"]);
@@ -92,12 +92,12 @@ $check_ruc=null;//close db connection
 $guardar_cliente = con();
 //prepare: prepara la consulta antes de insertar directo a la bd. variables sin comillas ni $
 $guardar_cliente = $guardar_cliente->prepare("INSERT INTO
-    clientes(cliente_nombre, cliente_apellido, cliente_ruc, cliente_email, cliente_telefono, cliente_direccion)
-    VALUES(:nombre, :apellido, :ruc, :email, :telefono, :direccion)");
+    clientes(cliente_nombre, cliente_ruc, cliente_email, cliente_telefono, cliente_direccion, cliente_contacto)
+    VALUES(:nombre, :ruc, :email, :telefono, :direccion, :contacto)");
 
 //evitando inyecciones sql xss
 $marcadores=[
-    ":nombre"=>$nombre, ":apellido"=>$apellido, ":ruc"=>$ruc, ":email"=>$email, ":telefono"=>$telefono, ":direccion"=>$direccion];
+    ":nombre"=>$nombre, ":ruc"=>$ruc, ":email"=>$email, ":telefono"=>$telefono, ":direccion"=>$direccion, ":contacto"=>$contacto];
 
 $guardar_cliente->execute($marcadores);
 

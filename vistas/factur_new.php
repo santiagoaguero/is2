@@ -21,9 +21,11 @@
             <table id="tabla-productos-seleccionados" class="table is-fullwidth">
                 <thead>
                     <tr>
+                        <th class="has-text-centered">Cód.</th>
                         <th class="has-text-centered">Producto</th>
                         <th class="has-text-centered">Cantidad</th>
                         <th class="has-text-centered">Precio Unitario</th>
+                        <th class="has-text-centered">IVA</th>
                         <th class="has-text-centered">Total</th>
                         <th class="has-text-centered"></th>
                     </tr>
@@ -42,8 +44,6 @@
                     <input class="input is-rounded mb-2" type="text" name="busca_cliente" id="busca_cliente" placeholder="Razón Social o RUC" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,30}" maxlength="30" autofocus autocomplete="off">
                     <span id="lista_clientes"></span>
                 </div>
-
-                <input type="hidden" id="cliente_id" name="id" autocomplete="off" required>
 
                 <div class="field mt-5">
                 <label for="cliente_nombre">Nombre:</label>
@@ -71,21 +71,20 @@
         </div>
     </div>
     <script>
-        function seleccionarProducto(id) {
+        function seleccionarProducto(id, nombre, precio, iva) {
             var cantidadInput = document.querySelector('input[name="cantidad_producto' + id + '"]');
             var cantidad = cantidadInput.value;
-            var precioInput = document.querySelector('input[name="prod_precio' + id + '"]');
-            var precio = precioInput.value;
-            var productoInput = document.querySelector('input[name="prod_nombre' + id + '"]');
-            var producto = productoInput.value;
             if (cantidad > 0) {
                 var total = cantidad * precio;
 
                 var tablaProductosSeleccionados = document.getElementById('tabla-productos-seleccionados');
                 var fila = document.createElement('tr');
-                fila.innerHTML = '<td class="has-text-centered">' + producto + '</td>' +
+                fila.innerHTML = 
+                                '<td class="has-text-centered">' + id + '</td>' +
+                                '<td class="has-text-centered">' + nombre + '</td>' +
                                  '<td class="has-text-centered">' + cantidad + '</td>' +
                                  '<td class="has-text-centered">' + precio + '</td>' +
+                                 '<td class="has-text-centered">' + iva + '</td>' +
                                  '<td class="has-text-centered">' + total + '</td>' +
                                  '<td class="has-text-centered"><button onclick="quitarProducto(this)" class="button is-danger is-outlined is-small is-rounded">Quitar</button></td>';
                 tablaProductosSeleccionados.appendChild(fila);
@@ -98,9 +97,8 @@
             }
         }
 
-        function seleccionarCliente(id, nombre, ruc) {
+        function seleccionarCliente(id, nombre, ruc, direccion) {
 
-            document.getElementById('cliente_id').value = id;
             document.getElementById('cliente_nombre').value = nombre;
             document.getElementById('cliente_ruc').value = ruc;
             
@@ -127,10 +125,23 @@
             columnaOculta.classList.add('hidden');
         }
 
-        function imprimirFactura() {
-            // Aquí puedes implementar la lógica para imprimir la factura.
-            // Por simplicidad, este ejemplo solo muestra una alerta.
-            alert('Factura impresa.');
+        function vaciarColumnaOculta() {
+            // Cerrar la ventana modal
+            var modal = document.getElementById('modal');
+            modal.style.display = "none";
+
+            // Vaciar la tabla de productos seleccionados
+            var vaciarProductosSeleccionados = document.getElementById('tabla-productos-seleccionados');
+            vaciarProductosSeleccionados.innerHTML = '<tr><th>Producto</th><th>Cantidad</th><th>Precio Unitario</th><th>IVA</th><th>Total</th><th></th></tr>';
+
+            // Reiniciar el total de venta
+            var totalVenta = document.getElementById('total-venta');
+            totalVenta.innerHTML = "0";
+            
+            //Reinicar buscador de productos
+            document.getElementById("campo").value = '';
+            var lista = document.getElementById("lista_productos");
+            lista.innerHTML = '';
         }
 
         function mostrarModal() {

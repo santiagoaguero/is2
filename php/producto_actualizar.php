@@ -75,6 +75,15 @@ if(verificar_datos("[0-9]{1,25}",$stock)){
     exit();
 }
 
+if($iva != 1 && $iva != 5 && $iva != 10){
+    echo '
+    <div class="notification is-danger is-light">
+        <strong>¡Ocurrió un error inesperado!</strong><br>
+        Tipo de IVA no admitido.'.var_dump($iva).'
+    </div>';
+    exit();
+}
+
 //verifica codigo de barras sea unico con este producto o con otros 
 if($codigo != $datos["producto_codigo"]){
     $check_codigo=con();

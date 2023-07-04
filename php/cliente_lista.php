@@ -3,9 +3,9 @@ $inicio = ($pagina>0) ? (($registros*$pagina)-$registros): 0;
 $tabla = "";
 
 if(isset($busqueda) && $busqueda != ""){//busqueda especifica por nombre, apellido, ruc o email
-    $consulta_datos = "SELECT * FROM clientes WHERE cliente_nombre LIKE '%$busqueda%' OR cliente_apellido LIKE '%$busqueda%' OR cliente_ruc LIKE '%$busqueda%' OR cliente_telefono LIKE '%$busqueda%' OR cliente_email LIKE '%$busqueda%' ORDER BY cliente_nombre ASC LIMIT $inicio, $registros";
+    $consulta_datos = "SELECT * FROM clientes WHERE cliente_nombre LIKE '%$busqueda%' OR cliente_contacto LIKE '%$busqueda%' OR cliente_ruc LIKE '%$busqueda%' OR cliente_telefono LIKE '%$busqueda%' OR cliente_email LIKE '%$busqueda%' ORDER BY cliente_nombre ASC LIMIT $inicio, $registros";
 
-    $consulta_total = "SELECT COUNT(cliente_id) FROM clientes WHERE cliente_nombre LIKE '%$busqueda%' OR cliente_apellido LIKE '%$busqueda%' OR cliente_ruc LIKE '%$busqueda%' OR cliente_telefono LIKE '%$busqueda%' OR cliente_email LIKE '%$busqueda%'";
+    $consulta_total = "SELECT COUNT(cliente_id) FROM clientes WHERE cliente_nombre LIKE '%$busqueda%' OR cliente_contacto LIKE '%$busqueda%' OR cliente_ruc LIKE '%$busqueda%' OR cliente_telefono LIKE '%$busqueda%' OR cliente_email LIKE '%$busqueda%'";
 
 } else {//busqueda total clientes
     $consulta_datos = "SELECT * FROM clientes ORDER BY cliente_nombre ASC LIMIT $inicio, $registros";
@@ -29,12 +29,12 @@ $tabla.='
         <thead>
             <tr class="has-text-centered">
                 <th class="has-text-centered">#</th>
-                <th class="has-text-centered">Nombres</th>
-                <th class="has-text-centered">Apellidos</th>
+                <th class="has-text-centered">Nombre</th>
                 <th class="has-text-centered">RUC</th>
                 <th class="has-text-centered">Email</th>
                 <th class="has-text-centered">Teléfono</th>
                 <th class="has-text-centered">Dirección</th>
+                <th class="has-text-centered">Contacto</th>
                 <th colspan="2" class="has-text-centered">Opciones</th>
             </tr>
         </thead>
@@ -52,11 +52,11 @@ if($total>=1 && $pagina <= $Npaginas){
             <tr class="has-text-centered" >
                 <td>'.$contador.'</td>
                 <td>'.$cli["cliente_nombre"].'</td>
-                <td>'.$cli["cliente_apellido"].'</td>
                 <td>'.$cli["cliente_ruc"].'</td>
                 <td>'.$cli["cliente_email"].'</td>
                 <td>'.$cli["cliente_telefono"].'</td>
                 <td>'.$cli["cliente_direccion"].'</td>
+                <td>'.$cli["cliente_contacto"].'</td>
                 <td>
                     <a href="index.php?vista=client_update&client_id_upd='.$cli["cliente_id"].'" class="button is-success is-rounded is-small">Actualizar</a>
                 </td>

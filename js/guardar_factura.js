@@ -1,9 +1,7 @@
 function guardarFactura(event) {
     event.preventDefault();
 
-    var nombre = document.getElementById('cliente_nombre').value;
     var ruc = document.getElementById('cliente_ruc').value;
-    var totalVenta = document.getElementById('total-venta').innerText;
 
     var productosSeleccionados = document.getElementById('tabla-productos-seleccionados').getElementsByTagName('tr');
     var productos = [];
@@ -11,19 +9,19 @@ function guardarFactura(event) {
     for (var i = 1; i < productosSeleccionados.length; i++) {
         var fila = productosSeleccionados[i];
         var producto = {
-            nombre: fila.cells[0].innerHTML,
-            cantidad: fila.cells[1].innerHTML,
-            precio: fila.cells[2].innerHTML,
-            total: fila.cells[3].innerHTML
+            id: fila.cells[0].innerHTML,
+            nombre: fila.cells[1].innerHTML,
+            cantidad: fila.cells[2].innerHTML,
+            precio: fila.cells[3].innerHTML,
+            iva: fila.cells[4].innerHTML
         };
         productos.push(producto);
     }
 
     var data = {
-        nombre: nombre,
         ruc: ruc,
         productos: productos,
-        totalVenta: totalVenta
+
     }
 
     console.log("enviando->" ,data);
@@ -47,6 +45,10 @@ function guardarFactura(event) {
         facturaWindow.onload = function() {
             facturaWindow.print();
         }
+
+        vaciarColumnaOculta();
+
+        ocultarColumnaOculta();
     })
     .catch(error => {
         // Aquí puedes manejar errores de la solicitud HTTP.

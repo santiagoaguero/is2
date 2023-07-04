@@ -23,6 +23,8 @@ function getProduct(){
 
         })
         .catch(err=> console.log("catch->",err));
+    } else {
+        lista.innerHTML = '';
     }
 }
 

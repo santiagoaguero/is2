@@ -40,10 +40,11 @@
 		  	</div>
 			  <div class="column">
 				<label>IVA</label><br>
+				<!-- valor de iva 0 da errores, bd no admite valor cero, por eso 1 -->
 		    	<div class="select is-rounded">
 				  	<select name="producto_iva" >
 				    	<option value="" selected="" >Seleccione una opción</option>
-						<option value="0">0</option>
+						<option value="1">0</option>
 						<option value="5">5</option>
 						<option value="10">10</option>
 				  	</select>

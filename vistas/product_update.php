@@ -58,26 +58,27 @@
 		  	</div>
 			  <div class="column">
 				<label>IVA</label><br>
+				<!-- valor de iva 0 da errores, bd no admite valor cero, por eso 1 -->
 		    	<div class="select is-rounded">
 				  	<select name="producto_iva" >
 						<?php
-						$iva = $datos["producto_iva"];
+						$iva = (int)$datos["producto_iva"];
 						switch ($iva) {
-							case $iva == 5:
+							case $iva === 5:
 								echo '
 								<option value="5" selected="">5 (Actual)</option>
-								<option value="0">0</option>
+								<option value="1">0</option>
 								<option value="10">10</option>';
 								break;
-							case $iva == 10:
+							case $iva === 10:
 								echo '
 								<option value="10" selected="">10 (Actual)</option>
-								<option value="0">0</option>
+								<option value="1">0</option>
 								<option value="5">5</option>';
 								break;
-							case $iva == 0:
+							case $iva === 1:
 								echo '
-								<option value="0" selected="">0 (Actual)</option>
+								<option value="1" selected="">0 (Actual)</option>
 								<option value="5">5</option>
 								<option value="10">10</option>';
 								break;
@@ -85,7 +86,7 @@
 						?>
 				  	</select>
 				</div>
-		  	</div>>
+		  	</div>
 		  	<div class="column">
 				<label>Categoría</label><br>
 		    	<div class="select is-rounded">

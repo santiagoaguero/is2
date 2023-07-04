@@ -4,19 +4,21 @@ require_once("../inc/session_start.php");
 
 // Obtener los datos del objeto JSON
 $data = json_decode(file_get_contents('php://input'), true);
-
-$fecha = getFecha();
-
-$nombre = $data['nombre'];
 $ruc = $data['ruc'];
 $productos = $data['productos'];
 
-$totalVenta = $data['totalVenta'];
-$totalVenta = (int)$totalVenta;
-$totalVentaES = new NumberFormatter('es', NumberFormatter::SPELLOUT);
-$totalVentaES = $totalVentaES->format($totalVenta);
+$busca_cliente = "SELECT cliente_nombre, cliente_direccion FROM clientes WHERE cliente_ruc = '$ruc'";
+$conexion=con();
+$datos = $conexion->query($busca_cliente);
+$datos = $datos->fetch();
 
-$usuario = $_SESSION["nombre"].$_SESSION["apellido"];
+$fecha = getFecha();
+
+$totalIva0 = 0;
+$totalIva5 = 0;
+$totalIva10 = 0;
+
+$usuario = $_SESSION["nombre"]." ".$_SESSION["apellido"];
 
 // Generar el contenido HTML de la factura
 $facturaHTML = '
@@ -52,50 +54,102 @@ $facturaHTML = '
     <div class="cliente">
       <div>Fecha: '.$fecha.' </div>
       <div>Condicion de Venta: Contado</div>
-      <div>Nombre: ' . $nombre . '</div>
+      <div>Nombre: ' . $datos["cliente_nombre"] . '</div>
       <div>RUC: ' . $ruc . '</div>
-      <div>Direccion:</div>
+      <div>Direccion: ' . $datos["cliente_direccion"] . '</div>
       <div>Nota de remisión:</div>
     </div>
     <main>
-      <table class="table is-bordered">
+      <table>
         <thead>
           <tr>
-            <th rowspan="2">CODIGO</th>
-            <th rowspan="2" class="service">PRODUCTO</th>
-            <th rowspan="2" class="desc">CANTIDAD</th>
-            <th rowspan="2">PRECIO</th>
-            <th colspan="3">VALOR DE VENTA</th>
-          </tr>
-          <tr>
-            <th>Exenta</th>
-            <th>5%</th>
-            <th>10%</th>
+            <th class="cabecera">CODIGO</th>
+            <th class="cabecera" >PRODUCTO</th>
+            <th class="cabecera" >CANTIDAD</th>
+            <th class="cabecera" >PRECIO UNITARIO</th>
+            <th class="cabecera" >Exenta</th>
+            <th class="cabecera" >5%</th>
+            <th class="cabecera" >10%</th>
           </tr>
         </thead>
         <tbody>';
 
 foreach ($productos as $producto) {
-    $nombreProducto = $producto['nombre'];
-    $cantidad = $producto['cantidad'];
-    $precioUnitario = $producto['precio'];
-    $total = $producto['total'];
-
-    $facturaHTML .= '
-        <tr>
-            <td>' . $nombreProducto . '</td>
-            <td>' . $cantidad . '</td>
-            <td>' . $precioUnitario . '</td>
-            <td>' . $total . '</td>
-        </tr>';
+  $precioIva = $producto["precio"] * $producto["cantidad"];
+  $facturaHTML .= '
+  <tr>
+    <td>'.$producto['id'].'</td>
+    <td>'.$producto['nombre'].'</td>
+    <td>'.$producto['cantidad'].'</td>
+    <td>'.$producto['precio'].'</td>';
+    switch($producto['iva']){
+      case $producto['iva'] == 10:
+        $totalIva10 += $precioIva;
+        $facturaHTML .= '
+        <td>0</td>
+        <td>0</td>
+        <td>'.$precioIva.'</td>
+        ';
+        break;
+      case $producto['iva'] == 5:
+        $totalIva5 += $precioIva;
+        $facturaHTML .= '
+        <td>0</td>
+        <td>'.$precioIva.'</td>
+        <td>0</td>
+        ';
+        break;
+      case $producto['iva'] == 1:
+        $totalIva0 += $precioIva;
+        $facturaHTML .= '
+        <td>'.$precioIva.'</td>
+        <td>0</td>
+        <td>0</td>
+        ';
+        break;
+    }
+$facturaHTML .=
+  '</tr>';
 }
+
+
+$totalVenta = $totalIva0 + $totalIva5 + $totalIva10;
+$totalVentaES = new NumberFormatter('es', NumberFormatter::SPELLOUT);
+$totalVentaES = $totalVentaES->format($totalVenta);
+$iva10 = round( $totalIva10 / 11);
+$iva5 = round($totalIva5 / 21);
 
 $facturaHTML .= '
             </tbody>
+            <tfoot style="margin-top: 10px;">
+              <tr>
+                <td colspan="4" style="text-align: left; font-weight: 600">Subtotal:</td>
+                <td class="foot">'.$totalIva0.'</td>
+                <td class="foot">'.$totalIva5.'</td>
+                <td class="foot">'.$totalIva10.'</td>
+              </tr>
+              <tr>
+                <td colspan="5" style="text-align: left; font-weight: 600">Total IVA:</td>
+                <td>' . $iva5 . '</td>
+                <td>' . $iva10 . '</td>
+              </tr>
+              <tr>
+                <td colspan="6" style="text-align: left; font-weight: 600">Total a pagar:</td>
+                <td>'. $totalVenta.'</td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align: left; font-weight: 600">Total a pagar en letras:</td>
+                <td colspan="5">' . $totalVentaES . '</td>
+              </tr>
+              <tr>
+                <td colspan="2" style="border: none; background: none;"><p style="color:#C1CED9;">Atendido por: '.$usuario.'</p></td>
+                <td colspan="3" style="border: none; background: none;"></td>
+                <td style="border: none; background: none;"><p style="color:#C1CED9;">Original</p></td>
+                <td style="border: none; background: none;"><p style="color:#C1CED9;">Cliente</p></td>
+              </tr>
+            </tfoot>
+
         </table>
-        <br>
-        <h3>Total a pagar: ' . $totalVenta . '</h3>
-        <h3>Total a pagar en letras: ' . $totalVentaES . '</h3>
         </body>
     </html>';
 
