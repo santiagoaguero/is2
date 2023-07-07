@@ -1,1 +1,35 @@
-lista de facturas
+<div class="container is-fluid mb-6">
+    <h1 class="title">Facturas</h1>
+    <h2 class="subtitle">Lista de facturas</h2>
+</div>
+
+<div class="container pb-6 pt-6">
+
+<?php 
+    require_once("./php/main.php");
+
+    //ELIMINAR PRODUCTOS
+    if(isset($_GET["fact_nro"])){
+        require_once("./php/factura_eliminar.php");
+    }
+    
+    if(!isset($_GET["page"])){
+        $pagina = 1;
+    } else {
+        $pagina = (int)$_GET["page"];
+        if($pagina<=1){
+            $pagina = 1;//controlar que siempre sea 1
+        }
+    }
+
+    $fact_id = (isset($_GET["fact_id"])) ? $_GET["fact_id"] : 0;
+    $pagina = limpiar_cadena($pagina);
+    $url= "index.php?vista=factur_list&page=";
+    $registros=10;//cantidad de registros por pagina
+    $busqueda="";//de categorias
+    require_once("./php/factura_lista.php");
+
+?>
+
+
+</div>

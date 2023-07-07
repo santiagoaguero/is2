@@ -14,44 +14,50 @@
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
-					<label>Código de barra</label>
+					<span>Código de barra</span>
 				  	<input class="input" type="text" name="producto_codigo" pattern="[a-zA-Z0-9- ]{1,70}" maxlength="70" required >
 				</div>
 		  	</div>
 		  	<div class="column">
 		    	<div class="control">
-					<label>Nombre</label>
+					<span>Nombre</span>
 				  	<input class="input" type="text" name="producto_nombre" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ().,$#\-\/ ]{1,70}" maxlength="70" required >
+				</div>
+		  	</div>
+			<div class="column">
+		    	<div class="control">
+					<span>Precio</span>
+				  	<input class="input" type="text" name="producto_precio" pattern="[0-9.]{1,25}" maxlength="25" required >
+				</div>
+		  	</div>
+			<div class="column">
+				<span>IVA</span><br>
+				<!-- valor de iva 0 da errores, bd no admite valor cero, por eso 1 -->
+		    	<div class="select is-rounded">
+				  	<select name="producto_iva" >
+				    	<option value="" selected="" >Seleccione una opción</option>
+						<option value="0">0</option>
+						<option value="5">5</option>
+						<option value="10">10</option>
+				  	</select>
 				</div>
 		  	</div>
 		</div>
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
-					<label>Precio</label>
-				  	<input class="input" type="text" name="producto_precio" pattern="[0-9.]{1,25}" maxlength="25" required >
-				</div>
-		  	</div>
-		  	<div class="column">
-		    	<div class="control">
-					<label>Stock</label>
+					<span>Stock</span>
 				  	<input class="input" type="text" name="producto_stock" pattern="[0-9]{1,25}" maxlength="25" required >
 				</div>
 		  	</div>
-			  <div class="column">
-				<label>IVA</label><br>
-				<!-- valor de iva 0 da errores, bd no admite valor cero, por eso 1 -->
-		    	<div class="select is-rounded">
-				  	<select name="producto_iva" >
-				    	<option value="" selected="" >Seleccione una opción</option>
-						<option value="1">0</option>
-						<option value="5">5</option>
-						<option value="10">10</option>
-				  	</select>
+			<div class="column">
+		    	<div class="control">
+					<span>Stock mínimo</span>
+				  	<input class="input" type="text" name="producto_stock_min" pattern="[0-9]{1,25}" maxlength="25" required >
 				</div>
 		  	</div>
 		  	<div class="column">
-				<label>Categoría</label><br>
+				<span>Categoría</span><br>
 		    	<div class="select is-rounded">
 				  	<select name="producto_categoria" >
 				    	<option value="" selected="" >Seleccione una opción</option>
@@ -70,7 +76,7 @@
 				</div>
 		  	</div>
 			  <div class="column">
-				<label>Proveedor</label><br>
+				<span>Proveedor</span><br>
 		    	<div class="select is-rounded">
 				  	<select name="producto_provee" >
 				    	<option value="" selected="" >Seleccione una opción</option>
@@ -91,7 +97,7 @@
 		</div>
 		<div class="columns">
 			<div class="column">
-				<label>Foto o imagen del producto</label><br>
+				<span>Foto o imagen del producto</span><br>
 				<div class="file is-small has-name">
 				  	<label class="file-label">
 				    	<input class="file-input" type="file" name="producto_foto" accept=".jpg, .png, .jpeg" >

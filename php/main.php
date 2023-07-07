@@ -116,9 +116,12 @@ function paginador($pagina, $Npaginas, $url, $botones){
 	return $tabla;
 }
 
-function getFecha(){
+function getFechaES(){
 	$meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
  	return date('d')." de ".$meses[date('n')-1]. " del ".date('Y');
+}
 
+function getFechaFact(){
+ 	return date("Y-m-d H:i:s");
 }

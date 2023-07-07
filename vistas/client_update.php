@@ -35,7 +35,7 @@
 			<div class="column">
 		    	<div class="control">
 					<label>RUC</label>
-				  	<input class="input" type="text" name="cliente_ruc" value="<?php echo $datos["cliente_ruc"];?>" pattern="[a-zA-Z0-9.-]{4,12}" maxlength="11" required >
+				  	<input class="input" type="text" name="cliente_ruc" value="<?php echo $datos["cliente_ruc"];?>" pattern="^[0-9a-zA-Z.\-]{4,12}$" maxlength="11" required >
 				</div>
 		  	</div>
 		</div>
@@ -43,7 +43,7 @@
 		<div class="column">
 		    	<div class="control">
 					<label>Teléfono</label>
-				  	<input class="input" type="text" name="cliente_telefono" value="<?php echo $datos["cliente_telefono"];?>" pattern="[0-9- ]{6,30}" maxlength="30" >
+				  	<input class="input" type="text" name="cliente_telefono" value="<?php echo $datos["cliente_telefono"];?>" pattern="[0-9 -]{6,30}" maxlength="30" >
 				</div>
 		  	</div>
 		  	<div class="column">

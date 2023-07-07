@@ -16,6 +16,7 @@
         <div class="navbar-dropdown">
           <a class="navbar-item" href="index.php?vista=factur_new">Nuevo</a>
           <a class="navbar-item" href="index.php?vista=factur_list">Lista</a>
+          <a class="navbar-item" href="index.php?vista=factur_search">Buscar</a>
         </div>
       </div>
       <div class="navbar-item has-dropdown is-hoverable">

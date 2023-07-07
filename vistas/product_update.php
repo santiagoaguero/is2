@@ -29,56 +29,47 @@
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
-					<label>Código de barra</label>
+					<span>Código de barra</span>
 				  	<input class="input" type="text" name="producto_codigo" pattern="[a-zA-Z0-9- ]{1,70}" maxlength="70" required value="<?php echo $datos["producto_codigo"] ;?>" >
 				</div>
 		  	</div>
 		  	<div class="column">
 		    	<div class="control">
-					<label>Nombre</label>
+					<span>Nombre</span>
 				  	<input class="input" type="text" name="producto_nombre" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ().,$#\-\/ ]{1,70}" maxlength="70" required value="<?php echo $datos["producto_nombre"] ;?>" >
 				</div>
 		  	</div>
-		</div>
-		<div class="columns">
-		  	<div class="column">
+			<div class="column">
 		    	<div class="control">
-					<label>Precio</label>
+					<span>Precio</span>
 				  	<input class="input" type="text" name="producto_precio" pattern="[0-9.]{1,25}" maxlength="25" required value="<?php 
                     //echo number_format($datos["producto_precio"], 0, ',', '.');se guarda como entero -> 9.000 y no 9000
 					echo $datos["producto_precio"];
                     ?>" >
 				</div>
 		  	</div>
-		  	<div class="column">
-		    	<div class="control">
-					<label>Stock</label>
-				  	<input class="input" type="text" name="producto_stock" pattern="[0-9]{1,25}" maxlength="25" required value="<?php echo $datos["producto_stock"] ;?>" >
-				</div>
-		  	</div>
-			  <div class="column">
-				<label>IVA</label><br>
-				<!-- valor de iva 0 da errores, bd no admite valor cero, por eso 1 -->
+			<div class="column">
+				<span>IVA</span><br>
 		    	<div class="select is-rounded">
 				  	<select name="producto_iva" >
 						<?php
 						$iva = (int)$datos["producto_iva"];
 						switch ($iva) {
-							case $iva === 5:
+							case 5:
 								echo '
 								<option value="5" selected="">5 (Actual)</option>
-								<option value="1">0</option>
+								<option value="0">0</option>
 								<option value="10">10</option>';
 								break;
-							case $iva === 10:
+							case 10:
 								echo '
 								<option value="10" selected="">10 (Actual)</option>
-								<option value="1">0</option>
+								<option value="0">0</option>
 								<option value="5">5</option>';
 								break;
-							case $iva === 1:
+							case 0:
 								echo '
-								<option value="1" selected="">0 (Actual)</option>
+								<option value="0" selected="">0 (Actual)</option>
 								<option value="5">5</option>
 								<option value="10">10</option>';
 								break;
@@ -87,8 +78,22 @@
 				  	</select>
 				</div>
 		  	</div>
+		</div>
+		<div class="columns">
 		  	<div class="column">
-				<label>Categoría</label><br>
+		    	<div class="control">
+					<span>Stock</span>
+				  	<input class="input" type="text" name="producto_stock" pattern="[0-9]{1,25}" maxlength="25" required value="<?php echo $datos["producto_stock"] ;?>" >
+				</div>
+		  	</div>
+			<div class="column">
+		    	<div class="control">
+					<span>Stock mínimo</span>
+				  	<input class="input" type="text" name="producto_stock_min" pattern="[0-9]{1,25}" maxlength="25" required value="<?php echo $datos["producto_stock_min"] ;?>" >
+				</div>
+		  	</div>
+		  	<div class="column">
+				<span>Categoría</span><br>
 		    	<div class="select is-rounded">
 				  	<select name="producto_categoria" >   
                         <?php
@@ -112,7 +117,7 @@
 				</div>
 		  	</div>
 			  <div class="column">
-				<label>Proveedor</label><br>
+				<span>Proveedor</span><br>
 		    	<div class="select is-rounded">
 				  	<select name="producto_provee" >   
                         <?php

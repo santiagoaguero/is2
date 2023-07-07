@@ -36,6 +36,5 @@
             }
         }
     ?>
-    <footer><a rel="me" href="https://terere.social/@santiago" style="color: white;">,</a></footer>
 </body>
 </html>

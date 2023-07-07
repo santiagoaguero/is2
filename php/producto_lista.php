@@ -3,7 +3,7 @@ $inicio = ($pagina>0) ? (($registros*$pagina)-$registros): 0;
 
 $tabla = "";
 
-$campos = "producto.producto_id, producto.producto_codigo, producto.producto_nombre, producto.producto_precio, producto.producto_stock, producto.producto_foto, categoria.categoria_nombre, usuario.usuario_nombre, usuario.usuario_apellido";
+$campos = "producto.producto_id, producto.producto_codigo, producto.producto_nombre, producto.producto_precio, producto.producto_stock, producto.producto_stock_min, producto.producto_foto, categoria.categoria_nombre, usuario.usuario_nombre, usuario.usuario_apellido";
 
 
 if(isset($busqueda) && $busqueda != ""){//busqueda especifica por codigo o nombre de producto
@@ -62,8 +62,29 @@ if($total>=1 && $pagina <= $Npaginas){
                         <p>
                             <strong>'.$contador.' - '.$product["producto_nombre"].'</strong><br>
                             <strong>COD. BARRA:</strong> '.$product["producto_codigo"].' - 
-                            <strong>PRECIO:</strong> ₲s '.$precio_entero.' - 
-                            <strong>STOCK:</strong> '.$product["producto_stock"].' - 
+                            <strong>PRECIO:</strong> ₲s '.$precio_entero.' - ';
+                            //stock mayor al doble del minimo 
+                            if($product["producto_stock"] < $product["producto_stock_min"]){
+                                $tabla.='
+                                <strong style="color: red">STOCK:</strong> '.$product["producto_stock"].' -
+                                <strong>STOCK MIN:</strong> '.$product["producto_stock_min"].' - ';
+                            }
+                            //stock mayor al minimo + la mitad del minimo
+                            elseif(
+                                ($product["producto_stock"] >= $product["producto_stock_min"]) &&
+                                ($product["producto_stock"] <= ($product["producto_stock_min"] + $product["producto_stock_min"]/2)) ){
+                                $tabla.='
+                                <strong style="color: orange">STOCK:</strong> '.$product["producto_stock"].' -
+                                <strong>STOCK MIN:</strong> '.$product["producto_stock_min"].' -';
+                            }
+                            //stock <= al minimo
+                            else {
+                                $tabla.='
+                                <strong style="color: limegreen">STOCK:</strong> '.$product["producto_stock"].' -
+                                <strong>STOCK MIN:</strong> '.$product["producto_stock_min"].' - ';
+                            }
+
+                            $tabla.='
                             <strong>CATEGORIA:</strong> '.$product["categoria_nombre"].' - 
                             <strong>REGISTRADO POR:</strong> '.$product["usuario_nombre"].' '.$product["usuario_apellido"].'
                         </p>

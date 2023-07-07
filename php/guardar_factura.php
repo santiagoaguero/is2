@@ -7,18 +7,51 @@ $data = json_decode(file_get_contents('php://input'), true);
 $ruc = $data['ruc'];
 $productos = $data['productos'];
 
-$busca_cliente = "SELECT cliente_nombre, cliente_direccion FROM clientes WHERE cliente_ruc = '$ruc'";
+//busca cliente para asociar a la factura
+$busca_cliente = "SELECT cliente_id, cliente_nombre, cliente_direccion FROM clientes WHERE cliente_ruc = '$ruc'";
 $conexion=con();
-$datos = $conexion->query($busca_cliente);
-$datos = $datos->fetch();
+$cliente = $conexion->query($busca_cliente);
+$cliente = $cliente->fetch();
 
-$fecha = getFecha();
+$clienteId = $cliente["cliente_id"];
+$cliente_nom = $cliente["cliente_nombre"];
+$cliente_dir = $cliente["cliente_direccion"];
+
+//busca ultimo numero de factura
+$consulta = "SELECT factura_numero FROM facturas ORDER BY factura_numero DESC LIMIT 1";
+$resultado = $conexion->query($consulta);
+
+// Verificar si la consulta tuvo resultados
+if ($resultado->rowCount() > 0) {
+    // Obtener el número de factura
+    $fila = $resultado->fetch();
+    $ultimoNumero = $fila['factura_numero'];
+    $nuevoNumero = incrementarNumeroFactura($ultimoNumero);
+} else {
+    // No se encontraron registros en la tabla
+    $nuevoNumero = '001-001-0000001';
+}
+
+// Función para incrementar el número de factura
+function incrementarNumeroFactura($ultimoNumero) {
+  $parts = explode("-", $ultimoNumero);
+  $part1 = intval($parts[0]);
+  $part2 = intval($parts[1]);
+  $part3 = intval($parts[2]);
+  $nextPart3 = $part3 + 1;
+  $nuevoNumero = sprintf("%03d-%03d-%07d", $part1, $part2, $nextPart3);
+  return $nuevoNumero;
+}
+
+$fechaES = getFechaES();//1 de julio de 2023
+$fechaFact = getFechaFact();// 01-07-2023
 
 $totalIva0 = 0;
 $totalIva5 = 0;
 $totalIva10 = 0;
 
-$usuario = $_SESSION["nombre"]." ".$_SESSION["apellido"];
+$usuarioId = $_SESSION["id"];
+$usuario_nom = $_SESSION["nombre"]." ".$_SESSION["apellido"];
 
 // Generar el contenido HTML de la factura
 $facturaHTML = '
@@ -47,16 +80,16 @@ $facturaHTML = '
         </div>
 
           <div><strong>RUC:</strong><br />80012345-6</div>
-          <div><strong>FACTURA:</strong><br />001-001-0000001</div>
+          <div><strong>FACTURA:</strong><br />'.$nuevoNumero.'</div>
 
       </div>
     </header>
     <div class="cliente">
-      <div>Fecha: '.$fecha.' </div>
+      <div>Fecha: '.$fechaES.' </div>
       <div>Condicion de Venta: Contado</div>
-      <div>Nombre: ' . $datos["cliente_nombre"] . '</div>
+      <div>Nombre: ' . $cliente_nom . '</div>
       <div>RUC: ' . $ruc . '</div>
-      <div>Direccion: ' . $datos["cliente_direccion"] . '</div>
+      <div>Direccion: ' . $cliente_dir . '</div>
       <div>Nota de remisión:</div>
     </div>
     <main>
@@ -83,7 +116,7 @@ foreach ($productos as $producto) {
     <td>'.$producto['cantidad'].'</td>
     <td>'.$producto['precio'].'</td>';
     switch($producto['iva']){
-      case $producto['iva'] == 10:
+      case 10:
         $totalIva10 += $precioIva;
         $facturaHTML .= '
         <td>0</td>
@@ -91,7 +124,7 @@ foreach ($productos as $producto) {
         <td>'.$precioIva.'</td>
         ';
         break;
-      case $producto['iva'] == 5:
+      case 5:
         $totalIva5 += $precioIva;
         $facturaHTML .= '
         <td>0</td>
@@ -99,7 +132,7 @@ foreach ($productos as $producto) {
         <td>0</td>
         ';
         break;
-      case $producto['iva'] == 1:
+      case 0:
         $totalIva0 += $precioIva;
         $facturaHTML .= '
         <td>'.$precioIva.'</td>
@@ -111,7 +144,6 @@ foreach ($productos as $producto) {
 $facturaHTML .=
   '</tr>';
 }
-
 
 $totalVenta = $totalIva0 + $totalIva5 + $totalIva10;
 $totalVentaES = new NumberFormatter('es', NumberFormatter::SPELLOUT);
@@ -142,7 +174,7 @@ $facturaHTML .= '
                 <td colspan="5">' . $totalVentaES . '</td>
               </tr>
               <tr>
-                <td colspan="2" style="border: none; background: none;"><p style="color:#C1CED9;">Atendido por: '.$usuario.'</p></td>
+                <td colspan="2" style="border: none; background: none;"><p style="color:#C1CED9;">Atendido por: '.$usuario_nom.'</p></td>
                 <td colspan="3" style="border: none; background: none;"></td>
                 <td style="border: none; background: none;"><p style="color:#C1CED9;">Original</p></td>
                 <td style="border: none; background: none;"><p style="color:#C1CED9;">Cliente</p></td>
@@ -153,6 +185,66 @@ $facturaHTML .= '
         </body>
     </html>';
 
-// Responder con el contenido HTML de la factura
-echo $facturaHTML;
+// Consulta preparada para insertar la nueva factura en la base de datos
+$consultaInsertar = "INSERT INTO facturas (factura_fecha, cliente_id, usuario_id, total_venta, factura_estado, factura_numero) VALUES (:facturaFecha, :clienteId, :usuarioId, :totalVenta, :factura_estado, :factura_numero)";
+
+// Preparar la consulta
+$insertar = $conexion->prepare($consultaInsertar);
+
+// Asignar los valores a los parámetros de la consulta preparada
+$insertar->bindValue(':facturaFecha', $fechaFact);
+$insertar->bindValue(':clienteId', $clienteId);
+$insertar->bindValue(':usuarioId', $usuarioId);
+$insertar->bindValue(':totalVenta', $totalVenta);
+$insertar->bindValue(':factura_estado', "1");
+$insertar->bindValue(':factura_numero', $nuevoNumero);
+
+// Ejecutar la consulta preparada
+if (!$insertar->execute()) {
+    // Hubo un error al insertar la cabecera de la factura
+    echo 'Error al guardar la factura: ' . $insertar->errorInfo()[2];
+}
+// Cerrar el statement
+$insertar = null;
+  
+// Consulta para insertar los detalles de los productos en la tabla detalle_factura
+$consultaInsertarDetalle = "INSERT INTO detalle_factura (factura_numero, producto_id, cantidad, precio_venta) VALUES (:factura_numero, :producto_id, :cantidad, :precio)";
+
+$huboErrores = false;
+
+// Preparar la consulta
+$insertar = $conexion->prepare($consultaInsertarDetalle);
+
+// Obtener el ID de la última factura insertada
+$facturaId = $conexion->lastInsertId();
+
+// Recorrer los productos seleccionados
+foreach ($productos as $producto) {
+    $producto_id = $producto['id'];
+    $cantidad = $producto['cantidad'];
+    $precio = $producto['precio'];
+
+    // Asignar los valores a los parámetros de la consulta preparada
+    $insertar->bindValue(':factura_numero', $nuevoNumero);
+    $insertar->bindValue(':producto_id', $producto_id);
+    $insertar->bindValue(':cantidad', $cantidad);
+    $insertar->bindValue(':precio', $precio);
+
+    // Ejecutar la consulta preparada
+    if (!$insertar->execute()) {
+      // Hubo un error al insertar el detalle del producto
+      $huboErrores = true;
+      break; // Salir del bucle
+  }
+}
+// Cerrar el statement
+$insertar=null;
+
+if ($huboErrores) {
+  echo 'Hubo un error al guardar los detalles de los productos.';
+} else {
+  echo $facturaHTML;
+}
+
+
 ?>
