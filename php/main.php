@@ -1,5 +1,8 @@
 <?php
 //conexion a la bd
+
+date_default_timezone_set("America/Asuncion");
+
 function con (){
     $pdo = new PDO("mysql: host=localhost;dbname=inventario", "root", "");//dbtype: host,dbname,user,pas
     return $pdo;
@@ -111,4 +114,14 @@ function paginador($pagina, $Npaginas, $url, $botones){
 
 	$tabla.='</nav>';
 	return $tabla;
+}
+
+function getFechaES(){
+	$meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+ 	return date('d')." de ".$meses[date('n')-1]. " del ".date('Y');
+}
+
+function getFechaFact(){
+ 	return date("Y-m-d H:i:s");
 }

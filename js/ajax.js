@@ -35,13 +35,3 @@ formAjax.forEach(form =>{
     form.addEventListener("submit", enviarForm)
 });
 
-
-/*delete usuario
-const btnDelete = document.querySelectorAll('.btnDanger');
-    btnDelete.forEach(function(btn){
-        btn.addEventListener('click', function(e){
-            if(!confirm('¿Estás seguro de eliminar el registro?')){
-                e.preventDefault();   
-            }
-        });
-    });*/

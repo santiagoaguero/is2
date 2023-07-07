@@ -99,7 +99,7 @@ $guardar_prov->execute($marcadores);
 if($guardar_prov->rowCount()==1){// 1 prov nuevo insertado
     echo '
     <div class="notification is-success is-light">
-        <strong>Cliente registrado!</strong><br>
+        <strong>Proveedor registrado!</strong><br>
         El proveedor se registró exitosamente.
     </div>';
 } else {

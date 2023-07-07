@@ -24,7 +24,7 @@
 
     $pagina = limpiar_cadena($pagina);
     $url= "index.php?vista=provee_list&page=";
-    $registros=15;//cantidad de registros por pagina
+    $registros=10;//cantidad de registros por pagina
     $busqueda="";//de proveedores
     require_once("./php/provee_lista.php");
 

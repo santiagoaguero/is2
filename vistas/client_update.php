@@ -28,22 +28,22 @@
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
-					<label>Nombres</label>
+					<label>Nombre</label>
 				  	<input class="input" type="text" name="cliente_nombre" value="<?php echo $datos["cliente_nombre"];?>" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ. ]{3,40}" maxlength="40" required >
 				</div>
 		  	</div>
-		  	<div class="column">
+			<div class="column">
 		    	<div class="control">
-					<label>Apellidos</label>
-				  	<input class="input" type="text" name="cliente_apellido" value="<?php echo $datos["cliente_apellido"];?>" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{0,40}" maxlength="40" >
+					<label>RUC</label>
+				  	<input class="input" type="text" name="cliente_ruc" value="<?php echo $datos["cliente_ruc"];?>" pattern="^[0-9a-zA-Z.\-]{4,12}$" maxlength="11" required >
 				</div>
 		  	</div>
 		</div>
 		<div class="columns">
-		  	<div class="column">
+		<div class="column">
 		    	<div class="control">
-					<label>RUC</label>
-				  	<input class="input" type="text" name="cliente_ruc" value="<?php echo $datos["cliente_ruc"];?>" pattern="[a-zA-Z0-9.-]{4,12}" maxlength="11" required >
+					<label>Teléfono</label>
+				  	<input class="input" type="text" name="cliente_telefono" value="<?php echo $datos["cliente_telefono"];?>" pattern="[0-9 -]{6,30}" maxlength="30" >
 				</div>
 		  	</div>
 		  	<div class="column">
@@ -56,14 +56,14 @@
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
-					<label>Teléfono</label>
-				  	<input class="input" type="text" name="cliente_telefono" value="<?php echo $datos["cliente_telefono"];?>" pattern="[0-9- ]{6,30}" maxlength="30" >
-				</div>
-		  	</div>
-		  	<div class="column">
-		    	<div class="control">
 					<label>Dirección</label>
 				  	<input class="input" type="text" name="cliente_direccion" value="<?php echo $datos["cliente_direccion"];?>" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ.- ]{3,255}" maxlength="255" >
+				</div>
+		  	</div>
+			<div class="column">
+		    	<div class="control">
+					<label>Contacto</label>
+				  	<input class="input" type="text" name="cliente_contacto" value="<?php echo $datos["cliente_contacto"];?>" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{0,40}" maxlength="40" >
 				</div>
 		  	</div>
 		</div>

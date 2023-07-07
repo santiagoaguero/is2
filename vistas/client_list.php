@@ -24,7 +24,7 @@
 
     $pagina = limpiar_cadena($pagina);
     $url= "index.php?vista=client_list&page=";
-    $registros=15;//cantidad de registros por pagina
+    $registros=10;//cantidad de registros por pagina
     $busqueda="";//de usuarios
     require_once("./php/cliente_lista.php");
 

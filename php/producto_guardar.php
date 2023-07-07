@@ -6,7 +6,9 @@ require_once("main.php");
 $codigo=limpiar_cadena($_POST["producto_codigo"]);
 $nombre=limpiar_cadena($_POST["producto_nombre"]);
 $precio=limpiar_cadena($_POST["producto_precio"]);
+$iva=limpiar_cadena($_POST["producto_iva"]);
 $stock=limpiar_cadena($_POST["producto_stock"]);
+$stock_min=limpiar_cadena($_POST["producto_stock_min"]);
 $categoria=limpiar_cadena($_POST["producto_categoria"]);
 $proveedor=limpiar_cadena($_POST["producto_provee"]);
 
@@ -53,6 +55,24 @@ if(verificar_datos("[0-9]{1,25}",$stock)){
     <div class="notification is-danger is-light">
         <strong>¡Ocurrió un error inesperado!</strong><br>
         El stock no coincide con el formato esperado.
+    </div>';
+    exit();
+}
+
+if(verificar_datos("[0-9]{1,25}",$stock_min)){
+    echo '
+    <div class="notification is-danger is-light">
+        <strong>¡Ocurrió un error inesperado!</strong><br>
+        El stock no coincide con el formato esperado.
+    </div>';
+    exit();
+}
+
+if($iva != 0 && $iva != 5 && $iva != 10){
+    echo '
+    <div class="notification is-danger is-light">
+        <strong>¡Ocurrió un error inesperado!</strong><br>
+        Tipo de IVA no admitido.'.var_dump($iva).'
     </div>';
     exit();
 }
@@ -178,14 +198,16 @@ if($_FILES["producto_foto"]["name"] != "" && $_FILES["producto_foto"]["size"]>0)
 $guardar_producto = con();
 //prepare: prepara la consulta antes de insertar directo a la bd. variables sin comillas ni $
 $guardar_producto = $guardar_producto->prepare("INSERT INTO
-    producto (producto_codigo, producto_nombre, producto_precio, producto_stock, producto_foto, categoria_id, usuario_id, prov_id)
-    VALUES(:codigo, :nombre, :precio, :stock, :foto, :categoria, :usuario, :proveedor)");
+    producto (producto_codigo, producto_nombre, producto_precio, producto_iva, producto_stock, producto_stock_min, producto_foto, categoria_id, usuario_id, prov_id)
+    VALUES(:codigo, :nombre, :precio, :iva, :stock, :stock_min, :foto, :categoria, :usuario, :proveedor)");
 
 $marcadores=[
     "codigo"=>$codigo,
     "nombre"=>$nombre,
     "precio"=>$precio,
+    "iva"=>$iva,
     "stock"=>$stock,
+    "stock_min"=>$stock_min,
     "foto"=>$foto,
     "categoria"=>$categoria,
     "usuario"=>$_SESSION["id"],
@@ -197,7 +219,7 @@ $guardar_producto->execute($marcadores);
 if($guardar_producto->rowCount()==1){// 1 producto nuevo insertado
     echo '
     <div class="notification is-success is-light">
-        <strong>¡Usuario registrado!</strong><br>
+        <strong>Producto registrado!</strong><br>
         El producto se registró exitosamente.
     </div>';
 } else {

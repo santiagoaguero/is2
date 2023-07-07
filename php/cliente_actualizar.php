@@ -21,7 +21,7 @@ $check_provee=null;
 
 //almacenando datos
 $nombre=limpiar_cadena($_POST["cliente_nombre"]);
-$apellido=limpiar_cadena($_POST["cliente_apellido"]);
+$contacto=limpiar_cadena($_POST["cliente_contacto"]);
 $ruc=limpiar_cadena($_POST["cliente_ruc"]);
 $email=limpiar_cadena($_POST["cliente_email"]);
 $telefono=limpiar_cadena($_POST["cliente_telefono"]);
@@ -59,7 +59,7 @@ if(verificar_datos("[a-zA-Z0-9.-]{4,12}",$ruc)){
 }
 
 //verifica email
-if($email != ""){
+if($email != "" && $email != $datos["cliente_email"]){
     if(filter_var($email, FILTER_VALIDATE_EMAIL)){
         $check_email=con();
         $check_email=$check_email->query("SELECT cliente_email FROM clientes 
@@ -84,32 +84,33 @@ if($email != ""){
 }
 
 //verifica ruc unico
-$check_ruc=con();
-//query: inserta la consulta directo a la bd
-$check_ruc=$check_ruc->query("SELECT cliente_ruc FROM clientes 
-WHERE cliente_ruc = '$ruc'");//checks if usuario exists
-if($check_ruc->rowCount()>0){//usuarios found
-    echo '
-    <div class="notification is-danger is-light">
-        <strong>¡Ocurrió un error inesperado!</strong><br>
-        El RUC ya está registrado en la base de datos, por favor elija otro RUC.
-    </div>';
-    exit();
+if($ruc != $datos["cliente_ruc"]){
+    $check_ruc=con();
+    //query: inserta la consulta directo a la bd
+    $check_ruc=$check_ruc->query("SELECT cliente_ruc FROM clientes 
+    WHERE cliente_ruc = '$ruc'");//checks if usuario exists
+    if($check_ruc->rowCount()>0){//usuarios found
+        echo '
+        <div class="notification is-danger is-light">
+            <strong>¡Ocurrió un error inesperado!</strong><br>
+            El RUC ya está registrado en la base de datos, por favor elija otro RUC.
+        </div>';
+        exit();
+    }
+    $check_ruc=null;//close db connection
 }
-$check_ruc=null;//close db connection
-
 //Actualizando datos
 $actualizar_cliente = con();
 $actualizar_cliente = $actualizar_cliente->prepare("UPDATE clientes SET 
-cliente_nombre = :nombre, cliente_apellido = :apellido, cliente_ruc = :ruc, cliente_email = :email, cliente_telefono = :telefono, cliente_direccion = :direccion WHERE cliente_id = :id");
+cliente_nombre = :nombre, cliente_ruc = :ruc, cliente_email = :email, cliente_telefono = :telefono, cliente_direccion = :direccion, cliente_contacto = :contacto WHERE cliente_id = :id");
 
 $marcadores = [
 "nombre" => $nombre,
-"apellido" => $apellido,
 "ruc" => $ruc,
 "email" => $email,
 "telefono" => $telefono,
 "direccion" => $direccion,
+"contacto" => $contacto,
 "id" => $id];
 
 if($actualizar_cliente->execute($marcadores)){

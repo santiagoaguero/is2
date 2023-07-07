@@ -23,7 +23,9 @@ $check_producto=null;
 $codigo=limpiar_cadena($_POST["producto_codigo"]);
 $nombre=limpiar_cadena($_POST["producto_nombre"]);
 $precio=limpiar_cadena($_POST["producto_precio"]);
+$iva=limpiar_cadena($_POST["producto_iva"]);
 $stock=limpiar_cadena($_POST["producto_stock"]);
+$stock_min=limpiar_cadena($_POST["producto_stock_min"]);
 $categoria=limpiar_cadena($_POST["producto_categoria"]);
 $proveedor=limpiar_cadena($_POST["producto_provee"]);
 
@@ -70,6 +72,24 @@ if(verificar_datos("[0-9]{1,25}",$stock)){
     <div class="notification is-danger is-light">
         <strong>¡Ocurrió un error inesperado!</strong><br>
         El stock no coincide con el formato esperado.
+    </div>';
+    exit();
+}
+
+if(verificar_datos("[0-9]{1,25}",$stock_min)){
+    echo '
+    <div class="notification is-danger is-light">
+        <strong>¡Ocurrió un error inesperado!</strong><br>
+        El stock no coincide con el formato esperado.
+    </div>';
+    exit();
+}
+
+if($iva != 0 && $iva != 5 && $iva != 10){
+    echo '
+    <div class="notification is-danger is-light">
+        <strong>¡Ocurrió un error inesperado!</strong><br>
+        Tipo de IVA no admitido.'.var_dump($iva).'
     </div>';
     exit();
 }
@@ -141,13 +161,15 @@ if($proveedor != $datos["prov_id"]){
 //Actualizando datos
 $actualizar_producto = con();
 $actualizar_producto = $actualizar_producto->prepare("UPDATE producto SET 
-producto_codigo = :codigo, producto_nombre = :nombre, producto_precio = :precio, producto_stock = :stock, categoria_id = :categoria, prov_id = :proveedor WHERE producto_id = :id");
+producto_codigo = :codigo, producto_nombre = :nombre, producto_precio = :precio, producto_iva = :iva, producto_stock = :stock, producto_stock_min = :stock_min, categoria_id = :categoria, prov_id = :proveedor WHERE producto_id = :id");
 
 $marcadores=[
     "codigo"=>$codigo,
     "nombre"=>$nombre,
     "precio"=>$precio,
+    "iva"=>$iva,
     "stock"=>$stock,
+    "stock_min"=>$stock_min,
     "categoria"=>$categoria,
     "id"=>$id,
     "proveedor"=>$proveedor
