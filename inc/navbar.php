@@ -1,6 +1,6 @@
 <nav class="navbar mb-5" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item-img-max-height" href="index.php?vista=home">
+    <a class="navbar-item-img-max-height" href="index.php?vista=factur_new">
       <img src="./img/logo.png" width="80" alt="logo"><!-- height-> img-max-height class -->
     </a>
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -59,10 +59,17 @@
               <a class="navbar-item" href="index.php?vista=user_list">Lista</a>
               <a class="navbar-item" href="index.php?vista=user_search">Buscar</a>
           </div>
-        </div>
-
+      </div>
+      <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">Compras</a>
+          <div class="navbar-dropdown">
+              <a class="navbar-item" href="index.php?vista=compra_new">Nuevo</a>
+              <a class="navbar-item" href="index.php?vista=compra_list">Lista</a>
+              <a class="navbar-item" href="index.php?vista=compra_search">Buscar</a>
+              <a class="navbar-item" href="index.php?vista=compra_report">Solicitar</a>
+          </div>
+      </div>
     </div>
-<!-- ñ -->
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">

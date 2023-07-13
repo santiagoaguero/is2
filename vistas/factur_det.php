@@ -1,10 +1,10 @@
-<div class="container is-fluid mb-6">
+<div class="container is-fluid mb-6 ">
     <h1 class="title">Factura</h1>
     <?php 
         require("./php/main.php");
         $numero = $_GET["fact_nro"];
         echo '<h2 class="subtitle">'.$numero.'</h2>';
-        echo '<div class="container pb-6 pt-0">';
+        echo '<div class="box pb-6 pt-0 ">';
         include("./inc/btn_back.php");
         $factura = con();
         $sql = "SELECT facturas.factura_fecha, facturas.factura_estado, clientes.cliente_nombre, clientes.cliente_ruc, clientes.cliente_direccion, usuario.usuario_nombre, usuario.usuario_apellido FROM facturas INNER JOIN clientes ON facturas.cliente_id = clientes.cliente_id INNER JOIN usuario ON facturas.usuario_id = usuario.usuario_id WHERE facturas.factura_numero = '$numero' ORDER BY facturas.factura_fecha DESC";
@@ -16,29 +16,31 @@
                 $fecha_obj = new DateTime($fact["factura_fecha"]);//format fecha
                 $fechaES = $fecha_obj->format('d-m-Y');
                 $usuario_nom = $fact["usuario_nombre"]. " " . $fact["usuario_apellido"];
-                echo '
-                    <div class="cliente">
-                        <div>Fecha: '.$fechaES.' </div>
-                        <div>Condicion de Venta: Contado</div>
-                        <div>Nombre: ' . $fact["cliente_nombre"] . '</div>
-                        <div>RUC: ' . $fact["cliente_ruc"] . '</div>
-                        <div>Direccion: ' . $fact["cliente_direccion"] . '</div>
-                        <div>Nota de remisión:</div>
+                $estado = $fact["factura_estado"] == 0 ? "Anulado" : "";
+                echo '<p class="subtitle has-text-centered"
+                       style="text-transform: uppercase; color: red; font-weight: bold; font-size:40px";>'.$estado.'</p>
+                    <div class="fact-detalle">
+                        <div><span style="font-weight: bolder">Fecha:</span> '.$fechaES.' </div>
+                        <div><span style="font-weight: bolder">Condición de Venta:</span> Contado</div>
+                        <div><span style="font-weight: bolder">Nombre:</span> ' . $fact["cliente_nombre"] . '</div>
+                        <div><span style="font-weight: bolder">RUC:</span> ' . $fact["cliente_ruc"] . '</div>
+                        <div><span style="font-weight: bolder">Dirección:</span> ' . $fact["cliente_direccion"] . '</div>
+                        <div><span style="font-weight: bolder">Nota de remisión:</span></div>
                     </div>';
                 }
                 $factura=null;
                 echo'
                 <main>
-                <table class="table">
+                <table class="table is-fullwidth has-text-centered">
                   <thead>
                     <tr>
-                      <th class="cabecera">CODIGO</th>
-                      <th class="cabecera" >PRODUCTO</th>
-                      <th class="cabecera" >CANTIDAD</th>
-                      <th class="cabecera" >PRECIO UNITARIO</th>
-                      <th class="cabecera" >Exenta</th>
-                      <th class="cabecera" >5%</th>
-                      <th class="cabecera" >10%</th>
+                      <th class="has-text-centered">CODIGO</th>
+                      <th class="has-text-centered">PRODUCTO</th>
+                      <th class="has-text-centered">CANTIDAD</th>
+                      <th class="has-text-centered">PRECIO UNITARIO</th>
+                      <th class="has-text-centered">Exenta</th>
+                      <th class="has-text-centered">5%</th>
+                      <th class="has-text-centered">10%</th>
                     </tr>
                   </thead>
                   <tbody>';

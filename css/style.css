@@ -53,3 +53,14 @@ body,html{
     align-items: center;
     gap: 25px;
 }
+
+.fact-detalle{/*cabecera*/
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas de igual tamaño */
+    grid-template-rows: auto auto auto; /* Tres filas automáticas */
+    gap: 10px; /* Espacio entre elementos */
+    padding: 10px; /* Espacio interno del contenedor */
+    margin-bottom: 30px;
+    text-align: center;
+}
+

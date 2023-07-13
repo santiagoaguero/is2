@@ -50,12 +50,12 @@ $check_user=$check_user->query("SELECT * from usuario WHERE
             if(headers_sent()){//si ya se enviaron headers se redirecciona con js porque con php da errores.  
                 echo '
                 <script>
-                    window.location.href="index.php?vista=home"
+                    window.location.href="index.php?vista=factur_new"
                 </script>
                 ';
 
             } else {
-                header("Location: index.php?vista=home");
+                header("Location: index.php?vista=factur_new");
             }
 
     } else {

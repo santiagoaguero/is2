@@ -4,7 +4,7 @@
 </div>
 <div class="container pb-6 pt-6">
 
-	 <div class="form-rest mb-6 mt-6"></div><!--to show notifications -->
+	<div class="form-rest mb-6 mt-6"></div><!--to show notifications -->
 
 	<form action="./php/cliente_guardar.php" method="POST" class="formularioAjax" id="formul" autocomplete="off" >
 		<div class="columns">

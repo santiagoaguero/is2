@@ -10,7 +10,7 @@
 
     //ELIMINAR PRODUCTOS
     if(isset($_GET["fact_nro"])){
-        require_once("./php/factura_eliminar.php");
+        require_once("./php/factura_anular.php");
     }
     
     if(!isset($_GET["page"])){

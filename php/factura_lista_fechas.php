@@ -3,6 +3,9 @@
 $fechaInicio = $_POST['fecha_inicio'];
 $fechaFin = $_POST['fecha_fin'];
 
+echo $fechaInicio;
+echo $fechaFin;
+
 $tabla = "";
 $campos = "facturas.factura_fecha, facturas.factura_numero, facturas.total_venta, facturas.factura_estado, clientes.cliente_nombre, clientes.cliente_ruc";
 

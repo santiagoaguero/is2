@@ -65,13 +65,17 @@ if($total>=1 && $pagina <= $Npaginas){
                     <td>'.$fact["cliente_ruc"].'</td>
                     <td>'.$fact["cliente_nombre"].'</td>';
                     $estado = $fact["factura_estado"] == 1 ? "Activo" : "Anulado";
+                    $btnEstado = $fact["factura_estado"] == 1 ? 
+                    '<a href=\''.$url.$pagina.'\'&fact_nro='.$fact["factura_numero"].'" class="button is-danger is-rounded is-small btnDanger">Anular</a>' : 
+                    '<a href="#" class="button is-danger is-rounded is-small is-outlined">Anulado</a>
+                    ';
         $tabla.='   
                     <td>'.$estado.'</td>
                     <td>
                         <a href="index.php?vista=factur_det&fact_nro='.$fact["factura_numero"].'" class="button is-success is-rounded is-small">Ver detalle</a>
                     </td>
                     <td>
-                        <a href="'.$url.$pagina.'&fact_nro='.$fact["factura_numero"].'" class="button is-danger is-rounded is-small btnDanger">Anular</a>
+                        '.$btnEstado.'
                     </td>
             </tr>
         ';
