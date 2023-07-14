@@ -19,7 +19,7 @@
 				<div class="control">
 					<span>Proveedor</span>
 					<p class="control has-icons-left">
-                    	<input class="input mb-2" type="text" name="busca_provee" id="busca_provee" placeholder="Proveedor" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ .]{1,30}" maxlength="30" autofocus autocomplete="off">
+                    	<input class="input" type="text" name="busca_provee" id="busca_provee" placeholder="Proveedor" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ .]{1,30}" maxlength="30" autofocus autocomplete="off" required>
 						<span class="icon is-small is-left">
                             <i class="fas fa-search"></i>
                         </span>
@@ -38,14 +38,14 @@
 			<div class="column">
 		    	<div class="control">
 					<span>Factura</span>
-				  	<input class="input" type="text" name="compra_factura" pattern="[0-9 -]{6,30}" maxlength="30" >
+				  	<input class="input" type="text" name="compra_factura" pattern="[0-9 -]{6,30}" maxlength="30" required>
 				</div>
 		  	</div>
 		  	<div class="column">
 		    	<div class="control">
 					<span>Condición</span>
 					<div class="select is-rounded">
-						<select name="compra_condicion" >
+						<select name="compra_condicion" required>
 							<option value="" selected="" >Seleccione una opción</option>
 							<option value="0">Contado</option>
 							<option value="1">Crédito</option>
@@ -57,12 +57,26 @@
 		<div class="columns">
 			<div class="column">
 				<p class="subtitle has-text-centered mb-2">Agregar productos</p>
-
-				<div class="control">
-					<input class="input is-rounded mb-3" type="text" name="campo" id="campo" placeholder="¿Qué estas buscando?" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,30}" maxlength="30" >
-					<span id="lista_productos"></span>
+				<div class="buttons is-centered has-addons">
+					<p class="control">
+						<button onclick="mostrarModal()" class="button is-info is-rounded is-outlined" type="button">
+							<!-- button type button doesn't send form -->
+						<span class="icon is-small">
+        					<i class="fas fa-search"></i>
+						</span>
+						<span>Buscar producto</span>
+						</button>
+					</p>
+					<p class="control">
+						<button class="button is-info is-rounded is-outlined" type="button">
+							<!-- button type button doesn't send form -->
+						<span class="icon is-small">
+        					<i class="fas fa-add"></i>
+						</span>
+						<span>Nuevo producto</span>
+						</button>
+					</p>
 				</div>
-
 			</div>
 		</div>
 		<div class="columns">
@@ -88,6 +102,17 @@
 			<button type="submit" class="button is-info is-rounded">Guardar</button>
 		</p>
 	</form>
+</div>
+<div id="modal" class="modal">
+	<div class="modal-content">
+		<p class="subtitle has-text-centered mb-2">Agregar productos</p>
+		<p class="control has-icons-left">
+			<input class="input is-rounded mb-3" type="text" name="campo" id="campo" placeholder="¿Qué estas buscando?" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,30}" maxlength="30" autocomplete="off">
+			<span id="lista_productos"></span>
+		</p>
+
+	<span id="lista_proveedores"></span>
+	</div>
 </div>
 <script>
 	function seleccionarProducto(id, nombre, precio, iva) {
@@ -166,4 +191,19 @@
 		var modal = document.getElementById('modal');
 		modal.style.display = "block";
 	}
+	// Detectar el click en la pantalla(escritorio)	
+	window.onclick = function(event) {
+		var modal = document.getElementById('modal');
+		if (event.target == modal) {
+			modal.style.display = "none";
+		}
+	}
+	// Detectar el toque en la pantalla(disp. moviles)
+	window.addEventListener('touchstart', function(event) {
+		var modal = document.getElementById('modal');
+		// Cerrar la ventana modal si el toque no está dentro de ella
+		if (!modal.contains(event.target)) {
+			modal.style.display = 'none';
+		}
+	});
 </script>

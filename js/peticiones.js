@@ -6,7 +6,7 @@ var vista = urlParams.get('vista');
 //esto para evitar que se activen los eventos y de errores en lugares no solicitados
 if (vista === 'compra_new') {
   document.getElementById("busca_provee").addEventListener("keyup", getProvee);
-  document.getElementById("campo").addEventListener("keyup", getProduct);
+  document.getElementById("campo").addEventListener("keyup", getProductCompras);
 } else {
   document.getElementById("campo").addEventListener("keyup", getProduct);
   document.getElementById("busca_cliente").addEventListener("keyup", getClient);
@@ -92,5 +92,32 @@ function getProvee(){
     } else {
         lista.innerHTML = '';
         document.getElementById('provee_ruc').value = '';
+    }
+}
+
+function getProductCompras(){
+    let inputCp = document.getElementById("campo").value;
+    let lista = document.getElementById("lista_productos");
+
+    if(inputCp.length > 0){
+
+        let url = "./php/getProductCompras.php";
+        let formData = new FormData();
+        formData.append("campo", inputCp);
+
+        fetch(url, {
+            method: "POST",
+            body: formData,
+            mode: "cors"
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            lista.innerHTML = data;
+
+        })
+        .catch(err=> console.log("catch->",err));
+    } else {
+        lista.innerHTML = '';
     }
 }
