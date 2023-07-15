@@ -15,7 +15,7 @@
 		  	<div class="column">
 		    	<div class="control">
 					<span>Código de barra</span>
-				  	<input class="input" type="text" name="producto_codigo" pattern="[a-zA-Z0-9- ]{1,70}" maxlength="70" required >
+				  	<input class="input" type="text" name="producto_codigo" pattern="[a-zA-Z0-9- ]{1,70}" maxlength="70" required autofocus>
 				</div>
 		  	</div>
 		  	<div class="column">
