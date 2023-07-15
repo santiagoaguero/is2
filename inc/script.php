@@ -24,6 +24,7 @@
         }
     });
 </script>
+<script type="text/javascript" src="https://unpkg.com/bulma-modal-fx/dist/js/modal-fx.min.js"></script>
 <script src="./js/ajax.js"></script>
 <script src="./js/peticiones.js"></script>
 <script src="./js/guardar_factura.js"></script>

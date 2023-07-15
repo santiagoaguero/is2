@@ -19,7 +19,7 @@ $html="";
 while($row = $buscarProvee->fetch(PDO::FETCH_ASSOC)){
     $html .='
                 <div class="media-content">
-                    <div class="content mb-0">
+                    <div class="content">
                         <ul style="list-style-type: \'- \'; cursor: pointer;">
                             <li onclick="seleccionarProv(\''.$row["prov_id"].'\', \''.$row["prov_nombre"].'\', \''.$row["prov_ruc"].'\') " >'.$row["prov_nombre"].' - '.$row["prov_ruc"].'</li>
                         </ul>

@@ -12,7 +12,7 @@
             <p class="subtitle has-text-centered mb-2">Agregar productos</p>
             <form action="" method="POST" autocomplete="off" >
                 <div class="control">
-                    <input class="input is-rounded mb-3" type="text" name="campo" id="campo" placeholder="¿Qué estas buscando?" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,30}" maxlength="30" >
+                    <input class="input is-rounded mb-3" type="text" name="campo" id="campo" placeholder="¿Qué estas buscando?" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,30}" maxlength="30" autofocus>
                     <span id="lista_productos"></span>
                 </div>
             </form>
@@ -33,11 +33,13 @@
             </table>
             <br>
             <h3>Total de Venta: <span id="total-venta">0</span></h3>
-            <button class="button is-success is-outlined" onclick="mostrarModal()">Imprimir Factura</button>
+            <button class="button modal-button is-success is-outlined" data-target="modalCliente">Imprimir Factura</button>
         </div>
     </div>
-    <div id="modal" class="modal">
+    <div id="modalCliente" class="modal modal-fx-slideTop">
+        <div class="modal-background"></div>
         <div class="modal-content">
+            <div class="box">
             <h2 class=" subtitle has-text-centered">Datos del Cliente</h2>
             <form id="cliente-form" onsubmit="guardarFactura(event)" action="./php/guardar_factura.php" method="POST" class="is-centered">
                 <div class="control">
@@ -68,6 +70,7 @@
                 </div>
             </form>
             <div id="factura"></div>
+        </div>
         </div>
     </div>
     <script>
@@ -126,10 +129,6 @@
         }
 
         function vaciarColumnaOculta() {
-            // Cerrar la ventana modal
-            var modal = document.getElementById('modal');
-            modal.style.display = "none";
-
             // Vaciar la tabla de productos seleccionados
             var vaciarProductosSeleccionados = document.getElementById('tabla-productos-seleccionados');
             vaciarProductosSeleccionados.innerHTML = '<tr><th>Producto</th><th>Cantidad</th><th>Precio Unitario</th><th>IVA</th><th>Total</th><th></th></tr>';
@@ -143,26 +142,5 @@
             var lista = document.getElementById("lista_productos");
             lista.innerHTML = '';
         }
-
-        function mostrarModal() {
-            var modal = document.getElementById('modal');
-            modal.style.display = "block";
-        }
-
-            // Detectar el click en la pantalla(escritorio)
-        window.onclick = function(event) {
-            var modal = document.getElementById('modal');
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-        // Detectar el toque en la pantalla(disp. moviles)
-        window.addEventListener('touchstart', function(event) {
-            var modal = document.getElementById('modal');
-            // Cerrar la ventana modal si el toque no está dentro de ella
-            if (!modal.contains(event.target)) {
-                modal.style.display = 'none';
-            }
-        });
     </script>
 </div>
