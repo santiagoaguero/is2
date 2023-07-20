@@ -116,12 +116,12 @@ function paginador($pagina, $Npaginas, $url, $botones){
 	return $tabla;
 }
 
-function getFechaES(){
+function getFechaES(){//17 de Julio del 2023
 	$meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
  	return date('d')." de ".$meses[date('n')-1]. " del ".date('Y');
 }
 
-function getFechaFact(){
+function getFechaFact(){//2023-07-17 11:16:01 - formato que acepta Mysql
  	return date("Y-m-d H:i:s");
 }

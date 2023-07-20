@@ -69,7 +69,6 @@
                     <button type="submit" class="button is-small is-success is-outlined is-rounded">Imprimir Factura</button>
                 </div>
             </form>
-            <div id="factura"></div>
         </div>
         </div>
     </div>

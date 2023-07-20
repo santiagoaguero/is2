@@ -27,10 +27,11 @@ $iva=limpiar_cadena($_POST["producto_iva"]);
 $stock=limpiar_cadena($_POST["producto_stock"]);
 $stock_min=limpiar_cadena($_POST["producto_stock_min"]);
 $categoria=limpiar_cadena($_POST["producto_categoria"]);
+$familia=limpiar_cadena($_POST["producto_familia"]);
 $proveedor=limpiar_cadena($_POST["producto_provee"]);
 
 //verifica campos obligatorios
-if($codigo == "" || $nombre == "" || $precio == "" || $stock == "" || $categoria == "" || $proveedor == ""){
+if($codigo == "" || $nombre == "" || $precio == "" || $stock == "" || $categoria == "" || $proveedor == "" || $familia == ""){
     echo '
     <div class="notification is-danger is-light">
         <strong>¡Ocurrió un error inesperado!</strong><br>
@@ -142,6 +143,22 @@ if($categoria != $datos["categoria_id"]){
     $check_categoria=null;//close db connection
 }
 
+//verifica familia exista 
+if($familia != $datos["familia_id"]){
+    $check_familia=con();
+    $check_familia=$check_familia->query("SELECT familia_id FROM familia 
+    WHERE familia_id = '$familia'");//checks if familia exists
+    if($check_familia->rowCount()<=0){//categorias found
+        echo '
+        <div class="notification is-danger is-light">
+            <strong>¡Ocurrió un error inesperado!</strong><br>
+            La familia seleccionada no existe.
+        </div>';
+        exit();
+    }
+    $check_familia=null;//close db connection
+}
+
 //verifica proveedor exita 
 if($proveedor != $datos["prov_id"]){
     $check_provee=con();
@@ -161,7 +178,7 @@ if($proveedor != $datos["prov_id"]){
 //Actualizando datos
 $actualizar_producto = con();
 $actualizar_producto = $actualizar_producto->prepare("UPDATE producto SET 
-producto_codigo = :codigo, producto_nombre = :nombre, producto_precio = :precio, producto_iva = :iva, producto_stock = :stock, producto_stock_min = :stock_min, categoria_id = :categoria, prov_id = :proveedor WHERE producto_id = :id");
+producto_codigo = :codigo, producto_nombre = :nombre, producto_precio = :precio, producto_iva = :iva, producto_stock = :stock, producto_stock_min = :stock_min, categoria_id = :categoria, prov_id = :proveedor, familia_id = :familia WHERE producto_id = :id");
 
 $marcadores=[
     "codigo"=>$codigo,
@@ -172,7 +189,8 @@ $marcadores=[
     "stock_min"=>$stock_min,
     "categoria"=>$categoria,
     "id"=>$id,
-    "proveedor"=>$proveedor
+    "proveedor"=>$proveedor,
+    "familia"=> $familia
 ];
 
 if($actualizar_producto->execute($marcadores)){

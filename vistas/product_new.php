@@ -30,9 +30,10 @@
 				  	<input class="input" type="text" name="producto_precio" pattern="[0-9.]{1,25}" maxlength="25" required >
 				</div>
 		  	</div>
+		</div>
+		<div class="columns">
 			<div class="column">
 				<span>IVA</span><br>
-				<!-- valor de iva 0 da errores, bd no admite valor cero, por eso 1 -->
 		    	<div class="select is-rounded">
 				  	<select name="producto_iva" >
 				    	<option value="" selected="" >Seleccione una opción</option>
@@ -42,8 +43,6 @@
 				  	</select>
 				</div>
 		  	</div>
-		</div>
-		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
 					<span>Stock</span>
@@ -56,7 +55,9 @@
 				  	<input class="input" type="text" name="producto_stock_min" pattern="[0-9]{1,25}" maxlength="25" required >
 				</div>
 		  	</div>
-		  	<div class="column">
+		</div>
+		<div class="columns">
+			<div class="column">
 				<span>Categoría</span><br>
 		    	<div class="select is-rounded">
 				  	<select name="producto_categoria" >
@@ -75,7 +76,26 @@
 				  	</select>
 				</div>
 		  	</div>
-			  <div class="column">
+			<div class="column">
+				<span>Familia</span><br>
+		    	<div class="select is-rounded">
+				  	<select name="producto_familia" >
+				    	<option value="" selected="" >Seleccione una opción</option>
+                        <?php
+                        $familia = con();
+                        $familia = $familia->query("SELECT * FROM familia");
+                        if($familia->rowCount()>0){
+                            $familia = $familia->fetchAll();
+                            foreach($familia as $fam){
+                                echo '<option value="'.$fam['familia_id'].'" >'.$fam['familia_nombre'].'</option>';
+                            }
+                        }
+                        $familia=null;
+                        ?>
+				  	</select>
+				</div>
+		  	</div>
+			<div class="column">
 				<span>Proveedor</span><br>
 		    	<div class="select is-rounded">
 				  	<select name="producto_provee" >
@@ -94,6 +114,7 @@
 				  	</select>
 				</div>
 		  	</div>
+
 		</div>
 		<div class="columns">
 			<div class="column">

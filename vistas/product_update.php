@@ -48,6 +48,8 @@
                     ?>" >
 				</div>
 		  	</div>
+		</div>
+		<div class="columns">
 			<div class="column">
 				<span>IVA</span><br>
 		    	<div class="select is-rounded">
@@ -78,8 +80,6 @@
 				  	</select>
 				</div>
 		  	</div>
-		</div>
-		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
 					<span>Stock</span>
@@ -92,7 +92,9 @@
 				  	<input class="input" type="text" name="producto_stock_min" pattern="[0-9]{1,25}" maxlength="25" required value="<?php echo $datos["producto_stock_min"] ;?>" >
 				</div>
 		  	</div>
-		  	<div class="column">
+		</div>
+		<div class="columns">
+			<div class="column">
 				<span>Categoría</span><br>
 		    	<div class="select is-rounded">
 				  	<select name="producto_categoria" >   
@@ -116,7 +118,31 @@
 				  	</select>
 				</div>
 		  	</div>
-			  <div class="column">
+			<div class="column">
+				<span>Familia</span><br>
+		    	<div class="select is-rounded">
+				  	<select name="producto_familia" >   
+                        <?php
+                        $familias = con();
+                        $familias = $familias->query("SELECT * FROM familia");
+                        if($familias->rowCount()>0){
+                            $familias = $familias->fetchAll();
+                            foreach($familias as $fam){
+                                if($datos["familia_id"] == $fam['familia_id']){
+                                    echo '
+                                    <option value="'.$fam['familia_id'].'" selected="" >'.$fam['familia_nombre'].' (Actual)</option>
+                                    ';
+                                } else {
+                                    echo '<option value="'.$fam['familia_id'].'" >'.$fam['familia_nombre'].'</option>';
+                                }
+                            }
+                        }
+                        $categorias=null;
+                        ?>
+				  	</select>
+				</div>
+		  	</div>
+			<div class="column">
 				<span>Proveedor</span><br>
 		    	<div class="select is-rounded">
 				  	<select name="producto_provee" >   

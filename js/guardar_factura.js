@@ -24,8 +24,6 @@ function guardarFactura(event) {
 
     }
 
-    console.log("enviando->" ,data);
-
     fetch('./php/guardar_factura.php', {
         method: 'POST',
         headers: {

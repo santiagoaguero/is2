@@ -9,13 +9,17 @@
 <div class="container pb-6 pt-6">
 
 	<div class="form-rest mb-6 mt-6"></div><!--to show notifications -->
+	<?php 
+		$fecha_obj = new DateTime();//format fecha
+		$fechaES = $fecha_obj->format('Y-m-d');
+	?>
 
 	<form action="./php/compra_guardar.php" method="POST" class="formularioAjax" id="formul" autocomplete="off" >
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
 					<span>Fecha</span>
-				  	<input class="input" type="date" name="compra_fecha" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ. ]{3,40}" maxlength="40" required autofocus >
+				  	<input class="input" type="date" name="compra_fecha" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ. ]{3,40}" max="<?php echo $fechaES ?>" required autofocus value="<?php echo $fechaES ?>">
 				</div>
 		  	</div>
 			<div class="column">
@@ -41,7 +45,7 @@
 			<div class="column">
 		    	<div class="control">
 					<span>Factura</span>
-				  	<input class="input" type="text" name="compra_factura" pattern="[0-9 -]{6,30}" maxlength="30" required>
+				  	<input class="input" type="text" name="compra_factura" pattern="^[0-9\-]{6,30}$" maxlength="30" required>
 				</div>
 		  	</div>
 		  	<div class="column">
@@ -84,7 +88,7 @@
 		</div>
 		<div class="columns">
 			<div class="column">
-				<table id="tabla-productos-seleccionados" class="table is-fullwidth" name="compra_prod">
+				<table class="table is-fullwidth" name="compra_prod">
 					<thead>
 						<tr>
 							<th class="has-text-centered">Cód.</th>
@@ -96,172 +100,145 @@
 							<th class="has-text-centered"></th>
 						</tr>
 					</thead>
+					<tbody id="tabla-productos-seleccionados">
+
+					</tbody>
+					<tfoot>
+						<tr>
+							<td><h3>Total IVA 5%:</h3></td>
+							<td><span id="total_iva_5">0</span></td>
+							<td colspan="4"></td>
+						</tr>
+						<tr>
+							<td><h3>Total IVA 10%:</h3></td>
+							<td><span id="total_iva_10">0</span></td>
+							<td colspan="4"></td>
+						</tr>
+						<tr>
+							<td><h3>Total de Compra: </h3></td>
+							<td><span id="compra_total" name="compra_total">0</span></td>
+							<td colspan="4"></td>
+						</tr>
+					</tfoot>
 				</table>
 				<br>
-				<h3>Total de Compra: <span id="total-compra">0</span></h3>
+				
+				
+				
 			</div>
     	</div>
 		<p class="has-text-centered">
-			<button type="submit" class="button is-info is-rounded">Guardar</button>
+			<input type="submit" class="button is-info is-rounded" value="Guardar"></input>
 		</p>
 	</form>
 </div>
-<div id="modalCrearProducto" class="modal modal-fx-slideTop">
-	<div class="modal-background"></div>
-	<div class="modal-content">
-		<div class="box">
-			<p class="subtitle has-text-centered mb-2">Crear producto</p>
-			<form action="./php/producto_guardar.php" method="POST" class="formularioAjax" autocomplete="off" enctype="multipart/form-data">
-				<div class="columns">
-		  			<div class="column">
-		    			<div class="control">
-							<span>Código de barra</span>
-				  			<input class="input" type="text" name="producto_codigo" pattern="[a-zA-Z0-9- ]{1,70}" maxlength="70" required >
-						</div>
-		  			</div>
-		  			<div class="column">
-		    			<div class="control">
-							<span>Nombre</span>
-				  			<input class="input" type="text" name="producto_nombre" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ().,$#\-\/ ]{1,70}" maxlength="70" required >
-						</div>
-		  			</div>
-				</div>
-				<div class="columns">
-		  			<div class="column">
-		    			<div class="control">
-							<span>Proveedor</span><br>
-		    				<div class="select is-rounded">
-				  				<select name="producto_provee" >
-				    				<option value="" selected="" >Seleccione una opción</option>
-                        			<?php
-                        			$proveedores = con();
-                        			$proveedores = $proveedores->query("SELECT * FROM proveedor");
-                        			if($proveedores->rowCount()>0){
-                            			$proveedores = $proveedores->fetchAll();
-                            			foreach($proveedores as $prov){
-                                			echo '<option value="'.$prov['prov_id'].'" >'.$prov['prov_nombre'].'</option>';
-                            			}
-                        			}
-                        			$proveedores=null;
-                        			?>
-				  				</select>
-							</div>
-						</div>
-		  			</div>
-		  			<div class="column">
-		    			<div class="control">
-							<span>Categoría</span><br>
-							<div class="select is-rounded">
-								<select name="producto_categoria" >
-									<option value="" selected="" >Seleccione una opción</option>
-									<?php
-									$categorias = con();
-									$categorias = $categorias->query("SELECT * FROM categoria");
-									if($categorias->rowCount()>0){
-										$categorias = $categorias->fetchAll();
-										foreach($categorias as $cat){
-											echo '<option value="'.$cat['categoria_id'].'" >'.$cat['categoria_nombre'].'</option>';
-										}
-									}
-									$categorias=null;
-									?>
-								</select>
-							</div>
-						</div>
-		  			</div>
-				</div>
-				<div class="columns">
-					<div class="column">
-		    			<div class="control">
-							<span>Precio</span>
-				  			<input class="input" type="text" name="producto_precio" pattern="[0-9.]{1,25}" maxlength="25" required >
-						</div>
-		  			</div>
-					<div class="column">
-						<span>IVA</span><br>
-						<div class="select is-rounded">
-							<select name="producto_iva" >
-								<option value="" selected="" >Seleccione una opción</option>
-								<option value="0">0</option>
-								<option value="5">5</option>
-								<option value="10">10</option>
-							</select>
-						</div>
-					</div>
-				</div>
-				<div class="columns">
-					<div class="column">
-						<div class="control">
-							<span>Stock</span>
-							<input class="input" type="text" name="producto_stock" pattern="[0-9]{1,25}" maxlength="25" required >
-						</div>
-					</div>
-					<div class="column">
-						<div class="control">
-							<span>Stock mínimo</span>
-							<input class="input" type="text" name="producto_stock_min" pattern="[0-9]{1,25}" maxlength="25" required >
-						</div>
-					</div>
-				</div>
-				<div class="columns">
-					<div class="column">
-						<span>Foto o imagen del producto</span><br>
-						<div class="file is-small has-name">
-							<label class="file-label">
-								<input class="file-input" type="file" name="producto_foto" accept=".jpg, .png, .jpeg" >
-								<span class="file-cta">
-									<span class="file-label">Imagen</span>
-								</span>
-								<span class="file-name">JPG, JPEG, PNG. (MAX 3MB)</span>
-							</label>
-						</div>
-					</div>
-				</div>
-				<p class="has-text-centered">
-					<button type="submit" class="button is-info is-rounded">Guardar</button>
-				</p>
-			</form>
-		</div>
-	</div>
-</div>
-<div id="modalBuscarProducto" class="modal modal-fx-slideTop">
-	<div class="modal-background"></div>
-	<div class="modal-content">
-		<div class="box">
-			<p class="subtitle has-text-centered mb-2">Buscar producto</p>
-			<p class="control has-icons-left">
-				<input class="input is-rounded mb-3" type="text" name="campo" id="campo" placeholder="¿Qué estas buscando?" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,30}" maxlength="30" autocomplete="off">
-				<span id="lista_productos"></span>
-			</p>
-		</div>
-	</div>
-</div>
+<?php 
+	include("./modal/crear_producto.php");
+	include("./modal/buscar_producto.php");
+?>
+
 <script>
-	function seleccionarProducto(id, nombre, precio, iva) {
-		var cantidadInput = document.querySelector('input[name="cantidad_producto' + id + '"]');
-		var cantidad = cantidadInput.value;
-		if (cantidad > 0) {
-			var total = cantidad * precio;
+	function seleccionarProducto(id, nombre, iva) {
+		const tableBody = document.getElementById('tabla-productos-seleccionados');
+		const row = document.createElement('tr');
 
-			var tablaProductosSeleccionados = document.getElementById('tabla-productos-seleccionados');
-			var fila = document.createElement('tr');
-			fila.innerHTML = 
-							'<td class="has-text-centered">' + id + '</td>' +
-							'<td class="has-text-centered">' + nombre + '</td>' +
-								'<td class="has-text-centered">' + cantidad + '</td>' +
-								'<td class="has-text-centered">' + precio + '</td>' +
-								'<td class="has-text-centered">' + iva + '</td>' +
-								'<td class="has-text-centered">' + total + '</td>' +
-								'<td class="has-text-centered"><button onclick="quitarProducto(this)" class="button is-danger is-outlined is-small is-rounded">Quitar</button></td>';
-			tablaProductosSeleccionados.appendChild(fila);
+		const idInput = document.createElement('input');
+		idInput.type = 'hidden';
+		idInput.name = 'id_producto[]';
+		idInput.value = id;
 
-			var totalCompra = document.getElementById('total-compra');
-			totalCompra.innerHTML = parseInt(totalCompra.innerHTML) + total;
+		const cantidadInput = document.createElement('input');
+		cantidadInput.type = 'number';
+		cantidadInput.className = 'input is-rounded is-small';
+		cantidadInput.name = 'cantidad_producto[]';
+		cantidadInput.min = '1';
+		cantidadInput.required = true;
 
-			cantidadInput.value = "";
-			mostrarColumnaOculta();
+		const precioInput = document.createElement('input');
+		precioInput.type = 'number';
+		precioInput.className = 'input is-rounded is-small';
+		precioInput.name = 'precio_producto[]';
+		precioInput.min = '1';
+		precioInput.step = '1';
+		precioInput.required = true;
+
+		row.innerHTML = `
+		<td>${id}</td>
+        <td>${nombre}</td>
+        <td></td>
+        <td></td>
+		<td>${iva}</td>
+        <td></td>
+		<td class="has-text-centered"><button onclick="quitarProducto(this)" class="button is-danger is-outlined is-small is-rounded">Quitar</button></td>
+      `;
+
+	  	row.cells[0].appendChild(idInput);
+		row.cells[2].appendChild(cantidadInput);
+		row.cells[3].appendChild(precioInput);
+		row.cells[5].innerText = '0';
+
+		tableBody.appendChild(row);
+
+      // Actualizar el total de precio cuando se cambie la cantidad o el precio
+      cantidadInput.addEventListener('input', function () {
+        actualizarTotalPrecio(cantidadInput, precioInput, row.cells[5]);
+		actualizarTotalesIVA();
+      });
+      precioInput.addEventListener('input', function () {
+        actualizarTotalPrecio(cantidadInput, precioInput, row.cells[5]);
+		actualizarTotalesIVA();
+      });
+
+	// Prevenir el envío del formulario al presionar Enter en los campos de cantidad y precio
+	cantidadInput.addEventListener('keydown', function (event) {
+		if (event.key === 'Enter') {
+			event.preventDefault();
 		}
-	}
+	});
+	precioInput.addEventListener('keydown', function (event) {
+		if (event.key === 'Enter') {
+			event.preventDefault();
+		}
+	});
+
+    }
+
+    function actualizarTotalPrecio(cantidadInput, precioInput, totalPrecioCell) {
+      const cantidad = parseInt(cantidadInput.value);
+      const precio = parseInt(precioInput.value);
+
+      const totalPrecio = isNaN(cantidad) || isNaN(precio) ? 0 : cantidad * precio;
+      totalPrecioCell.innerText = totalPrecio;
+    }
+
+    function actualizarTotalesIVA() {
+      const totalGeneralElement = document.getElementById('compra_total');
+      const totalIVA5Element = document.getElementById('total_iva_5');
+      const totalIVA10Element = document.getElementById('total_iva_10');
+      const productosSeleccionados = document.querySelectorAll('#tabla-productos-seleccionados tr');
+      let totalGeneral = 0;
+      let totalIVA5 = 0;
+      let totalIVA10 = 0;
+
+      for (let i = 0; i < productosSeleccionados.length; i++) {
+        const cantidad = parseInt(productosSeleccionados[i].cells[2].querySelector('input').value);
+        const precio = parseInt(productosSeleccionados[i].cells[3].querySelector('input').value);
+        const porcentajeIVA = parseInt(productosSeleccionados[i].cells[4].innerText);
+
+        const totalProducto = isNaN(cantidad) || isNaN(precio) ? 0 : cantidad * precio;
+        totalGeneral += totalProducto;
+
+        if (porcentajeIVA === 5) {
+          totalIVA5 += Math.round(totalProducto / 21);
+        } else if (porcentajeIVA === 10) {
+          totalIVA10 += Math.round(totalProducto / 11);
+        }
+      }
+
+      totalGeneralElement.innerText = totalGeneral;
+      totalIVA5Element.innerText = totalIVA5;
+      totalIVA10Element.innerText = totalIVA10;
+    }
 
 	function seleccionarProv(id, nombre, ruc) {
 		document.getElementById('busca_provee').value = nombre;
@@ -271,24 +248,11 @@
 
 	function quitarProducto(button) {
 		var fila = button.parentNode.parentNode;
-		var totalCompra = document.getElementById('total-compra');
-		totalCompra.innerHTML = parseInt(totalCompra.innerHTML) - parseInt(fila.cells[3].innerHTML);
+		var totalCompra = document.getElementById('compra_total');
+		totalCompra.innerHTML = parseInt(totalCompra.innerHTML) - parseInt(fila.cells[5].innerHTML);
 		fila.remove();
-
-		if (document.getElementById('tabla-productos-seleccionados').rows.length === 1) {
-			ocultarColumnaOculta();
-		}
 	}
 
-	function mostrarColumnaOculta() {
-		var columnaOculta = document.querySelector('.columna-oculta');
-		columnaOculta.classList.remove('hidden');
-	}
-
-	function ocultarColumnaOculta() {
-		var columnaOculta = document.querySelector('.columna-oculta');
-		columnaOculta.classList.add('hidden');
-	}
 
 	function vaciarColumnaOculta() {
 		// Vaciar la tabla de productos seleccionados
@@ -296,7 +260,7 @@
 		vaciarProductosSeleccionados.innerHTML = '<tr><th>Producto</th><th>Cantidad</th><th>Precio Unitario</th><th>IVA</th><th>Total</th><th></th></tr>';
 
 		// Reiniciar el total de venta
-		var totalCompra = document.getElementById('total-compra');
+		var totalCompra = document.getElementById('compra_total');
 		totalCompra.innerHTML = "0";
 		
 		//Reinicar buscador de productos
