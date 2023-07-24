@@ -53,3 +53,7 @@ body,html{
 
     background-color: rgba(86, 86, 87, 0.5);
 }
+
+#modalClienteNuevo {
+    z-index: 41;
+}

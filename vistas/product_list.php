@@ -3,9 +3,9 @@
     <h2 class="subtitle">Lista de productos</h2>
 
     <div class="cartel-stock">
-        <p style="color: limegreen; font-weight:600">Stock verde: alto</p>
-        <p style="color: orange; font-weight:600">Stock amarillo: medio</p>
-        <p style="color: red; font-weight:600">Stock rojo: bajo </p>
+        <p style="color: limegreen; font-weight:600">Stock alto: verde</p>
+        <p style="color: orange; font-weight:600">Stock medio: amarillo</p>
+        <p style="color: red; font-weight:600">Stock bajo: rojo </p>
     </div>
 </div>
 

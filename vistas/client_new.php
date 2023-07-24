@@ -10,13 +10,13 @@
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
-					<label>Nombre</label>
+					<span>Nombre</span>
 				  	<input class="input" type="text" name="cliente_nombre" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ. ]{3,40}" maxlength="40" required autofocus >
 				</div>
 		  	</div>
 			<div class="column">
 		    	<div class="control">
-					<label>RUC</label>
+					<span>RUC</span>
 				  	<input class="input" type="text" name="cliente_ruc" pattern="^[0-9a-zA-Z.\-]{4,12}$" maxlength="11" required >
 				</div>
 		  	</div>
@@ -24,13 +24,13 @@
 		<div class="columns">
 			<div class="column">
 		    	<div class="control">
-					<label>Teléfono</label>
+					<span>Teléfono</span>
 				  	<input class="input" type="text" name="cliente_telefono" pattern="[0-9 -]{6,30}" maxlength="30" >
 				</div>
 		  	</div>
 		  	<div class="column">
 		    	<div class="control">
-					<label>Email</label>
+					<span>Email</span>
 				  	<input class="input" type="email" name="cliente_email" maxlength="70" >
 				</div>
 		  	</div>
@@ -38,20 +38,20 @@
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
-					<label>Dirección</label>
+					<span>Dirección</span>
 				  	<input class="input" type="text" name="cliente_direccion" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ.- ]{3,255}" maxlength="255" >
 				</div>
 		  	</div>
 			<div class="column">
 		    	<div class="control">
-					<label>Contacto</label>
+					<span>Contacto</span>
 				  	<input class="input" type="text" name="cliente_contacto" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{0,40}" maxlength="40" >
 				</div>
 		  	</div>
 		</div>
 		<!-- <div class="columns"> 
 		  	<div class="column">
-			  <label>Estado</label><br>
+			  <span>Estado</span><br>
 					<div class="select">
 						<select name="cliente_estado" required>
 							<option value="" selected="">-- Selecciona estado --</option>

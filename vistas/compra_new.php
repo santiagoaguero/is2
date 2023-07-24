@@ -31,7 +31,7 @@
                             <i class="fas fa-search"></i>
                         </span>
                     </p>
-
+					<input type="hidden" id="prov_id" name="prov_id" value="" required>
                     <span id="lista_proveedores"></span>
                 </div>
 		  	</div>
@@ -54,8 +54,8 @@
 					<div class="select is-rounded">
 						<select name="compra_condicion" required>
 							<option value="" selected="" >Seleccione una opción</option>
-							<option value="0">Contado</option>
-							<option value="1">Crédito</option>
+							<option value="1">Contado</option>
+							<option value="2">Crédito</option>
 						</select>
 					</div>
 				</div>
@@ -241,6 +241,7 @@
     }
 
 	function seleccionarProv(id, nombre, ruc) {
+		document.getElementById('prov_id').value = id;
 		document.getElementById('busca_provee').value = nombre;
 		document.getElementById('provee_ruc').value = ruc;
 		document.getElementById("lista_proveedores").innerHTML = "";
@@ -248,8 +249,19 @@
 
 	function quitarProducto(button) {
 		var fila = button.parentNode.parentNode;
+		var totalProd = parseInt(fila.cells[5].innerHTML);
+		var iva = parseInt(fila.cells[4].innerHTML)
 		var totalCompra = document.getElementById('compra_total');
-		totalCompra.innerHTML = parseInt(totalCompra.innerHTML) - parseInt(fila.cells[5].innerHTML);
+		var totalIva10 = document.getElementById('total_iva_10');
+		var totalIva5 = document.getElementById('total_iva_5');
+		if(iva == 10){
+			totalIva10.innerHTML = parseInt(totalIva10.innerHTML - Math.round(totalProd / 11));
+		} else if (iva == 5){
+			totalIva5.innerHTML = parseInt(totalIva5.innerHTML - Math.round(totalProd / 21));
+		}
+
+		totalCompra.innerHTML = parseInt(totalCompra.innerHTML - totalProd);
+
 		fila.remove();
 	}
 

@@ -1,7 +1,7 @@
-function guardarFactura(event) {
+function guardarPresupuesto(event) {
     event.preventDefault();
 
-    var ruc = document.getElementById('cliente_rucF').value;
+    var ruc = document.getElementById('cliente_rucP').value;
 
     var productosSeleccionados = document.getElementById('tabla-productos-seleccionados').getElementsByTagName('tr');
     var productos = [];
@@ -24,7 +24,7 @@ function guardarFactura(event) {
 
     }
 
-    fetch('./php/guardar_factura.php', {
+    fetch('./php/guardar_presupuesto.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

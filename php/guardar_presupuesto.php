@@ -18,14 +18,14 @@ $cliente_nom = $cliente["cliente_nombre"];
 $cliente_dir = $cliente["cliente_direccion"];
 
 //busca ultimo numero de factura
-$consulta = "SELECT factura_numero FROM facturas ORDER BY factura_numero DESC LIMIT 1";
+$consulta = "SELECT presup_numero FROM presup ORDER BY presup_numero DESC LIMIT 1";
 $resultado = $conexion->query($consulta);
 
 // Verificar si la consulta tuvo resultados
 if ($resultado->rowCount() > 0) {
     // Obtener el número de factura
     $fila = $resultado->fetch();
-    $ultimoNumero = $fila['factura_numero'];
+    $ultimoNumero = $fila['presup_numero'];
     $nuevoNumero = incrementarNumeroFactura($ultimoNumero);
 } else {
     // No se encontraron registros en la tabla
@@ -57,7 +57,7 @@ $usuario_nom = $_SESSION["nombre"]." ".$_SESSION["apellido"];
 $facturaHTML = '
     <html>
     <head>
-        <title>Factura de Venta</title>
+        <title>Presupuesto de Venta</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
         <link rel="stylesheet" href="./css/factura.css">
     </head>
@@ -73,24 +73,17 @@ $facturaHTML = '
         </div>
       </div>
       <div id="project">
-        <div id="timbrado">
-          <div>TIMBRADO: 145145145</div>
-          <div>FECHA INICIO VIGENCIA: 01/01/2023</div>
-          <div>FECHA FIN VIGENCIA: 31/12/2024</div>
-        </div>
 
           <div><strong>RUC:</strong><br />80012345-6</div>
-          <div><strong>FACTURA:</strong><br />'.$nuevoNumero.'</div>
+          <div><strong>PRESUPUESTO:</strong><br />'.$nuevoNumero.'</div>
 
       </div>
     </header>
     <div class="cliente">
       <div>Fecha: '.$fechaES.' </div>
-      <div>Condicion de Venta: Contado</div>
       <div>Nombre: ' . $cliente_nom . '</div>
       <div>RUC: ' . $ruc . '</div>
       <div>Direccion: ' . $cliente_dir . '</div>
-      <div>Nota de remisión:</div>
     </div>
     <main>
       <table>
@@ -176,8 +169,8 @@ $facturaHTML .= '
               <tr>
                 <td colspan="2" style="border: none; background: none;"><p style="color:#C1CED9;">Atendido por: '.$usuario_nom.'</p></td>
                 <td colspan="3" style="border: none; background: none;"></td>
-                <td style="border: none; background: none;"><p style="color:#C1CED9;">Original</p></td>
-                <td style="border: none; background: none;"><p style="color:#C1CED9;">Cliente</p></td>
+                <td style="border: none; background: none;"><p style="color:#C1CED9;">Válido:</p></td>
+                <td style="border: none; background: none;"><p style="color:#C1CED9;">7 días</p></td>
               </tr>
             </tfoot>
 
@@ -186,31 +179,31 @@ $facturaHTML .= '
     </html>';
 
 // Consulta preparada para insertar la nueva factura en la base de datos
-$consultaInsertar = "INSERT INTO facturas (factura_fecha, cliente_id, usuario_id, total_venta, factura_estado, factura_numero) VALUES (:facturaFecha, :clienteId, :usuarioId, :totalVenta, :factura_estado, :factura_numero)";
+$consultaInsertar = "INSERT INTO presup (presup_fecha, cliente_id, usuario_id, total_presup, presup_estado, presup_numero) VALUES (:presupFecha, :clienteId, :usuarioId, :totalPresup, :presup_estado, :presup_numero)";
 
 // Preparar la consulta
 $insertar = $conexion->prepare($consultaInsertar);
 
 // Asignar los valores a los parámetros de la consulta preparada
-$insertar->bindValue(':facturaFecha', $fechaFact);
+$insertar->bindValue(':presupFecha', $fechaFact);
 $insertar->bindValue(':clienteId', $clienteId);
 $insertar->bindValue(':usuarioId', $usuarioId);
-$insertar->bindValue(':totalVenta', $totalVenta);
-$insertar->bindValue(':factura_estado', "1");
-$insertar->bindValue(':factura_numero', $nuevoNumero);
+$insertar->bindValue(':totalPresup', $totalVenta);
+$insertar->bindValue(':presup_estado', "1");
+$insertar->bindValue(':presup_numero', $nuevoNumero);
 
 // Ejecutar la consulta preparada
 if (!$insertar->execute()) {
     // Hubo un error al insertar la cabecera de la factura
-    echo 'Error al guardar la factura: ' . $insertar->errorInfo()[2];
+    echo 'Error al guardar el presupuesto: ' . $insertar->errorInfo()[2];
 }
 // Cerrar el statement
 $insertar = null;
   
 // Consulta para insertar los detalles de los productos en la tabla detalle_factura
-$consultaInsertarDetalle = "INSERT INTO detalle_factura (factura_numero, producto_id, cantidad, precio_venta) VALUES (:factura_numero, :producto_id, :cantidad, :precio)";
+$consultaInsertarDetalle = "INSERT INTO detalle_presup (presup_numero, producto_id, cantidad, precio_venta) VALUES (:presup_numero, :producto_id, :cantidad, :precio)";
 
-$hayError = false;
+$huboErrores = false;
 
 // Preparar la consulta
 $insertar = $conexion->prepare($consultaInsertarDetalle);
@@ -225,7 +218,7 @@ foreach ($productos as $producto) {
     $precio = $producto['precio'];
 
     // Asignar los valores a los parámetros de la consulta preparada
-    $insertar->bindValue(':factura_numero', $nuevoNumero);
+    $insertar->bindValue(':presup_numero', $nuevoNumero);
     $insertar->bindValue(':producto_id', $producto_id);
     $insertar->bindValue(':cantidad', $cantidad);
     $insertar->bindValue(':precio', $precio);
@@ -233,14 +226,14 @@ foreach ($productos as $producto) {
     // Ejecutar la consulta preparada
     if (!$insertar->execute()) {
       // Hubo un error al insertar el detalle del producto
-      $hayError = true;
+      $huboErrores = true;
       break; // Salir del bucle
   }
 }
 // Cerrar el statement
 $insertar=null;
 
-if ($hayError) {
+if ($huboErrores) {
   echo 'Hubo un error al guardar los detalles de los productos.';
 } else {
   echo $facturaHTML;

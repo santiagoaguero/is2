@@ -23,8 +23,18 @@
             });
         }
     });
+    document.addEventListener('DOMContentLoaded', () => {
+        (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+            const $notification = $delete.parentNode;
+
+            $delete.addEventListener('click', () => {
+            $notification.parentNode.removeChild($notification);
+            });
+        });
+    });
 </script>
 <script type="text/javascript" src="https://unpkg.com/bulma-modal-fx/dist/js/modal-fx.min.js"></script>
 <script src="./js/ajax.js"></script>
 <script src="./js/peticiones.js"></script>
 <script src="./js/guardar_factura.js"></script>
+<script src="./js/guardar_presupuesto.js"></script>

@@ -1,0 +1,91 @@
+
+a {
+    color: #5D6975;
+    text-decoration: underline;
+  }
+  
+  body {
+    position: relative;
+    width: 20cm;  
+    margin: 0 auto; 
+    color: #001028;
+    background: #FFFFFF; 
+  }
+  
+  header {
+    display: flex;
+    margin-bottom: 10px;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  #timbrado {
+    margin-bottom: 40px;
+  }
+  
+  #logo {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  #logo img {
+    width: 150px;
+  }
+  
+  #project {
+    float: right;
+  }
+  
+  #company {
+    float: left;
+    text-align: left;
+  }
+  
+  #project div,
+  #company div {
+    white-space: nowrap;        
+  }
+  
+  .cliente {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas de igual tamaño */
+    grid-template-rows: auto auto auto; /* Tres filas automáticas */
+    gap: 10px; /* Espacio entre elementos */
+    padding: 10px; /* Espacio interno del contenedor */
+    border: 1px solid #C1CED9; /* Borde para visualización */
+    border-radius: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .cliente div {
+    padding: 5px; /* Espacio interno de cada celda */
+  }
+  
+  table tbody tr:nth-child(2n-1) td {
+    background: #F5F5F5;
+  
+  }
+  
+  table {
+    width: 100%;
+  }
+  
+  table thead, tbody{
+    text-align: center;
+    border: 1px solid #C1CED9;
+  }
+  
+  table td{
+    border: 1px solid #C1CED9;
+  }
+  
+  table .cabecera{
+    text-align: center;
+    border: 1px solid #C1CED9;
+  }
+  
+  table tfoot{
+    text-align: center;
+    color: bold;
+    border-top: 5px #C1CED9 double;
+  }

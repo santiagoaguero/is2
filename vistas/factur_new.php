@@ -33,45 +33,14 @@
             </table>
             <br>
             <h3>Total de Venta: <span id="total-venta">0</span></h3>
-            <button class="button modal-button is-success is-outlined" data-target="modalCliente">Imprimir Factura</button>
+            <button class="button modal-button is-success is-outlined" data-target="modalFactura">Imprimir Factura</button>
+            <button class="button modal-button is-success is-outlined" data-target="modalPresupuesto">Presupuesto</button>
         </div>
     </div>
-    <div id="modalCliente" class="modal modal-fx-slideTop">
-        <div class="modal-background"></div>
-        <div class="modal-content">
-            <div class="box">
-            <h2 class=" subtitle has-text-centered">Datos del Cliente</h2>
-            <form id="cliente-form" onsubmit="guardarFactura(event)" action="./php/guardar_factura.php" method="POST" class="is-centered">
-                <div class="control">
-                    <input class="input is-rounded mb-2" type="text" name="busca_cliente" id="busca_cliente" placeholder="Razón Social o RUC" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,30}" maxlength="30" autofocus autocomplete="off">
-                    <span id="lista_clientes"></span>
-                </div>
-
-                <div class="field mt-5">
-                <label for="cliente_nombre">Nombre:</label>
-                    <p class="control has-icons-left">
-                        <input class="input" id="cliente_nombre" name="nombre" autocomplete="off" required>
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-user"></i>
-                        </span>
-                    </p>
-                </div>
-                <div class="field">
-                <label for="cliente_ruc">RUC:</label>
-                    <p class="control has-icons-left">
-                        <input class="input" id="cliente_ruc" name="ruc"  autocomplete="off" required>
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-check"></i>
-                        </span>
-                    </p>
-                </div>
-                <div class="field is-grouped is-grouped-centered">
-                    <button type="submit" class="button is-small is-success is-outlined is-rounded">Imprimir Factura</button>
-                </div>
-            </form>
-        </div>
-        </div>
-    </div>
+<?php 
+    include("./modal/cliente.php");
+    include("./modal/presupuesto.php");
+?>
     <script>
         function seleccionarProducto(id, nombre, precio, iva) {
             var cantidadInput = document.querySelector('input[name="cantidad_producto' + id + '"]');
@@ -99,10 +68,16 @@
             }
         }
 
-        function seleccionarCliente(id, nombre, ruc, direccion) {
+        function seleccionarCliente(lista, id, nombre, ruc) {
+            if(lista == "fact"){
+                document.getElementById('cliente_nombreF').value = nombre;
+                document.getElementById('cliente_rucF').value = ruc;
 
-            document.getElementById('cliente_nombre').value = nombre;
-            document.getElementById('cliente_ruc').value = ruc;
+            } else if (lista == "presup"){
+                document.getElementById('cliente_nombreP').value = nombre;
+                document.getElementById('cliente_rucP').value = ruc;
+            }
+
             
         }
 

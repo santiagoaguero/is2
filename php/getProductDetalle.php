@@ -36,7 +36,7 @@ while($row = $buscarProd->fetch(PDO::FETCH_ASSOC)){
                             <tbody>
                                 <tr>
 
-                                <td><input class="input is-rounded" type="number" name="cantidad_producto'.$row["producto_id"].'" min="1" placeholder="Cantidad"></td>
+                                <td><input class="input is-rounded" type="number" name="cantidad_producto'.$row["producto_id"].'" min="1" max="999" placeholder="Cantidad"></td>
                                 
                                 <td><input name="agregar" type="button" value="Agregar" onclick="seleccionarProducto(\''.$row["producto_id"].'\', \''.$row["producto_nombre"].'\', \''.$row["producto_precio"].'\', \''.$row["producto_iva"].'\') " class="button is-success is-rounded"></input></td>
                             </tr>

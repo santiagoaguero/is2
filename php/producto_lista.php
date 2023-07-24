@@ -71,6 +71,10 @@ if($total>=1 && $pagina <= $Npaginas){
                             //stock mayor al doble del minimo 
                             if($product["producto_stock"] < $product["producto_stock_min"]){
                                 $tabla.='
+                                <div class="notification is-danger is-light">
+                                    <button class="delete"></button>
+                                    Stock menor al mínimo, se recomienda reabastecer producto.
+                                </div>
                                 <strong style="color: red">STOCK:</strong> '.$product["producto_stock"].' -
                                 <strong>STOCK MIN:</strong> '.$product["producto_stock_min"].' - ';
                             }

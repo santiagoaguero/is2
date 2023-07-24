@@ -9,8 +9,9 @@ if (vista === 'compra_new') {
   document.getElementById("campo").addEventListener("keyup", getProductCompras);
 } else {
   document.getElementById("campo").addEventListener("keyup", getProduct);
-  document.getElementById("busca_cliente").addEventListener("keyup", getClient);
-}
+  document.getElementById("busca_clienteF").addEventListener("keyup", getClientF);
+  document.getElementById("busca_clienteP").addEventListener("keyup", getClientP);
+}//no puede haber 2 id iguales aunque sean modales
 
 function getProduct(){
     let inputCp = document.getElementById("campo").value;
@@ -39,15 +40,44 @@ function getProduct(){
     }
 }
 
-function getClient(){
-    let inputCp = document.getElementById("busca_cliente").value;
-    let lista = document.getElementById("lista_clientes");
+function getClientF(){
+    let inputCp = document.getElementById("busca_clienteF").value;
+    console.log("factura->",inputCp);
+    let lista = document.getElementById("lista_clientesF");
 
     if(inputCp.length > 0){
 
         let url = "./php/getClientesFactura.php";
         let formData = new FormData();
-        formData.append("busca_cliente", inputCp);
+        formData.append("busca_clienteF", inputCp);
+
+        fetch(url, {
+            method: "POST",
+            body: formData,
+            mode: "cors"
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            lista.innerHTML = data;
+
+        })
+        .catch(err=> console.log("catch->",err));
+    } else {
+        lista.innerHTML = '';
+    }
+}
+
+function getClientP(){
+    let inputCp = document.getElementById("busca_clienteP").value;
+    console.log("presup->",inputCp);
+    let lista = document.getElementById("lista_clientesP");
+
+    if(inputCp.length > 0){
+
+        let url = "./php/getClientesFactura.php";
+        let formData = new FormData();
+        formData.append("busca_clienteP", inputCp);
 
         fetch(url, {
             method: "POST",
