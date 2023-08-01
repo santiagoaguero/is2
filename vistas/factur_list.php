@@ -1,3 +1,14 @@
+<?php // Verificar los permisos del usuario para esta página
+	include("./inc/check_rol.php");
+	if (isset($_SESSION['rol']) && isset($_GET['vista'])) {
+		$vistaSolicitada = $_GET['vista'];
+		$rolUsuario = $_SESSION['rol'];
+	
+		check_rol($vistaSolicitada, $rolUsuario);
+		
+	}
+?>
+
 <div class="container is-fluid mb-6">
     <h1 class="title">Facturas</h1>
     <h2 class="subtitle">Lista de facturas</h2>

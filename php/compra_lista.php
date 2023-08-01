@@ -3,19 +3,19 @@ $inicio = ($pagina>0) ? (($registros*$pagina)-$registros): 0;
 
 $tabla = "";
 
-$campos = "facturas.factura_fecha, facturas.factura_numero, facturas.total_venta, facturas.factura_estado, clientes.cliente_nombre, clientes.cliente_ruc";
+$campos = "compras.compra_id, compras.compra_fecha, compras.compra_factura, compras.compra_total, compras.compra_condicion, compras.compra_estado, proveedor.prov_nombre, proveedor.prov_ruc";
 
 
-if(isset($busqueda) && $busqueda != ""){//busqueda especifica por numero fact o nombre cliente
-    $consulta_datos = "SELECT $campos FROM facturas INNER JOIN clientes ON facturas.cliente_id = clientes.cliente_id WHERE facturas.factura_numero LIKE '%$busqueda%' OR clientes.cliente_nombre LIKE '%$busqueda%' ORDER BY facturas.factura_fecha DESC LIMIT $inicio, $registros";
+if(isset($busqueda) && $busqueda != ""){//busqueda especifica por numero fact o nombre proveedor
+    $consulta_datos = "SELECT $campos FROM compras INNER JOIN proveedor ON compras.prov_id = proveedor.prov_id WHERE compras.compra_factura LIKE '%$busqueda%' OR proveedor.prov_nombre LIKE '%$busqueda%' ORDER BY compras.compra_fecha DESC LIMIT $inicio, $registros";
 
-    $consulta_total = "SELECT COUNT(factura_numero) FROM facturas INNER JOIN clientes ON facturas.cliente_id = clientes.cliente_id WHERE facturas.factura_numero LIKE '%$busqueda%' OR clientes.cliente_nombre LIKE '%$busqueda%'";
+    $consulta_total = "SELECT COUNT(compra_factura) FROM compras INNER JOIN proveedor ON compras.prov_id = proveedor.prov_id WHERE compras.compra_factura LIKE '%$busqueda%' OR proveedor.prov_nombre LIKE '%$busqueda%'";
 
 }
 else {//busqueda total facturas
-    $consulta_datos = "SELECT $campos FROM facturas INNER JOIN clientes ON facturas.cliente_id = clientes.cliente_id ORDER BY facturas.factura_fecha DESC LIMIT $inicio, $registros";
+    $consulta_datos = "SELECT $campos FROM compras INNER JOIN proveedor ON compras.prov_id = proveedor.prov_id ORDER BY compras.compra_fecha DESC LIMIT $inicio, $registros";
 
-     $consulta_total = "SELECT COUNT(factura_numero) FROM facturas";
+     $consulta_total = "SELECT COUNT(compra_factura) FROM compras";
 }
 
 $conexion=con();
@@ -26,7 +26,7 @@ $datos = $datos->fetchAll();
 $total = $conexion->query($consulta_total);
 $total = (int)$total->fetchColumn();//fetch una unica columna
 //cantidad paginas para mostrar
-$Npaginas = ceil($total/$registros);//redonde hacia arriba
+$Npaginas = ceil($total/$registros);//redondea hacia arriba
 
 $tabla.='
     <div class="table-container">
@@ -36,10 +36,10 @@ $tabla.='
                     <th class="has-text-centered">#</th>
                     <th class="has-text-centered">Fecha</th>
                     <th class="has-text-centered">Factura</th>
-                    <th class="has-text-centered">Total Venta</th>
+                    <th class="has-text-centered">Total Compra</th>
                     <th class="has-text-centered">RUC</th>
-                    <th class="has-text-centered">Cliente</th>
-                    <th class="has-text-centered">Estado</th>
+                    <th class="has-text-centered">Proveedor</th>
+                    <th class="has-text-centered">Condición</th>
                     <th colspan="2" class="has-text-centered">Opciones</th>
                 </tr>
             </thead>
@@ -53,26 +53,26 @@ if($total>=1 && $pagina <= $Npaginas){
     $pag_inicio=$inicio+1;//ej: mostrando usuario 1 al 7
 
     foreach($datos as $fact){
-        $precio_entero = number_format($fact["total_venta"], 0, ',', '.');//format precio
-        $fecha_obj = new DateTime($fact["factura_fecha"]);//format fecha
+        $precio_entero = number_format($fact["compra_total"], 0, ',', '.');//format precio
+        $fecha_obj = new DateTime($fact["compra_fecha"]);//format fecha
         $fechaES = $fecha_obj->format('d-m-Y');
         $tabla.='
                 <tr class="has-text-centered" >
                     <td>'.$contador.'</td>
                     <td>'.$fechaES.'</td>
-                    <td>'.$fact["factura_numero"].'</td>
+                    <td>'.$fact["compra_factura"].'</td>
                     <td>'.$precio_entero.'</td>
-                    <td>'.$fact["cliente_ruc"].'</td>
-                    <td>'.$fact["cliente_nombre"].'</td>';
-                    $estado = $fact["factura_estado"] == 1 ? "Activo" : "Anulado";
-                    $btnEstado = $fact["factura_estado"] == 1 ? 
-                    '<a href='.$url.$pagina.'&fact_nro='.$fact["factura_numero"].' class="button is-danger is-rounded is-small btnDanger">Anular</a>' : 
+                    <td>'.$fact["prov_ruc"].'</td>
+                    <td>'.$fact["prov_nombre"].'</td>';
+                    $estado = $fact["compra_condicion"] == 1 ? "Contado" : "Crédito";
+                    $btnEstado = $fact["compra_estado"] == 1 ? 
+                    '<a href='.$url.$pagina.'&id='.$fact["compra_id"].' class="button is-danger is-rounded is-small btnDanger">Anular</a>' : 
                     '<a href="#" class="button is-danger is-rounded is-small is-outlined">Anulado</a>
                     ';
         $tabla.='   
                     <td>'.$estado.'</td>
                     <td>
-                        <a href="index.php?vista=factur_det&fact_nro='.$fact["factura_numero"].'" class="button is-success is-rounded is-small">Ver detalle</a>
+                        <a href="index.php?vista=compra_det&id='.$fact["compra_id"].'&nro='.$fact["compra_factura"].'" class="button is-success is-rounded is-small">Ver detalle</a>
                     </td>
                     <td>
                         '.$btnEstado.'

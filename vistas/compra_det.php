@@ -12,34 +12,38 @@
     }
 ?>
 <div class="container is-fluid mb-6 ">
-    <h1 class="title">Factura</h1>
+    <h1 class="title">Compra</h1>
     <?php 
         require("./php/main.php");
-        $numero = $_GET["fact_nro"];
+        $numero = $_GET["nro"];
+        $id = $_GET["id"];
         echo '<h2 class="subtitle">'.$numero.'</h2>';
         echo '<div class="box pb-6 pt-0 ">';
         include("./inc/btn_back.php");
         $factura = con();
-        $sql = "SELECT facturas.factura_fecha, facturas.factura_estado, clientes.cliente_nombre, clientes.cliente_ruc, clientes.cliente_direccion, usuario.usuario_nombre, usuario.usuario_apellido FROM facturas INNER JOIN clientes ON facturas.cliente_id = clientes.cliente_id INNER JOIN usuario ON facturas.usuario_id = usuario.usuario_id WHERE facturas.factura_numero = '$numero' ORDER BY facturas.factura_fecha DESC";
+        $sql = "SELECT compras.compra_id, compras.compra_fecha, compras.compra_condicion, compras.compra_estado, proveedor.prov_nombre, proveedor.prov_ruc, proveedor.prov_direccion, usuario.usuario_nombre, usuario.usuario_apellido FROM compras INNER JOIN proveedor ON compras.prov_id = proveedor.prov_id INNER JOIN usuario ON compras.usuario_id = usuario.usuario_id WHERE compras.compra_id = '$id' ORDER BY compras.compra_fecha DESC";
         $factura = $factura->query($sql);
         if($factura->rowCount()>0){
             $factura = $factura->fetchAll();
             foreach($factura as $fact){
                 //$precio_entero = number_format($fact["total_venta"], 0, ',', '.');//format precio
-                $fecha_obj = new DateTime($fact["factura_fecha"]);//format fecha
+                $fecha_obj = new DateTime($fact["compra_fecha"]);//format fecha
                 $fechaES = $fecha_obj->format('d-m-Y');
                 $usuario_nom = $fact["usuario_nombre"]. " " . $fact["usuario_apellido"];
-                $estado = $fact["factura_estado"] == 0 ? "Anulado" : "";
-                echo '<p class="subtitle has-text-centered"
-                       style="text-transform: uppercase; color: red; font-weight: bold; font-size:40px";>'.$estado.'</p>
-                    <div class="fact-detalle">
-                        <div><span style="font-weight: bolder">Fecha:</span> '.$fechaES.' </div>
-                        <div><span style="font-weight: bolder">Condición de Venta:</span> Contado</div>
-                        <div><span style="font-weight: bolder">Nombre:</span> ' . $fact["cliente_nombre"] . '</div>
-                        <div><span style="font-weight: bolder">RUC:</span> ' . $fact["cliente_ruc"] . '</div>
-                        <div><span style="font-weight: bolder">Dirección:</span> ' . $fact["cliente_direccion"] . '</div>
-                        <div><span style="font-weight: bolder">Nota de remisión:</span></div>
-                    </div>';
+                $estado = $fact["compra_estado"] == 0 ? "Anulado" : "";
+                $condicion = $fact["compra_condicion"] == 1 ? "Contado" : "Crédito";
+                echo '
+                        <p class="subtitle has-text-centered"
+                        style="text-transform: uppercase; color: red; font-weight: bold; font-size:40px";>'.$estado.'</p>
+                        <div class="fact-detalle">
+                            <div><span style="font-weight: bolder">Fecha:</span> '.$fechaES.' </div>
+                            <div><span style="font-weight: bolder">Condición de Compra: </span>'.$condicion.'</div>
+                            <div><span style="font-weight: bolder">Proveedor:</span> ' . $fact["prov_nombre"] . '</div>
+                            <div><span style="font-weight: bolder">RUC:</span> ' . $fact["prov_ruc"] . '</div>
+                            <div><span style="font-weight: bolder">Dirección:</span> ' . $fact["prov_direccion"] . '</div>
+                            <div><span style="font-weight: bolder">Nota de crédito:</span></div>
+                        </div>
+                    ';
                 }
                 $factura=null;
                 echo'
@@ -59,7 +63,7 @@
                   <tbody>';
 
                 $productos = con();
-                $sql = "SELECT producto.producto_id, producto.producto_nombre, producto.producto_iva, detalle_factura.cantidad, detalle_factura.precio_venta FROM detalle_factura INNER JOIN producto ON detalle_factura.producto_id = producto.producto_id WHERE detalle_factura.factura_numero = '$numero'";
+                $sql = "SELECT producto.producto_id, producto.producto_nombre, producto.producto_iva, compras_detalle.cantidad, compras_detalle.precio_compra FROM compras_detalle INNER JOIN producto ON compras_detalle.producto_id = producto.producto_id WHERE compras_detalle.compra_id = '$id'";
                 $productos = $productos->query($sql);
                 if($productos->rowCount()>0){
                     $productos = $productos->fetchAll();
@@ -67,14 +71,14 @@
                     $totalIva5 = 0;
                     $totalIva10 = 0;
                     foreach($productos as $producto){
-                        $precioIva = $producto["precio_venta"] * $producto["cantidad"];
+                        $precioIva = $producto["precio_compra"] * $producto["cantidad"];
                         //$precio_entero = number_format($fact["total_venta"], 0, ',', '.');//format precio
                         echo '
                         <tr>
                         <td>'.$producto['producto_id'].'</td>
                         <td>'.$producto['producto_nombre'].'</td>
                         <td>'.$producto['cantidad'].'</td>
-                        <td>'.$producto['precio_venta'].'</td>';
+                        <td>'.$producto['precio_compra'].'</td>';
                         switch($producto['producto_iva']){
                           case 10:
                             $totalIva10 += $precioIva;
@@ -133,7 +137,7 @@
                             <td colspan="5">' . $totalVentaES . '</td>
                         </tr>
                         <tr>
-                            <td colspan="2" style="border: none; background: none;"><p style="color:#C1CED9;">Atendido por: '.$usuario_nom.'</p></td>
+                            <td colspan="2" style="border: none; background: none;"><p style="color:#C1CED9;">Registrado por: '.$usuario_nom.'</p></td>
                         </tr>
                         </tfoot>
 
@@ -141,4 +145,8 @@
                         $productos=null;
                 }
 
-        } else {echo "NO";}
+        } else {
+            echo "NO";
+        }
+    ?>
+</div>

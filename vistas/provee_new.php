@@ -1,3 +1,16 @@
+<?php // Verificar los permisos del usuario para esta página
+	include("./inc/check_rol.php");
+	if (isset($_SESSION['rol']) && isset($_GET['vista'])) {
+		$vistaSolicitada = $_GET['vista'];
+		$rolUsuario = $_SESSION['rol'];
+	
+		check_rol($vistaSolicitada, $rolUsuario);
+		
+	} else {
+        header("Location: login.php");
+        exit();
+    }
+?>
 <div class="container is-fluid mb-6">
 	<h1 class="title">Proveedores</h1>
 	<h2 class="subtitle">Nuevo proveedor</h2>
@@ -10,13 +23,13 @@
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
-					<label>Nombre</label>
-				  	<input class="input" type="text" name="provee_nombre" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ. ]{3,40}" maxlength="40" required autofocus >
+					<span>Nombre</span>
+				  	<input class="input" type="text" name="provee_nombre" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ&. ]{3,40}" maxlength="40" required autofocus >
 				</div>
 		  	</div>
 			  <div class="column">
 				<div class="control">
-					<label>RUC</label>
+					<span>RUC</span>
 					  <input class="input" type="text" name="provee_ruc" pattern="[a-zA-Z0-9.-]{4,12}" maxlength="11" required >
 				</div>
 			  </div>
@@ -24,20 +37,20 @@
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
-					<label>Teléfono</label>
+					<span>Teléfono</span>
 				  	<input class="input" type="text" name="provee_telefono" pattern="[0-9- ]{6,30}" maxlength="30" required>
 				</div>
 		  	</div>
 		  	<div class="column">
 		    	<div class="control">
-					<label>Dirección</label>
+					<span>Dirección</span>
 				  	<input class="input" type="text" name="provee_direccion" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ.- ]{3,255}" maxlength="255" >
 				</div>
 		  	</div>
 		</div>
 		<!-- <div class="columns"> 
 		  	<div class="column">
-			  <label>Estado</label><br>
+			  <span>Estado</span><br>
 					<div class="select">
 						<select name="cliente_estado" required>
 							<option value="" selected="">-- Selecciona estado --</option>

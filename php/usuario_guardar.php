@@ -5,6 +5,7 @@ require_once("main.php");
 $nombre=limpiar_cadena($_POST["usuario_nombre"]);
 $apellido=limpiar_cadena($_POST["usuario_apellido"]);
 $usuario=limpiar_cadena($_POST["usuario_usuario"]);
+$rol=limpiar_cadena($_POST["usuario_rol"]);
 $email=limpiar_cadena($_POST["usuario_email"]);
 $clave_1=limpiar_cadena($_POST["usuario_clave_1"]);
 $clave_2=limpiar_cadena($_POST["usuario_clave_2"]);
@@ -82,6 +83,11 @@ if($email != ""){
     }
 }
 
+//if doesnt set rol, auto-set to 3-Vendedor
+if($rol == ""){
+    $rol = '3';
+}
+
 //verifica usuario unico
 $check_usuario=con();
 //query: inserta la consulta directo a la bd
@@ -115,12 +121,12 @@ if($clave_1 != $clave_2){
 $guardar_usuario = con();
 //prepare: prepara la consulta antes de insertar directo a la bd. variables sin comillas ni $
 $guardar_usuario = $guardar_usuario->prepare("INSERT INTO
-    usuario(usuario_nombre, usuario_apellido, usuario_usuario, usuario_email, usuario_clave)
-    VALUES(:nombre, :apellido, :usuario, :email, :clave)");
+    usuario(usuario_nombre, usuario_apellido, usuario_usuario, usuario_email, usuario_clave, rol_id)
+    VALUES(:nombre, :apellido, :usuario, :email, :clave, :rol)");
 
 //evitando inyecciones sql xss
 $marcadores=[
-    ":nombre"=>$nombre, ":apellido"=>$apellido, ":usuario"=>$usuario, ":email"=>$email, ":clave"=>$clave];
+    ":nombre"=>$nombre, ":apellido"=>$apellido, ":usuario"=>$usuario, ":email"=>$email, ":clave"=>$clave, ":rol"=>$rol];
 
 $guardar_usuario->execute($marcadores);
 

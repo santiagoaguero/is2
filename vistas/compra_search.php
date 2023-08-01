@@ -12,8 +12,8 @@
     }
 ?>
 <div class="container is-fluid mb-6">
-    <h1 class="title">Clientes</h1>
-    <h2 class="subtitle">Buscar cliente</h2>
+    <h1 class="title">Compras</h1>
+    <h2 class="subtitle">Buscar compra</h2>
 </div>
 
 <div class="container pb-6 pt-6">
@@ -25,7 +25,7 @@
 
     }
 
-    if(!isset($_SESSION["busqueda_cliente"]) && empty($_SESSION["busqueda_cliente"]) ){
+    if(!isset($_SESSION["busqueda_compra"]) && empty($_SESSION["busqueda_compra"]) ){
 
 
 ?>
@@ -33,10 +33,10 @@
     <div class="columns">
         <div class="column">
             <form action="" method="POST" autocomplete="off" >
-                <input type="hidden" name="modulo_buscador" value="cliente">   
+                <input type="hidden" name="modulo_buscador" value="compra">   
                 <div class="field is-grouped">
                     <p class="control is-expanded">
-                        <input class="input is-rounded" type="text" name="txt_buscador" placeholder="¿Qué estas buscando?" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,30}" maxlength="30" autofocus >
+                        <input class="input is-rounded" type="text" name="txt_buscador" placeholder="¿Qué estas buscando?" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ -]{1,30}" maxlength="30" autofocus >
                     </p>
                     <p class="control">
                         <button class="button is-info is-rounded" type="submit" >Buscar</button>
@@ -51,9 +51,9 @@
     <div class="columns">
         <div class="column">
             <form class="has-text-centered mt-6 mb-6" action="" method="POST" autocomplete="off" >
-                <input type="hidden" name="modulo_buscador" value="cliente"> 
-                <input type="hidden" name="eliminar_buscador" value="cliente">
-                <p>Estas buscando <strong><?php echo $_SESSION["busqueda_cliente"]; ?></strong></p>
+                <input type="hidden" name="modulo_buscador" value="compra"> 
+                <input type="hidden" name="eliminar_buscador" value="compra">
+                <p>Estas buscando <strong><?php echo $_SESSION["busqueda_compra"]; ?></strong></p>
                 <br>
                 <button type="submit" class="button is-danger is-rounded">Eliminar busqueda</button>
             </form>
@@ -61,8 +61,8 @@
     </div>
     <?php
     
-        if(isset($_GET["client_id_del"])){
-            require_once("./php/cliente_eliminar.php");
+        if(isset($_GET["id"])){
+            require_once("./php/compra_anular.php");
         }
 
         if(!isset($_GET["page"])){
@@ -75,11 +75,11 @@
         }
     
         $pagina = limpiar_cadena($pagina);
-        $url= "index.php?vista=client_search&page=";
+        $url= "index.php?vista=compra_search&page=";
         $registros=10;//cantidad de registros por pagina
-        $busqueda=$_SESSION['busqueda_cliente'];//de usuarios
+        $busqueda=$_SESSION['busqueda_compra'];//de facturas
 
-        require_once("./php/cliente_lista.php");
+        require_once("./php/compra_lista.php");
 
         }//line 33
     ?>

@@ -2,8 +2,9 @@
 $inicio = ($pagina>0) ? (($registros*$pagina)-$registros): 0;
 $tabla = "";
 
+$campos = 'usuario.usuario_id, usuario.usuario_nombre, usuario.usuario_apellido, usuario.usuario_usuario, usuario.usuario_email, rol.rol_nombre';
 if(isset($busqueda) && $busqueda != ""){//busqueda especifica por nombre, apellido, usuario o email
-    $consulta_datos = "SELECT * FROM usuario WHERE
+    $consulta_datos = "SELECT $campos FROM usuario INNER JOIN rol ON usuario.rol_id = rol.rol_id WHERE
     ((usuario_id != '".$_SESSION["id"]."') AND (usuario_nombre LIKE '%$busqueda%' OR usuario_apellido LIKE '%$busqueda%' OR usuario_usuario LIKE '%$busqueda%' OR usuario_email LIKE '%$busqueda%')) ORDER BY usuario_nombre ASC LIMIT $inicio, $registros";
 
     $consulta_total = "SELECT COUNT(usuario_id) FROM usuario WHERE
@@ -11,7 +12,7 @@ if(isset($busqueda) && $busqueda != ""){//busqueda especifica por nombre, apelli
 
 } else {//busqueda total usuarios
     //mostrar todos menos el usuario que inicio sesion
-    $consulta_datos = "SELECT * FROM usuario WHERE
+    $consulta_datos = "SELECT $campos FROM usuario INNER JOIN rol ON usuario.rol_id = rol.rol_id WHERE
      usuario_id != '".$_SESSION["id"]."' ORDER BY usuario_nombre ASC LIMIT $inicio, $registros";
 
      $consulta_total = "SELECT COUNT(usuario_id) FROM usuario WHERE
@@ -33,12 +34,13 @@ $tabla.='
     <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
         <thead>
             <tr class="has-text-centered">
-                <th>#</th>
-                <th>Nombres</th>
-                <th>Apellidos</th>
-                <th>Usuario</th>
-                <th>Email</th>
-                <th colspan="2">Opciones</th>
+                <th class="has-text-centered">#</th>
+                <th class="has-text-centered">Nombres</th>
+                <th class="has-text-centered">Apellidos</th>
+                <th class="has-text-centered">Usuario</th>
+                <th class="has-text-centered">Email</th>
+                <th class="has-text-centered">Cargo</th>
+                <th class="has-text-centered" colspan="2">Opciones</th>
             </tr>
         </thead>
         <tbody>
@@ -58,6 +60,7 @@ if($total>=1 && $pagina <= $Npaginas){
                 <td>'.$user["usuario_apellido"].'</td>
                 <td>'.$user["usuario_usuario"].'</td>
                 <td>'.$user["usuario_email"].'</td>
+                <td>'.$user["rol_nombre"].'</td>
                 <td>
                     <a href="index.php?vista=user_update&user_id_upd='.$user["usuario_id"].'" class="button is-success is-rounded is-small">Actualizar</a>
                 </td>

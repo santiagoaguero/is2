@@ -1,8 +1,24 @@
+<?php // Verificar los permisos del usuario para esta página
+	include("./inc/check_rol.php");
+	if (isset($_SESSION['rol']) && isset($_GET['vista'])) {
+		$vistaSolicitada = $_GET['vista'];
+		$rolUsuario = $_SESSION['rol'];
+	
+		check_rol($vistaSolicitada, $rolUsuario);
+		
+	} else {
+        header("Location: login.php");
+        exit();
+    }
+?>
 <div class="container is-fluid mb-6">
 	<h1 class="title">Usuarios</h1>
 	<h2 class="subtitle">Nuevo usuario</h2>
 </div>
 <div class="container pb-6 pt-6">
+<?php 
+    require_once("./php/main.php");
+?>
 
 	 <div class="form-rest mb-6 mt-6"></div><!--to show notifications -->
 
@@ -10,13 +26,13 @@
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
-					<label>Nombres</label>
+					<span>Nombres</span>
 				  	<input class="input" type="text" name="usuario_nombre" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{3,40}" maxlength="40" required autofocus >
 				</div>
 		  	</div>
 		  	<div class="column">
 		    	<div class="control">
-					<label>Apellidos</label>
+					<span>Apellidos</span>
 				  	<input class="input" type="text" name="usuario_apellido" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{3,40}" maxlength="40" required >
 				</div>
 		  	</div>
@@ -24,13 +40,32 @@
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
-					<label>Usuario</label>
+					<span>Usuario</span>
 				  	<input class="input" type="text" name="usuario_usuario" pattern="[a-zA-Z0-9]{4,20}" maxlength="20" required >
+				</div>
+		  	</div>
+			<div class="column is-narrow">
+				<span>Rol</span><br>
+		    	<div class="select is-rounded">
+				  	<select name="usuario_rol" >
+				    	<option value="" selected="" >Seleccione una opción</option>
+                        <?php
+                        $rol = con();
+                        $rol = $rol->query("SELECT * FROM rol");
+                        if($rol->rowCount()>0){
+                            $rol = $rol->fetchAll();
+                            foreach($rol as $cat){
+                                echo '<option value="'.$cat['rol_id'].'" >'.$cat['rol_nombre'].'</option>';
+                            }
+                        }
+                        $rol=null;
+                        ?>
+				  	</select>
 				</div>
 		  	</div>
 		  	<div class="column">
 		    	<div class="control">
-					<label>Email</label>
+					<span>Email</span>
 				  	<input class="input" type="email" name="usuario_email" maxlength="70" >
 				</div>
 		  	</div>
@@ -38,13 +73,13 @@
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
-					<label>Clave</label>
+					<span>Clave</span>
 				  	<input class="input" type="password" name="usuario_clave_1" pattern="[a-zA-Z0-9$@.-]{7,100}" maxlength="100" required >
 				</div>
 		  	</div>
 		  	<div class="column">
 		    	<div class="control">
-					<label>Repetir clave</label>
+					<span>Repetir clave</span>
 				  	<input class="input" type="password" name="usuario_clave_2" pattern="[a-zA-Z0-9$@.-]{7,100}" maxlength="100" required >
 				</div>
 		  	</div>

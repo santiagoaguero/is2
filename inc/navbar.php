@@ -11,6 +11,7 @@
   </div>
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
+    <?php if ($_SESSION['rol'] === 1 || $_SESSION['rol'] === 2 ): ?>
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">Facturas</a>
         <div class="navbar-dropdown">
@@ -78,6 +79,24 @@
               <a class="navbar-item" href="index.php?vista=compra_report">Solicitar</a>
           </div>
       </div>
+      <?php elseif ($_SESSION['rol'] === 3): ?>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">Facturas</a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="index.php?vista=factur_new">Nuevo</a>
+          <a class="navbar-item" href="index.php?vista=factur_list">Lista</a>
+          <a class="navbar-item" href="index.php?vista=factur_search">Buscar</a>
+        </div>
+      </div>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">Clientes</a>
+        <div class="navbar-dropdown">
+            <a class="navbar-item" href="index.php?vista=client_new">Nuevo</a>
+            <a class="navbar-item" href="index.php?vista=client_list">Lista</a>
+            <a class="navbar-item" href="index.php?vista=client_search">Buscar</a>
+        </div>
+      </div>
+      <?php endif; ?>
     </div>
     <div class="navbar-end">
       <div class="navbar-item">
@@ -91,5 +110,6 @@
         </div>
       </div>
     </div>
+
   </div>
 </nav>

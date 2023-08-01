@@ -83,6 +83,7 @@ $check_admin=null;
 $nombre=limpiar_cadena($_POST["usuario_nombre"]);
 $apellido=limpiar_cadena($_POST["usuario_apellido"]);
 $usuario=limpiar_cadena($_POST["usuario_usuario"]);
+$rol=limpiar_cadena($_POST["usuario_rol"]);
 $email=limpiar_cadena($_POST["usuario_email"]);
 $clave_1=limpiar_cadena($_POST["usuario_clave_1"]);
 $clave_2=limpiar_cadena($_POST["usuario_clave_2"]);
@@ -170,6 +171,23 @@ if($usuario != $datos["usuario_usuario"]){
     $check_usuario=null;//close db connection
 }
 
+//verifica rol exista 
+if($rol != $datos["rol_id"]){
+    $check_rol=con();
+    $check_rol=$check_rol->query("SELECT rol_id FROM rol 
+    WHERE rol_id = '$rol'");//checks if rol exists
+    if($check_rol->rowCount()<=0){//categorias found
+        echo '
+        <div class="notification is-danger is-light">
+            <strong>¡Ocurrió un error inesperado!</strong><br>
+            El rol seleccionado no existe.
+        </div>';
+        exit();
+    }
+    $check_rol=null;//close db connection
+}
+
+
 //claves coincidan
 if($clave_1 != "" || $clave_2 != ""){
     if(verificar_datos("[a-zA-Z0-9$@.-]{7,100}",$clave_1) || verificar_datos("[a-zA-Z0-9$@.-]{7,100}",$clave_2) ){
@@ -198,11 +216,11 @@ if($clave_1 != "" || $clave_2 != ""){
 //Actualizando datos
 $actualizar_usuario = con();
 $actualizar_usuario = $actualizar_usuario->prepare("UPDATE usuario SET 
-usuario_nombre = :nombre,usuario_apellido = :apellido, usuario_usuario = :usuario, usuario_clave = :clave, usuario_email = :email WHERE usuario_id = :id");
+usuario_nombre = :nombre,usuario_apellido = :apellido, usuario_usuario = :usuario, usuario_clave = :clave, usuario_email = :email, rol_id = :rol WHERE usuario_id = :id");
 
 //evitando inyecciones sql xss
 $marcadores=[
-    ":nombre"=>$nombre, ":apellido"=>$apellido, ":usuario"=>$usuario, ":email"=>$email, ":clave"=>$clave, ":id"=>$id];
+    ":nombre"=>$nombre, ":apellido"=>$apellido, ":usuario"=>$usuario, ":email"=>$email, ":clave"=>$clave, ":rol"=>$rol, ":id"=>$id];
 
 ;
 

@@ -3,6 +3,18 @@
 
     $id=(isset($_GET["user_id_upd"])) ? $_GET["user_id_upd"] : 0;
     $id=limpiar_cadena($id);
+	// Verificar los permisos del usuario para esta página
+	include("./inc/check_rol.php");
+	if (isset($_SESSION['rol']) && isset($_GET['vista'])) {
+		$vistaSolicitada = $_GET['vista'];
+		$rolUsuario = $_SESSION['rol'];
+	
+		check_rol($vistaSolicitada, $rolUsuario);
+		
+	} else {
+        header("Location: login.php");
+        exit();
+    }
 ?>
 
 <div class="container is-fluid mb-6">
@@ -40,13 +52,13 @@
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
-					<label>Nombres</label>
+					<span>Nombres</span>
 				  	<input class="input" type="text" value="<?php echo $datos["usuario_nombre"];?>" name="usuario_nombre" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}" maxlength="40" required >
 				</div>
 		  	</div>
 		  	<div class="column">
 		    	<div class="control">
-					<label>Apellidos</label>
+					<span>Apellidos</span>
 				  	<input class="input" type="text" value="<?php echo $datos["usuario_apellido"];?>" name="usuario_apellido" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}" maxlength="40" required >
 				</div>
 		  	</div>
@@ -54,13 +66,37 @@
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
-					<label>Usuario</label>
+					<span>Usuario</span>
 				  	<input class="input" type="text" value="<?php echo $datos["usuario_usuario"];?>" name="usuario_usuario" pattern="[a-zA-Z0-9]{4,20}" maxlength="20" required >
+				</div>
+		  	</div>
+			<div class="column is-narrow">
+				<span>Rol</span><br>
+		    	<div class="select is-rounded">
+				  	<select name="usuario_rol" >   
+                        <?php
+                        $rol = con();
+                        $rol = $rol->query("SELECT * FROM rol");
+                        if($rol->rowCount()>0){
+                            $rol = $rol->fetchAll();
+                            foreach($rol as $cat){
+                                if($datos["rol_id"] == $cat['rol_id']){
+                                    echo '
+                                    <option value="'.$cat['rol_id'].'" selected="" >'.$cat['rol_nombre'].' (Actual)</option>
+                                    ';
+                                } else {
+                                    echo '<option value="'.$cat['rol_id'].'" >'.$cat['rol_nombre'].'</option>';
+                                }
+                            }
+                        }
+                        $categorias=null;
+                        ?>
+				  	</select>
 				</div>
 		  	</div>
 		  	<div class="column">
 		    	<div class="control">
-					<label>Email</label>
+					<span>Email</span>
 				  	<input class="input" type="email" value="<?php echo $datos["usuario_email"];?>" name="usuario_email" maxlength="70" >
 				</div>
 		  	</div>
@@ -73,13 +109,13 @@
 		<div class="columns">
 			<div class="column">
 		    	<div class="control">
-					<label>Clave</label>
+					<span>Clave</span>
 				  	<input class="input" type="password" name="usuario_clave_1" pattern="[a-zA-Z0-9$@.-]{7,100}" maxlength="100" >
 				</div>
 		  	</div>
 		  	<div class="column">
 		    	<div class="control">
-					<label>Repetir clave</label>
+					<span>Repetir clave</span>
 				  	<input class="input" type="password" name="usuario_clave_2" pattern="[a-zA-Z0-9$@.-]{7,100}" maxlength="100" >
 				</div>
 		  	</div>
@@ -91,13 +127,13 @@
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
-					<label>Usuario</label>
+					<span>Usuario</span>
 				  	<input class="input" type="text" name="administrador_usuario" pattern="[a-zA-Z0-9]{4,20}" maxlength="20" required >
 				</div>
 		  	</div>
 		  	<div class="column">
 		    	<div class="control">
-					<label>Clave</label>
+					<span>Clave</span>
 				  	<input class="input" type="password" name="administrador_clave" pattern="[a-zA-Z0-9$@.-]{7,100}" maxlength="100" required >
 				</div>
 		  	</div>

@@ -21,7 +21,7 @@ for($i=0; $i < count($cantidades); $i++){
 }
 
 // Consulta preparada para insertar la nueva compra en la base de datos
-$consultaInsertar = "INSERT INTO compras (compra_fecha, prov_id, usuario_id, compra_total, compra_factura, compra_condicion) VALUES (:fecha, :prov, :user, :total, :numero, :condicion)";
+$consultaInsertar = "INSERT INTO compras (compra_fecha, prov_id, usuario_id, compra_total, compra_factura, compra_condicion, compra_estado) VALUES (:fecha, :prov, :user, :total, :numero, :condicion, :estado)";
 
 $conexion=con();
 $hayError = false;
@@ -36,6 +36,7 @@ $insertar->bindValue(':user', $usuario_id);
 $insertar->bindValue(':total', $compra_total);
 $insertar->bindValue(':numero', $numeroFactura);
 $insertar->bindValue(':condicion', $condicion);
+$insertar->bindValue(':estado', "1");
 
 // Ejecutar la consulta preparada
 if (!$insertar->execute()) {
@@ -48,7 +49,7 @@ $insertar = null;
 
 
 if ($hayError){
-    
+
     $conexion=null;
 
 } else {
@@ -65,7 +66,6 @@ if ($hayError){
         $queryDetalle = "INSERT INTO compras_detalle (producto_id, cantidad, precio_compra, compra_id) VALUES (:prod, :cantidad, :precio, :id)";
         
         $conexion=con();
-        $hayError = false;
 
         // Preparar la consulta
         $insertar = $conexion->prepare($queryDetalle);
@@ -88,9 +88,45 @@ if ($hayError){
     
 }
 
+//updating stocks
+if($hayError){
+    $conexion=null;
+} else {
 
+    $conexion=con();
 
+    for ($i = 0; $i < count($idProductos); $i++) {
+        $id_producto = $idProductos[$i];
+        $cantidad_compra = $cantidades[$i];
 
+        // Consultar el stock actual del producto
+        $stock_actual = "SELECT producto_stock FROM producto WHERE producto_id = $id_producto";
+        $result = $conexion->query($stock_actual);
 
+        if ($result->rowCount() > 0) {
+            $row = $result->fetch();
+            $stock_actual = $row['producto_stock'];
 
+            // Calcular el nuevo stock después de la venta
+            $nuevo_stock = $stock_actual + $cantidad_compra;
 
+            // Actualizar el stock en la tabla de productos
+            $actualizar_stock = "UPDATE producto SET producto_stock = $nuevo_stock WHERE producto_id = $id_producto";
+
+            if (!$conexion->query($actualizar_stock)) {
+                echo "Error al actualizar el stock: " . $conexion->errorInfo()[2];
+            }
+        } else {
+            echo "Error: No se encontró el producto con ID $id_producto";
+        }
+    }
+}
+
+//confirm message
+if(!$hayError){
+    echo '
+    <div class="notification is-success is-light">
+        <strong>Compra registrada!</strong><br>
+        La compra se registró exitosamente.
+    </div>';
+}

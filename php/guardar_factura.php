@@ -246,5 +246,39 @@ if ($hayError) {
   echo $facturaHTML;
 }
 
+//updating stocks
+if($hayError){
+  $conexion=null;
+} else {
+
+  $conexion=con();
+
+  foreach ($productos as $producto) {
+      $id_producto = $producto['id'];
+      $cantidad_venta = $producto['cantidad'];
+
+      // Consultar el stock actual del producto
+      $stock_actual = "SELECT producto_stock FROM producto WHERE producto_id = $id_producto";
+      $result = $conexion->query($stock_actual);
+
+      if ($result->rowCount() > 0) {
+          $row = $result->fetch();
+          $stock_actual = $row['producto_stock'];
+
+          // Calcular el nuevo stock después de la venta
+          $nuevo_stock = $stock_actual - $cantidad_venta;
+
+          // Actualizar el stock en la tabla de productos
+          $actualizar_stock = "UPDATE producto SET producto_stock = $nuevo_stock WHERE producto_id = $id_producto";
+
+          if (!$conexion->query($actualizar_stock)) {
+              echo "Error al actualizar el stock: " . $conexion->errorInfo()[2];
+          }
+      } else {
+          echo "Error: No se encontró el producto con ID $id_producto";
+      }
+  }
+}
+
 
 ?>

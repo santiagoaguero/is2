@@ -7,7 +7,7 @@ var vista = urlParams.get('vista');
 if (vista === 'compra_new') {
   document.getElementById("busca_provee").addEventListener("keyup", getProvee);
   document.getElementById("campo").addEventListener("keyup", getProductCompras);
-} else {
+} else if(vista === 'factur_new') {
   document.getElementById("campo").addEventListener("keyup", getProduct);
   document.getElementById("busca_clienteF").addEventListener("keyup", getClientF);
   document.getElementById("busca_clienteP").addEventListener("keyup", getClientP);

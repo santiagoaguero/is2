@@ -1,5 +1,17 @@
 <?php
 	require_once("./php/main.php");
+	// Verificar los permisos del usuario para esta página
+	include("./inc/check_rol.php");
+	if (isset($_SESSION['rol']) && isset($_GET['vista'])) {
+		$vistaSolicitada = $_GET['vista'];
+		$rolUsuario = $_SESSION['rol'];
+	
+		check_rol($vistaSolicitada, $rolUsuario);
+		
+	} else {
+        header("Location: login.php");
+        exit();
+    }
 ?>
 <div class="container is-fluid mb-6">
 	<h1 class="title">Compras</h1>
@@ -83,6 +95,15 @@
 						<span>Nuevo producto</span>
 						</button>
 					</p>
+					<p class="control">
+						<button class="button modal-button is-info is-rounded is-outlined" type="button" data-target="modalCrearProveedor">
+							<!-- button type button doesn't send form -->
+						<span class="icon is-small">
+        					<i class="fas fa-add"></i>
+						</span>
+						<span>Nuevo proveedor</span>
+						</button>
+					</p>
 				</div>
 			</div>
 		</div>
@@ -133,8 +154,9 @@
 	</form>
 </div>
 <?php 
-	include("./modal/crear_producto.php");
-	include("./modal/buscar_producto.php");
+	include("./modal/producto_crear.php");
+	include("./modal/producto_buscar.php");
+	include("./modal/proveedor_crear.php");
 ?>
 
 <script>

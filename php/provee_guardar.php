@@ -18,7 +18,7 @@ if($nombre == "" || $ruc == "" || $telefono == ""){
 }
 
 //verifica integridad de los datos
-if(verificar_datos("[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ. ]{3,40}",$nombre)){
+if(verificar_datos("[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ&. ]{3,40}",$nombre)){
     echo '
     <div class="notification is-danger is-light">
         <strong>¡Ocurrió un error inesperado!</strong><br>

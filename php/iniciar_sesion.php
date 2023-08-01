@@ -46,6 +46,7 @@ $check_user=$check_user->query("SELECT * from usuario WHERE
             $_SESSION["nombre"]=$check_user["usuario_nombre"];
             $_SESSION["apellido"]=$check_user["usuario_apellido"];
             $_SESSION["usuario"]=$check_user["usuario_usuario"];
+            $_SESSION["rol"]=$check_user["rol_id"];
 
             if(headers_sent()){//si ya se enviaron headers se redirecciona con js porque con php da errores.  
                 echo '
