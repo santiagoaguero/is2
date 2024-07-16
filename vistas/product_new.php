@@ -40,7 +40,13 @@
 			<div class="column">
 		    	<div class="control">
 					<span>Precio</span>
-				  	<input class="input" type="text" name="producto_precio" pattern="[0-9.]{1,25}" maxlength="25" required >
+				  	<input class="input" type="number" name="producto_precio" pattern="[0-9.]{1,25}" maxlength="25" required >
+				</div>
+		  	</div>
+			<div class="column">
+		    	<div class="control">
+					<span>Precio Compra</span>
+				  	<input class="input" type="number" name="producto_precio_compra" pattern="[0-9.]{1,25}" maxlength="25" required value="0">
 				</div>
 		  	</div>
 		</div>

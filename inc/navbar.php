@@ -11,7 +11,7 @@
   </div>
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
-    <?php if ($_SESSION['rol'] === 1 || $_SESSION['rol'] === 2 ): ?>
+    <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 ): ?>
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">Facturas</a>
         <div class="navbar-dropdown">
@@ -28,6 +28,12 @@
           <a class="navbar-item" href="index.php?vista=product_category">Por Categoría</a>
           <a class="navbar-item" href="index.php?vista=product_family">Por Familia</a>
           <a class="navbar-item" href="index.php?vista=product_search">Buscar</a>
+        </div>
+      </div>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">Reportes</a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="index.php?vista=report_stock_income">Stock a Ingresar</a>
         </div>
       </div>
       <div class="navbar-item has-dropdown is-hoverable">

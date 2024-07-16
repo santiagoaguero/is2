@@ -1,9 +1,9 @@
 <?php
 //Define los roles y accesos
 $roles = [
-  1 => ['factur_new', 'factur_list', 'factur_search', 'product_category', 'product_factur_search', 'product_family', 'product_img', 'product_list', 'product_new', 'product_search', 'product_update', 'category_list', 'category_new', 'category_search', 'category_update', 'family_list', 'family_new', 'family_search', 'family_update', 'provee_list', 'provee_new', 'provee_search', 'provee_update', 'client_new', 'client_list', 'client_search', 'client_update','user_list','user_new','user_search','user_update', 'compra_det', 'compra_list', 'compra_new', 'compra_report', 'compra_search'], // admin
+  1 => ['factur_new', 'factur_list', 'factur_search', 'factur_det', 'product_category', 'product_factur_search', 'product_family', 'product_img', 'product_list', 'product_new', 'product_search', 'product_update', 'category_list', 'category_new', 'category_search', 'category_update', 'family_list', 'family_new', 'family_search', 'family_update', 'provee_list', 'provee_new', 'provee_search', 'provee_update', 'client_new', 'client_list', 'client_search', 'client_update','user_list','user_new','user_search','user_update', 'compra_det', 'compra_list', 'compra_new', 'compra_report', 'compra_search', 'report_stock_income'], // admin
   2 => ['factur_new'], // encargado
-  3 => ['factur_new', 'factur_list', 'factur_search', 'client_new', 'client_list', 'client_search', 'client_update'], // vendedor
+  3 => ['factur_new', 'factur_list', 'factur_search', 'factur_det', 'client_new', 'client_list', 'client_search', 'client_update'], // vendedor
 ];
 
 //Verificar el acceso

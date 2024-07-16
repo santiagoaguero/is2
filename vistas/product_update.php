@@ -61,6 +61,15 @@
                     ?>" >
 				</div>
 		  	</div>
+			<div class="column">
+		    	<div class="control">
+					<span>Precio Compra</span>
+				  	<input class="input" type="text" name="producto_precio_compra" pattern="[0-9.]{1,25}" maxlength="25" required value="<?php 
+                    //echo number_format($datos["producto_precio_compra"], 0, ',', '.');se guarda como entero -> 9.000 y no 9000
+					echo $datos["producto_precio_compra"];
+                    ?>" >
+				</div>
+		  	</div>
 		</div>
 		<div class="columns">
 			<div class="column">

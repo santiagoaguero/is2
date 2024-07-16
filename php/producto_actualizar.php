@@ -23,6 +23,7 @@ $check_producto=null;
 $codigo=limpiar_cadena($_POST["producto_codigo"]);
 $nombre=limpiar_cadena($_POST["producto_nombre"]);
 $precio=limpiar_cadena($_POST["producto_precio"]);
+$precio=limpiar_cadena($_POST["producto_precio_compra"]);
 $iva=limpiar_cadena($_POST["producto_iva"]);
 $stock=limpiar_cadena($_POST["producto_stock"]);
 $stock_min=limpiar_cadena($_POST["producto_stock_min"]);
@@ -66,6 +67,10 @@ if(verificar_datos("[0-9.]{1,25}",$precio)){
         El precio no coincide con el formato esperado.
     </div>';
     exit();
+}
+
+if ($precio_compra == "") {
+    $precio_compra = 0;
 }
 
 if(verificar_datos("[0-9]{1,25}",$stock)){
@@ -178,12 +183,13 @@ if($proveedor != $datos["prov_id"]){
 //Actualizando datos
 $actualizar_producto = con();
 $actualizar_producto = $actualizar_producto->prepare("UPDATE producto SET 
-producto_codigo = :codigo, producto_nombre = :nombre, producto_precio = :precio, producto_iva = :iva, producto_stock = :stock, producto_stock_min = :stock_min, categoria_id = :categoria, prov_id = :proveedor, familia_id = :familia WHERE producto_id = :id");
+producto_codigo = :codigo, producto_nombre = :nombre, producto_precio = :precio, producto_precio_compra = :precio_compra, producto_iva = :iva, producto_stock = :stock, producto_stock_min = :stock_min, categoria_id = :categoria, prov_id = :proveedor, familia_id = :familia WHERE producto_id = :id");
 
 $marcadores=[
     "codigo"=>$codigo,
     "nombre"=>$nombre,
     "precio"=>$precio,
+    "precio_compra"=>$precio_compra,
     "iva"=>$iva,
     "stock"=>$stock,
     "stock_min"=>$stock_min,

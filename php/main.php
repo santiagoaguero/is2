@@ -4,7 +4,7 @@
 date_default_timezone_set("America/Asuncion");
 
 function con (){
-    $pdo = new PDO("mysql: host=localhost;dbname=inventario", "root", "");//dbtype: host,dbname,user,pas
+    $pdo = new PDO("mysql: host=localhost;dbname=inventario_santiago", "root", "");//dbtype: host,dbname,user,pas
     return $pdo;
 }
 
