@@ -10,5 +10,8 @@
     <link rel="icon" href="./img/favicon.png" type="image/ico">
     <!-- icons -->
     <script src="https://kit.fontawesome.com/cb22070f7a.js" crossorigin="anonymous"></script>
+    <!-- js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="./js/sidebar.js"></script>
     
     <title>PREMIUM</title>

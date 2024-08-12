@@ -11,11 +11,11 @@
         exit();
     }
 ?>
-<div class="container is-fluid mb-6">
-	<h1 class="title">Usuarios</h1>
-	<h2 class="subtitle">Nuevo usuario</h2>
-</div>
 <div class="container pb-6 pt-6">
+	<div class="is-fluid mb-2">
+		<h1 class="title">Usuarios</h1>
+		<h2 class="subtitle">Nuevo usuario</h2>
+	</div>
 <?php 
     require_once("./php/main.php");
 ?>
@@ -59,6 +59,24 @@
                             }
                         }
                         $rol=null;
+                        ?>
+				  	</select>
+				</div>
+		  	</div>
+			<div class="column is-narrow">
+				<span>Punto de Impresión</span><br>
+		    	<div class="select is-rounded">
+				  	<select name="punto_impresion" >
+                        <?php
+							$punimp = con();
+							$punimp = $punimp->query("SELECT * FROM puntos_impresion");
+							if($punimp->rowCount()>0){
+								$punimp = $punimp->fetchAll();
+								foreach($punimp as $key){
+									echo '<option value="'.$key['punto_impresion_id'].'" >'.$key['punimp_nombre'].'</option>';
+								}
+							}
+							$punimp=null;
                         ?>
 				  	</select>
 				</div>

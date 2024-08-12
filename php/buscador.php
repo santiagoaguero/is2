@@ -1,7 +1,7 @@
 <?php
     $modulo_buscador = limpiar_cadena($_POST["modulo_buscador"]);
 
-    $modulos=["producto", "categoria", "proveedor", "cliente", "usuario", "factura_producto", "factura", "familia", "compra"];
+    $modulos=["producto", "categoria", "proveedor", "cliente", "usuario", "factura_producto", "factura", "familia", "timbrado", "compra", "forma_pago", "punto_impresion", "sucursal", "banco", "deposito"];
 
     if(in_array($modulo_buscador, $modulos)){
 
@@ -14,6 +14,12 @@
             "factura_producto"=>"factur_new",
             "factura"=>"factur_search",
             "familia"=>"family_search",
+            "timbrado"=>"timbrado_search",
+            "forma_pago"=>"forma_pago_search",
+            "punto_impresion"=>"punto_impresion_search",
+            "sucursal"=>"sucursal_search",
+            "banco"=>"banco_search",
+            "deposito"=>"deposito_search",
             "compra"=>"compra_search"
         ];
 

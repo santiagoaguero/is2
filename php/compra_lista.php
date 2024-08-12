@@ -11,8 +11,13 @@ if(isset($busqueda) && $busqueda != ""){//busqueda especifica por numero fact o 
 
     $consulta_total = "SELECT COUNT(compra_factura) FROM compras INNER JOIN proveedor ON compras.prov_id = proveedor.prov_id WHERE compras.compra_factura LIKE '%$busqueda%' OR proveedor.prov_nombre LIKE '%$busqueda%'";
 
-}
-else {//busqueda total facturas
+} elseif( isset($prov_id) && ($prov_id>0) ){
+
+    $consulta_datos = "SELECT $campos FROM compras INNER JOIN proveedor ON compras.prov_id = proveedor.prov_id WHERE proveedor.prov_id='$prov_id' ORDER BY compras.compra_fecha DESC LIMIT $inicio, $registros";
+
+    $consulta_total = "SELECT COUNT(compra_factura) FROM compras WHERE prov_id='$prov_id'";
+
+} else {//busqueda total facturas
     $consulta_datos = "SELECT $campos FROM compras INNER JOIN proveedor ON compras.prov_id = proveedor.prov_id ORDER BY compras.compra_fecha DESC LIMIT $inicio, $registros";
 
      $consulta_total = "SELECT COUNT(compra_factura) FROM compras";

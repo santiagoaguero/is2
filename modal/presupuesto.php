@@ -16,7 +16,7 @@
             </div>
             <form id="cliente-form" onsubmit="guardarPresupuesto(event)" action="./php/guardar_presupuesto.php" method="POST" class="is-centered">
                 <div class="control">
-                    <input class="input is-rounded mb-2" type="text" name="busca_clienteP" id="busca_clienteP" placeholder="Razón Social o RUC" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,30}" maxlength="30" autofocus autocomplete="off">
+                    <input class="input is-rounded mb-2" type="text" name="busca_clienteP" id="busca_clienteP" placeholder="Razón Social o RUC" maxlength="30" autofocus autocomplete="off">
                     <span id="lista_clientesP"></span>
                 </div>
 

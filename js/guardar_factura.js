@@ -2,6 +2,7 @@ function guardarFactura(event) {
     event.preventDefault();
 
     var ruc = document.getElementById('cliente_rucF').value;
+    var forma_pago = document.getElementById('forma_pago').value;
 
     var productosSeleccionados = document.getElementById('tabla-productos-seleccionados').getElementsByTagName('tr');
     var productos = [];
@@ -20,8 +21,8 @@ function guardarFactura(event) {
 
     var data = {
         ruc: ruc,
+        forma_pago: forma_pago,
         productos: productos,
-
     }
 
     fetch('./php/guardar_factura.php', {

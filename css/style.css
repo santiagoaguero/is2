@@ -1,6 +1,7 @@
 body,html{
     height: 100%;
     width: 100%;
+    background-color: #f5f6fa;
 }
 
 .main-container{
@@ -56,4 +57,85 @@ body,html{
 
 #modalClienteNuevo {
     z-index: 41;
+}
+.table thead th{
+    background-color: #09192f;
+    color: #fff;
+}
+.table tbody tr:nth-child(even){
+    background-color: #f5f5f5;
+}
+.navbar-brand img{
+    width: auto;
+    height: 72px;
+    padding: 8px 0px 8px 10px;
+}
+.button.is-link{
+    background-color: rgba(72, 127, 255, 0.15);
+    color: #487FFF;
+}
+.button.is-danger{
+    background-color: rgba(239, 71, 112, 0.1490196078);
+    color: #EF4A00;
+}
+.button.is-success{
+    background-color: rgba(69, 179, 105, 0.1490196078);
+    color: #45B369;
+}
+.select, .select > select{
+    width: 100%;
+}
+body:has(nav){
+    display: flex;
+}
+.navbar_item > div{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 0px;
+    transition: all 200ms ease-in;
+}
+.navbar_item i{
+    display: inline-block;
+    width: 22px;
+    margin-right: 6px;
+    text-align: center;
+}
+body > nav{
+    max-height: 100vh;
+    overflow-y: scroll;
+    background-color: #fff;
+    width: 312px;
+}
+.navbar_item_container a{
+    font-size: 18px;
+    user-select: none;
+    border-radius: 4px;
+    font-weight: 600;
+    display: inline-block;
+    width: 100%;
+    color: #4B5563;
+    padding: 8px 16px;
+}
+.navbar_item_container a:hover{
+    color: #1b84ff !important;
+    background-color: #f9f9f9;
+}
+.navbar_item > div > a{
+    margin-left: 12px;
+    width: calc(100% - 12px);
+}
+body > .container{
+    background: #fff;
+    height: fit-content;
+    padding: 2rem 2.3rem !important;
+    margin: 3rem;
+    border-radius: 16px;
+    max-width: none !important;
+    box-shadow: 0 0.25rem 1.875rem rgba(46, 45, 116, 0.05);
+    max-height: calc(100vh - 5rem);
+    overflow: auto;
+}
+body > nav > div:nth-child(2){
+    justify-content: space-between;
 }

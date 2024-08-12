@@ -11,12 +11,12 @@
         exit();
     }
 ?>
-<div class="container is-fluid mb-6">
-    <h1 class="title">Compra</h1>
-    <h2 class="subtitle">Lista de compras</h2>
-</div>
 
 <div class="container pb-6 pt-6">
+    <div class="is-fluid mb-2">
+        <h1 class="title">Compra</h1>
+        <h2 class="subtitle">Lista de compras</h2>
+    </div>
 
 <?php 
     require_once("./php/main.php");
@@ -35,6 +35,7 @@
         }
     }
 
+    $prov_id = (isset($_GET["provider_id"])) ? $_GET["provider_id"] : 0;
     $fact_id = (isset($_GET["id"])) ? $_GET["id"] : 0;
     $pagina = limpiar_cadena($pagina);
     $url= "index.php?vista=compra_list&page=";
