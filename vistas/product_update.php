@@ -188,6 +188,30 @@
 				  	</select>
 				</div>
 		  	</div>
+			<div class="column">
+				<span>Depósito</span><br>
+		    	<div class="select is-rounded">
+				  	<select name="producto_deposito" >   
+                        <?php
+                        $deposito = con();
+                        $deposito = $deposito->query("SELECT * FROM depositos");
+                        if($deposito->rowCount()>0){
+                            $deposito = $deposito->fetchAll();
+                            foreach($deposito as $dep){
+                                if($datos["deposito_id"] == $dep['deposito_id']){
+                                    echo '
+                                    <option value="'.$dep['deposito_id'].'" selected="" >'.$dep['dep_nombre'].' (Actual)</option>
+                                    ';
+                                } else {
+                                    echo '<option value="'.$dep['deposito_id'].'" >'.$dep['dep_nombre'].'</option>';
+                                }
+                            }
+                        }
+                        $deposito=null;
+                        ?>
+				  	</select>
+				</div>
+		  	</div>
 		</div>
 		<p class="has-text-centered">
 			<button type="submit" class="button is-success is-rounded">Actualizar</button>

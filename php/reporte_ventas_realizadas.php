@@ -7,13 +7,15 @@ $fecha_fin = $_POST["filtro_hasta"];
 
 // Llamado SQL para enviar a la API
 
-$consulta_datos = "SELECT C.*, P.prov_nombre FROM compras C
-                   LEFT JOIN proveedor P
-                   ON C.prov_id = P.prov_id
-                   WHERE C.compra_estado = 1 
-                   AND C.compra_fecha >= '$fecha_inicio'
-                   AND C.compra_fecha <= '$fecha_fin' 
-                   ORDER BY C.compra_fecha DESC
+$consulta_datos = "SELECT F.*, C.cliente_nombre, P.descripcion AS forpag_nombre FROM facturas F
+                   LEFT JOIN clientes C
+                   ON F.cliente_id  = C.cliente_id 
+                   LEFT JOIN formas_pago P
+                   ON F.forma_pago_id  = P.forma_pago_id 
+                   WHERE F.factura_estado = 1 
+                   AND F.factura_fecha >= '$fecha_inicio'
+                   AND F.factura_fecha <= '$fecha_fin' 
+                   ORDER BY F.factura_numero DESC
 ";
 $stmt = $conexion->query($consulta_datos);
 $compras = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -30,14 +32,14 @@ foreach($compras as $key) {
     $filas_reporte .= '
         <tr>
             <th scope="row">'.$row.'</th>
-            <td>'.$key['compra_factura'].'</td>
-            <td>'.$key['compra_fecha'].'</td>
-            <td>'.$key['prov_nombre'].'</td>
-            <td>'.($key['compra_condicion'] == 1 ? 'Contado' : 'Crédito' ).'</td>
-            <td align="right">'.number_format($key['compra_total'] , 0, ',', '.').'</td>
+            <td>'.$key['factura_numero'].'</td>
+            <td>'.$key['factura_fecha'].'</td>
+            <td>'.$key['cliente_nombre'].'</td>
+            <td>'.$key['forpag_nombre'].'</td>
+            <td align="right">'.number_format($key['total_venta'] , 0, ',', '.').'</td>
         </tr>
     ';
-    $total = $total + $key['compra_total'];
+    $total = $total + $key['total_venta'];
 }
 
 $html = '
@@ -66,7 +68,7 @@ $html = '
             <table width="100%">
                 <tr>
                     <td align="center">
-                        <h1>Compras Realizadas</h1>
+                        <h1>Ventas Realizadas</h1>
                     </td>
                 </tr>
             </table>
@@ -84,7 +86,7 @@ $html = '
                         <th>#</th>
                         <th>Factura</th>
                         <th>Fecha</th>
-                        <th>Proveedor</th>
+                        <th>Cliente</th>
                         <th>Condición</th>
                         <th>Total</th>
                     </tr>
@@ -120,4 +122,4 @@ $dompdf = new Dompdf();
 $dompdf->loadHtml($html);
 
 $dompdf->render();
-$dompdf->stream("reporte_compras_realizadas_".date("Y-m-d h:i:sa").".pdf", ["Attachment" => 0]);// 0 para visualizar, 1 para descargar
+$dompdf->stream("reporte_ventas_realizadas_".date("Y-m-d h:i:sa").".pdf", ["Attachment" => 0]);// 0 para visualizar, 1 para descargar

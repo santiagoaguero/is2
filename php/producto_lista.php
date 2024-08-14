@@ -16,6 +16,12 @@ if(isset($busqueda) && $busqueda != ""){//busqueda especifica por codigo o nombr
     $consulta_total = "SELECT COUNT(producto_id) FROM producto WHERE categoria_id='$categoria_id'";
 } 
 
+elseif(isset($deposito_id) && $deposito_id>0){
+    $consulta_datos = "SELECT $campos FROM producto INNER JOIN categoria ON producto.categoria_id = categoria.categoria_id INNER JOIN familia ON producto.familia_id = familia.familia_id INNER JOIN usuario ON producto.usuario_id = usuario.usuario_id WHERE producto.deposito_id = '$deposito_id' ORDER BY producto.producto_nombre ASC LIMIT $inicio, $registros";
+
+    $consulta_total = "SELECT COUNT(producto_id) FROM producto WHERE deposito_id='$deposito_id'";
+}
+
 elseif(isset($familia_id) && $familia_id>0){
     $consulta_datos = "SELECT $campos FROM producto INNER JOIN categoria ON producto.categoria_id = categoria.categoria_id INNER JOIN familia ON producto.familia_id = familia.familia_id INNER JOIN usuario ON producto.usuario_id = usuario.usuario_id WHERE producto.familia_id = '$familia_id' ORDER BY producto.producto_nombre ASC LIMIT $inicio, $registros";
 

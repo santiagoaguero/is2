@@ -30,10 +30,20 @@
                 <a><i class="fa-solid fa-cloud"></i>Productos</a>
                 <div>
                     <a href="index.php?vista=product_list">Lista</a>
-                    <a href="index.php?vista=product_new">Nuevo</a>
+                    <a href="index.php?vista=product_search">Buscar</a>
                     <a href="index.php?vista=product_category">Por Categoría</a>
                     <a href="index.php?vista=product_family">Por Familia</a>
-                    <a href="index.php?vista=product_search">Buscar</a>
+                    <a href="index.php?vista=product_deposit">Por Depósito</a>
+                    <a href="index.php?vista=product_new">Nuevo</a>
+                </div>
+            </div>
+
+            <div class="navbar_item">
+                <a><i class="fa-solid fa-cart-arrow-down"></i>Devolución de Productos</a>
+                <div>
+                    <a href="index.php?vista=devolucion_list">Lista</a>
+                    <a href="index.php?vista=devolucion_new">Nuevo</a>
+                    <a href="index.php?vista=devolucion_search">Buscar</a>
                 </div>
             </div>
 
@@ -87,14 +97,15 @@
             <div class="navbar_item">
                 <a><i class="fa-solid fa-print"></i>Reportes</a>
                 <div>
-                    <a href="index.php?vista=report_stock_income">Stock a Ingresar <i><sup
-                                style="font-size: 12px">[AI]</sup></i></a>
+                    <a href="index.php?vista=report_stock_income">Stock a Ingresar <i><sup style="font-size: 12px">[AI]</sup></i></a>
                     <a href="index.php?vista=report_compras_realizadas">Compras Realizadas</a>
+                    <a href="index.php?vista=report_ventas_realizadas">Ventas Realizadas</a>
+                    <a href="index.php?vista=report_stock">Stock Actual</a>
                 </div>
             </div>
 
             <div class="navbar_item">
-                <a><i class="fa-solid fa-clipboard"></i>Timbrados</a>
+                <a><i class="fa-solid fa-folder-open"></i>Timbrados</a>
                 <div>
                     <a href="index.php?vista=timbrado_list">Lista</a>
                     <a href="index.php?vista=timbrado_new">Nuevo</a>
@@ -139,6 +150,33 @@
             </div>
 
             <div class="navbar_item">
+                <a><i class="fa-solid fa-arrows-rotate"></i>Movimientos Bancarios</a>
+                <div>
+                    <a href="index.php?vista=movimiento_banco_list">Lista</a>
+                    <a href="index.php?vista=movimiento_banco_new">Nuevo</a>
+                    <a href="index.php?vista=movimiento_banco_search">Buscar</a>
+                </div>
+            </div>
+
+            <div class="navbar_item">
+                <a><i class="fa-solid fa-tag"></i>Bienes y Activos</a>
+                <div>
+                    <a href="index.php?vista=bien_list">Lista</a>
+                    <a href="index.php?vista=bien_new">Nuevo</a>
+                    <a href="index.php?vista=bien_search">Buscar</a>
+                </div>
+            </div>
+
+            <div class="navbar_item">
+                <a><i class="fa-solid fa-screwdriver-wrench"></i>Mantenimiento de Bienes</a>
+                <div>
+                    <a href="index.php?vista=mantenimiento_bien_list">Lista</a>
+                    <a href="index.php?vista=mantenimiento_bien_new">Nuevo</a>
+                    <a href="index.php?vista=mantenimiento_bien_search">Buscar</a>
+                </div>
+            </div>
+
+            <div class="navbar_item">
                 <a><i class="fa-solid fa-warehouse"></i>Depósitos de Productos</a>
                 <div>
                     <a href="index.php?vista=deposito_list">Lista</a>
@@ -171,8 +209,7 @@
             <?php endif; ?>
 
             <div class="navbar_item">
-                <a href="index.php?vista=user_update&user_id_upd=<?php echo $_SESSION['id']?>"><i
-                        class="fa-solid fa-gears"></i>Mi Cuenta</a>
+                <a href="index.php?vista=user_update&user_id_upd=<?php echo $_SESSION['id']?>"><i class="fa-solid fa-gears"></i>Mi Cuenta</a>
             </div>
             <div class="navbar_item">
                 <a href="index.php?vista=logout"><i class="fa-solid fa-right-from-bracket"></i>Salir</a>

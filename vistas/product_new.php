@@ -134,6 +134,25 @@
 				  	</select>
 				</div>
 		  	</div>
+			<div class="column">
+				<span>Depósito</span><br>
+		    	<div class="select is-rounded">
+				  	<select name="producto_deposito" >
+				    	<option value="" selected="" >Seleccione una opción</option>
+                        <?php
+                        $depositos = con();
+                        $depositos = $depositos->query("SELECT * FROM depositos");
+                        if($depositos->rowCount()>0){
+                            $depositos = $depositos->fetchAll();
+                            foreach($depositos as $key){
+                                echo '<option value="'.$key['deposito_id'].'" >'.$key['dep_nombre'].'</option>';
+                            }
+                        }
+                        $depositos=null;
+                        ?>
+				  	</select>
+				</div>
+		  	</div>
 
 		</div>
 		<div class="columns">

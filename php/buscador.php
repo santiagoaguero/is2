@@ -1,7 +1,7 @@
 <?php
     $modulo_buscador = limpiar_cadena($_POST["modulo_buscador"]);
 
-    $modulos=["producto", "categoria", "proveedor", "cliente", "usuario", "factura_producto", "factura", "familia", "timbrado", "compra", "forma_pago", "punto_impresion", "sucursal", "banco", "deposito"];
+    $modulos=["producto", "categoria", "proveedor", "cliente", "usuario", "factura_producto", "factura", "familia", "devolucion", "timbrado", "compra", "forma_pago", "punto_impresion", "sucursal", "banco", "bien", "movimiento_banco", "deposito"];
 
     if(in_array($modulo_buscador, $modulos)){
 
@@ -20,6 +20,9 @@
             "sucursal"=>"sucursal_search",
             "banco"=>"banco_search",
             "deposito"=>"deposito_search",
+            "movimiento_banco"=>"movimiento_banco_search",
+            "bien"=>"bien_search",
+            "devolucion"=>"devolucion_search",
             "compra"=>"compra_search"
         ];
 
@@ -32,7 +35,7 @@
         if(isset($_POST["txt_buscador"])){
 
             $txt=limpiar_cadena($_POST["txt_buscador"]);
-            
+
             if($txt == ""){
                 echo '
                 <div class="notification is-danger is-light">
@@ -50,7 +53,7 @@
                     ';
                 } else {
                     $_SESSION[$modulo_buscador]=$txt;
-                    
+
                     echo'
                     <script>
                         window.location="index.php?vista='.$modulos_url.'"

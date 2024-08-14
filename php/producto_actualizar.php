@@ -30,9 +30,10 @@ $stock_min=limpiar_cadena($_POST["producto_stock_min"]);
 $categoria=limpiar_cadena($_POST["producto_categoria"]);
 $familia=limpiar_cadena($_POST["producto_familia"]);
 $proveedor=limpiar_cadena($_POST["producto_provee"]);
+$deposito=limpiar_cadena($_POST["producto_deposito"]);
 
 //verifica campos obligatorios
-if($codigo == "" || $nombre == "" || $precio == "" || $stock == "" || $categoria == "" || $proveedor == "" || $familia == ""){
+if($codigo == "" || $nombre == "" || $precio == "" || $stock == "" || $categoria == "" || $proveedor == "" || $familia == "" || $deposito == ""){
     echo '
     <div class="notification is-danger is-light">
         <strong>¡Ocurrió un error inesperado!</strong><br>
@@ -183,7 +184,7 @@ if($proveedor != $datos["prov_id"]){
 //Actualizando datos
 $actualizar_producto = con();
 $actualizar_producto = $actualizar_producto->prepare("UPDATE producto SET 
-producto_codigo = :codigo, producto_nombre = :nombre, producto_precio = :precio, producto_precio_compra = :precio_compra, producto_iva = :iva, producto_stock = :stock, producto_stock_min = :stock_min, categoria_id = :categoria, prov_id = :proveedor, familia_id = :familia WHERE producto_id = :id");
+producto_codigo = :codigo, producto_nombre = :nombre, producto_precio = :precio, producto_precio_compra = :precio_compra, producto_iva = :iva, producto_stock = :stock, producto_stock_min = :stock_min, categoria_id = :categoria, prov_id = :proveedor, familia_id = :familia, deposito_id = :deposito WHERE producto_id = :id");
 
 $marcadores=[
     "codigo"=>$codigo,
@@ -196,7 +197,8 @@ $marcadores=[
     "categoria"=>$categoria,
     "id"=>$id,
     "proveedor"=>$proveedor,
-    "familia"=> $familia
+    "familia"=> $familia,
+    "deposito"=> $deposito
 ];
 
 if($actualizar_producto->execute($marcadores)){

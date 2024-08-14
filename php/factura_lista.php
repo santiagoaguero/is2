@@ -56,6 +56,12 @@ if($total>=1 && $pagina <= $Npaginas){
         $precio_entero = number_format($fact["total_venta"], 0, ',', '.');//format precio
         $fecha_obj = new DateTime($fact["factura_fecha"]);//format fecha
         $fechaES = $fecha_obj->format('d-m-Y');
+        $estado = $fact["factura_estado"] == 1 ? "Activo" : "Anulado";
+        if($fact["factura_estado"] == 1){
+            $btnEstado = '<a href='.$url.$pagina.'&fact_nro='.$fact["factura_numero"].' class="button is-danger is-rounded is-small btnDanger">Anular</a>';
+        } else {
+            $btnEstado = '<a href="#" class="button is-danger is-rounded is-small is-outlined">Anulado</a>';
+        }
         $tabla.='
                 <tr class="has-text-centered" >
                     <td>'.$contador.'</td>
@@ -63,20 +69,13 @@ if($total>=1 && $pagina <= $Npaginas){
                     <td>'.$fact["factura_numero"].'</td>
                     <td>'.$precio_entero.'</td>
                     <td>'.$fact["cliente_ruc"].'</td>
-                    <td>'.$fact["cliente_nombre"].'</td>';
-                    $estado = $fact["factura_estado"] == 1 ? "Activo" : "Anulado";
-                    $btnEstado = $fact["factura_estado"] == 1 ? 
-                    '<a href='.$url.$pagina.'&fact_nro='.$fact["factura_numero"].' class="button is-danger is-rounded is-small btnDanger">Anular</a>' : 
-                    '<a href="#" class="button is-danger is-rounded is-small is-outlined">Anulado</a>
-                    ';
-        $tabla.='   
+                    <td>'.$fact["cliente_nombre"].'</td>
                     <td>'.$estado.'</td>
                     <td>
                         <a href="index.php?vista=factur_det&fact_nro='.$fact["factura_numero"].'" class="button is-success is-rounded is-small">Ver detalle</a>
+                        <a href="php/reporte_factura.php?fact_nro='.$fact["factura_numero"].'" class="button is-success is-rounded is-small" target="_BLANK">Pdf</a>
                     </td>
-                    <td>
-                        '.$btnEstado.'
-                    </td>
+                    <td>'.$btnEstado.'</td>
             </tr>
         ';
         $contador++;

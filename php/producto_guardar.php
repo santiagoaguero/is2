@@ -13,9 +13,10 @@ $stock_min=limpiar_cadena($_POST["producto_stock_min"]);
 $categoria=limpiar_cadena($_POST["producto_categoria"]);
 $proveedor=limpiar_cadena($_POST["producto_provee"]);
 $familia=limpiar_cadena($_POST["producto_familia"]);
+$deposito=limpiar_cadena($_POST["producto_deposito"]);
 
 //verifica campos obligatorios
-if($codigo == "" || $nombre == "" || $precio == "" || $stock == "" || $categoria == "" || $proveedor == ""){
+if($codigo == "" || $nombre == "" || $precio == "" || $stock == "" || $categoria == "" || $proveedor == "" || $deposito == ""){
     echo '
     <div class="notification is-danger is-light">
         <strong>¡Ocurrió un error inesperado!</strong><br>
@@ -204,8 +205,8 @@ if($_FILES["producto_foto"]["name"] != "" && $_FILES["producto_foto"]["size"]>0)
 $guardar_producto = con();
 //prepare: prepara la consulta antes de insertar directo a la bd. variables sin comillas ni $
 $guardar_producto = $guardar_producto->prepare("INSERT INTO
-    producto (producto_codigo, producto_nombre, producto_precio, producto_precio_compra, producto_iva, producto_stock, producto_stock_min, producto_foto, categoria_id, usuario_id, prov_id, familia_id)
-    VALUES(:codigo, :nombre, :precio, :precio_compra, :iva, :stock, :stock_min, :foto, :categoria, :usuario, :proveedor, :familia)");
+    producto (producto_codigo, producto_nombre, producto_precio, producto_precio_compra, producto_iva, producto_stock, producto_stock_min, producto_foto, categoria_id, usuario_id, prov_id, familia_id, deposito_id)
+    VALUES(:codigo, :nombre, :precio, :precio_compra, :iva, :stock, :stock_min, :foto, :categoria, :usuario, :proveedor, :familia, :deposito_id)");
 
 $marcadores=[
     "codigo"=>$codigo,
@@ -219,7 +220,8 @@ $marcadores=[
     "categoria"=>$categoria,
     "usuario"=>$_SESSION["id"],
     "proveedor"=>$proveedor,
-    "familia"=>$familia
+    "familia"=>$familia,
+    "deposito_id"=>$deposito
 ];
 
 $guardar_producto->execute($marcadores);

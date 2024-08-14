@@ -45,7 +45,7 @@ $solicitud = 'Dame los productos que debo comprar y su cantidad en (cantidad_a_c
     Tabla facturas: '.$facturas_json.'
     Tabla detalle_facturas: '.$detfacturas_json.'
 ';
- 
+
 $data = [
     'model' => 'gpt-4',
     'messages' => [
@@ -71,7 +71,7 @@ if ($response === false) {
     exit;
 } else {
     $response_data = json_decode($response, true);
-    
+
     if (isset($response_data['error'])) {
         echo 'Error de la API: ' . $response_data['error']['message'];
         exit;
@@ -186,4 +186,4 @@ $dompdf = new Dompdf();
 $dompdf->loadHtml($html);
 
 $dompdf->render();
-$dompdf->stream("report_stock_income_".date("Y-m-d h:i:sa").".pdf", ["Attachment" => 1]);// 0 para visualizar, 1 para descargar
+$dompdf->stream("reporte_ingreso_stock_".date("Y-m-d h:i:sa").".pdf", ["Attachment" => 1]);// 0 para visualizar, 1 para descargar

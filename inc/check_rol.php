@@ -2,21 +2,25 @@
 //Define los roles y accesos
 $roles = [
   1 => [
-    'factur_new', 'factur_list', 'factur_search', 'factur_det', 
-    'product_category', 'category_list', 'category_new', 'category_search', 'category_update', 
-    'product_factur_search', 'product_family', 'product_img', 'product_list', 'product_new', 'product_search', 'product_update',
-    'family_list', 'family_new', 'family_search', 'family_update', 
-    'provee_list', 'provee_new', 'provee_search', 'provee_update', 
+    'factur_new', 'factur_list', 'factur_search', 'factur_det',
+    'product_category', 'category_list', 'category_new', 'category_search', 'category_update',
+    'product_factur_search', 'product_family', 'product_img', 'product_list', 'product_new', 'product_search', 'product_update', 'product_deposit',
+    'family_list', 'family_new', 'family_search', 'family_update',
+    'provee_list', 'provee_new', 'provee_search', 'provee_update',
     'client_new', 'client_list', 'client_search', 'client_update',
-    'user_list', 'user_new', 'user_search', 'user_update', 
-    'compra_det', 'compra_list', 'compra_new', 'compra_report', 'compra_search', 'compra_proveedor', 
-    'timbrado_list', 'timbrado_new', 'timbrado_search', 'timbrado_update', 
-    'forma_pago_list', 'forma_pago_new', 'forma_pago_search', 'forma_pago_update', 
-    'punto_impresion_list', 'punto_impresion_new', 'punto_impresion_search', 'punto_impresion_update', 
-    'sucursal_list', 'sucursal_new', 'sucursal_search', 'sucursal_update', 
-    'banco_list', 'banco_new', 'banco_search', 'banco_update', 
-    'deposito_list', 'deposito_new', 'deposito_search', 'deposito_update', 
-    'report_stock_income', 'report_compras_realizadas'
+    'user_list', 'user_new', 'user_search', 'user_update',
+    'compra_det', 'compra_list', 'compra_new', 'compra_report', 'compra_search', 'compra_proveedor',
+    'timbrado_list', 'timbrado_new', 'timbrado_search', 'timbrado_update',
+    'forma_pago_list', 'forma_pago_new', 'forma_pago_search', 'forma_pago_update',
+    'punto_impresion_list', 'punto_impresion_new', 'punto_impresion_search', 'punto_impresion_update',
+    'sucursal_list', 'sucursal_new', 'sucursal_search', 'sucursal_update',
+    'banco_list', 'banco_new', 'banco_search', 'banco_update',
+    'deposito_list', 'deposito_new', 'deposito_search', 'deposito_update',
+    'bien_list', 'bien_new', 'bien_search', 'bien_update',
+    'devolucion_list', 'devolucion_new', 'devolucion_search', 'devolucion_update',
+    'mantenimiento_bien_list', 'mantenimiento_bien_new', 'mantenimiento_bien_search', 'mantenimiento_bien_update',
+    'movimiento_banco_list', 'movimiento_banco_new', 'movimiento_banco_search', 'movimiento_banco_update',
+    'report_stock_income', 'report_compras_realizadas', 'report_ventas_realizadas', 'report_stock'
   ], // admin
   2 => ['factur_new'], // encargado
   3 => ['factur_new', 'factur_list', 'factur_search', 'factur_det', 'client_new', 'client_list', 'client_search', 'client_update'], // vendedor
@@ -25,7 +29,7 @@ $roles = [
 //Verificar el acceso
 function check_rol($vista, $rol) {
   global $roles;
-  
+
   if (array_key_exists($rol, $roles) && in_array($vista, $roles[$rol])) {
       // El usuario tiene permiso para acceder a la vista
       return true;
