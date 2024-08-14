@@ -11,12 +11,12 @@
         exit();
     }
 ?>
-<div class="container is-fluid mb-6">
-    <h1 class="title">Facturas</h1>
-    <h2 class="subtitle">Nueva Factura</h2>
-</div>
 
 <div class="container pb-6 pt-6">
+    <div class="is-fluid mb-2">
+        <h1 class="title">Facturas</h1>
+        <h2 class="subtitle">Nueva Factura</h2>
+    </div>
 <?php 
     require_once("./php/main.php");
 ?>
@@ -83,10 +83,12 @@
 
         function seleccionarCliente(lista, id, nombre, ruc) {
             if(lista == "fact"){
+                document.getElementById('busca_clienteF').value = ruc;
                 document.getElementById('cliente_nombreF').value = nombre;
                 document.getElementById('cliente_rucF').value = ruc;
 
             } else if (lista == "presup"){
+                document.getElementById('busca_clienteP').value = ruc;
                 document.getElementById('cliente_nombreP').value = nombre;
                 document.getElementById('cliente_rucP').value = ruc;
             }

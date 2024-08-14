@@ -6,14 +6,17 @@ require_once("main.php");
 $codigo=limpiar_cadena($_POST["producto_codigo"]);
 $nombre=limpiar_cadena($_POST["producto_nombre"]);
 $precio=limpiar_cadena($_POST["producto_precio"]);
+$precio_compra=limpiar_cadena($_POST["producto_precio_compra"]);
 $iva=limpiar_cadena($_POST["producto_iva"]);
 $stock=limpiar_cadena($_POST["producto_stock"]);
 $stock_min=limpiar_cadena($_POST["producto_stock_min"]);
 $categoria=limpiar_cadena($_POST["producto_categoria"]);
 $proveedor=limpiar_cadena($_POST["producto_provee"]);
+$familia=limpiar_cadena($_POST["producto_familia"]);
+$deposito=limpiar_cadena($_POST["producto_deposito"]);
 
 //verifica campos obligatorios
-if($codigo == "" || $nombre == "" || $precio == "" || $stock == "" || $categoria == "" || $proveedor == ""){
+if($codigo == "" || $nombre == "" || $precio == "" || $stock == "" || $categoria == "" || $proveedor == "" || $deposito == ""){
     echo '
     <div class="notification is-danger is-light">
         <strong>¡Ocurrió un error inesperado!</strong><br>
@@ -48,6 +51,10 @@ if(verificar_datos("[0-9.]{1,25}",$precio)){
         El precio no coincide con el formato esperado.
     </div>';
     exit();
+}
+
+if ($precio_compra == "") {
+    $precio_compra = 0;
 }
 
 if(verificar_datos("[0-9]{1,25}",$stock)){
@@ -198,20 +205,23 @@ if($_FILES["producto_foto"]["name"] != "" && $_FILES["producto_foto"]["size"]>0)
 $guardar_producto = con();
 //prepare: prepara la consulta antes de insertar directo a la bd. variables sin comillas ni $
 $guardar_producto = $guardar_producto->prepare("INSERT INTO
-    producto (producto_codigo, producto_nombre, producto_precio, producto_iva, producto_stock, producto_stock_min, producto_foto, categoria_id, usuario_id, prov_id)
-    VALUES(:codigo, :nombre, :precio, :iva, :stock, :stock_min, :foto, :categoria, :usuario, :proveedor)");
+    producto (producto_codigo, producto_nombre, producto_precio, producto_precio_compra, producto_iva, producto_stock, producto_stock_min, producto_foto, categoria_id, usuario_id, prov_id, familia_id, deposito_id)
+    VALUES(:codigo, :nombre, :precio, :precio_compra, :iva, :stock, :stock_min, :foto, :categoria, :usuario, :proveedor, :familia, :deposito_id)");
 
 $marcadores=[
     "codigo"=>$codigo,
     "nombre"=>$nombre,
     "precio"=>$precio,
+    "precio_compra"=>$precio_compra,
     "iva"=>$iva,
     "stock"=>$stock,
     "stock_min"=>$stock_min,
     "foto"=>$foto,
     "categoria"=>$categoria,
     "usuario"=>$_SESSION["id"],
-    "proveedor"=>$proveedor
+    "proveedor"=>$proveedor,
+    "familia"=>$familia,
+    "deposito_id"=>$deposito
 ];
 
 $guardar_producto->execute($marcadores);

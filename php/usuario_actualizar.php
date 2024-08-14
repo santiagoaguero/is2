@@ -87,6 +87,7 @@ $rol=limpiar_cadena($_POST["usuario_rol"]);
 $email=limpiar_cadena($_POST["usuario_email"]);
 $clave_1=limpiar_cadena($_POST["usuario_clave_1"]);
 $clave_2=limpiar_cadena($_POST["usuario_clave_2"]);
+$punto_impresion_id=$_POST["punto_impresion"];
 
 //verifica campos obligatorios
 //las claves NO porque en este formulario actualizar no son obligatorios
@@ -216,11 +217,11 @@ if($clave_1 != "" || $clave_2 != ""){
 //Actualizando datos
 $actualizar_usuario = con();
 $actualizar_usuario = $actualizar_usuario->prepare("UPDATE usuario SET 
-usuario_nombre = :nombre,usuario_apellido = :apellido, usuario_usuario = :usuario, usuario_clave = :clave, usuario_email = :email, rol_id = :rol WHERE usuario_id = :id");
+usuario_nombre = :nombre,usuario_apellido = :apellido, usuario_usuario = :usuario, usuario_clave = :clave, usuario_email = :email, rol_id = :rol, punto_impresion_id = :punto_impresion_id WHERE usuario_id = :id");
 
 //evitando inyecciones sql xss
 $marcadores=[
-    ":nombre"=>$nombre, ":apellido"=>$apellido, ":usuario"=>$usuario, ":email"=>$email, ":clave"=>$clave, ":rol"=>$rol, ":id"=>$id];
+    ":nombre"=>$nombre, ":apellido"=>$apellido, ":usuario"=>$usuario, ":email"=>$email, ":clave"=>$clave, ":rol"=>$rol, ":punto_impresion_id"=>$punto_impresion_id, ":id"=>$id];
 
 ;
 

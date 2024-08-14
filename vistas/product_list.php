@@ -11,19 +11,18 @@
         exit();
     }
 ?>
-<div class="container is-fluid mb-0">
-    <h1 class="title">Productos</h1>
-    <h2 class="subtitle">Lista de productos</h2>
-
-    <div class="cartel-stock">
-        <p style="color: limegreen; font-weight:600">Stock alto: verde</p>
-        <p style="color: orange; font-weight:600">Stock medio: amarillo</p>
-        <p style="color: red; font-weight:600">Stock bajo: rojo </p>
-    </div>
-</div>
 
 <div class="container pb-6 pt-6">
+    <div class="is-fluid mb-4">
+        <h1 class="title">Productos</h1>
+        <h2 class="subtitle">Lista de productos</h2>
 
+        <div class="cartel-stock">
+            <p style="color: limegreen; font-weight:600">Stock alto: verde</p>
+            <p style="color: orange; font-weight:600">Stock medio: amarillo</p>
+            <p style="color: red; font-weight:600">Stock bajo: rojo </p>
+        </div>
+    </div>
 
 <?php 
     require_once("./php/main.php");

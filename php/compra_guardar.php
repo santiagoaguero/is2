@@ -61,6 +61,16 @@ if ($hayError){
         $idProducto = $idProductos[$i];
         $cantidad = $cantidades[$i];
         $precio = $precios[$i];
+
+        // actualizar datos del producto
+        if ($precio !== 0) {
+            $actualizar_producto = con();
+            $actualizar_producto = $actualizar_producto->prepare("UPDATE producto SET producto_precio_compra = :precio_compra WHERE producto_id = :id");
+            $actualizar_producto->execute([
+                "precio_compra"=>$precio,
+                "id"=>$idProducto
+            ]);
+        }
     
         // Crea tu consulta SQL para insertar los datos en la tabla detalle y ejecútala
         $queryDetalle = "INSERT INTO compras_detalle (producto_id, cantidad, precio_compra, compra_id) VALUES (:prod, :cantidad, :precio, :id)";

@@ -11,12 +11,13 @@
         exit();
     }
 ?>
-<div class="container is-fluid mb-6">
-	<h1 class="title">Productos</h1>
-	<h2 class="subtitle">Nuevo producto</h2>
-</div>
 
 <div class="container pb-6 pt-6">
+	<div class="is-fluid mb-2">
+		<h1 class="title">Productos</h1>
+		<h2 class="subtitle">Nuevo producto</h2>
+	</div>
+	
     <?php 
     require_once("./php/main.php");
     ?>
@@ -40,7 +41,13 @@
 			<div class="column">
 		    	<div class="control">
 					<span>Precio</span>
-				  	<input class="input" type="text" name="producto_precio" pattern="[0-9.]{1,25}" maxlength="25" required >
+				  	<input class="input" type="number" name="producto_precio" pattern="[0-9.]{1,25}" maxlength="25" required >
+				</div>
+		  	</div>
+			<div class="column">
+		    	<div class="control">
+					<span>Precio Compra</span>
+				  	<input class="input" type="number" name="producto_precio_compra" pattern="[0-9.]{1,25}" maxlength="25" required value="0">
 				</div>
 		  	</div>
 		</div>
@@ -123,6 +130,25 @@
                             }
                         }
                         $proveedores=null;
+                        ?>
+				  	</select>
+				</div>
+		  	</div>
+			<div class="column">
+				<span>Depósito</span><br>
+		    	<div class="select is-rounded">
+				  	<select name="producto_deposito" >
+				    	<option value="" selected="" >Seleccione una opción</option>
+                        <?php
+                        $depositos = con();
+                        $depositos = $depositos->query("SELECT * FROM depositos");
+                        if($depositos->rowCount()>0){
+                            $depositos = $depositos->fetchAll();
+                            foreach($depositos as $key){
+                                echo '<option value="'.$key['deposito_id'].'" >'.$key['dep_nombre'].'</option>';
+                            }
+                        }
+                        $depositos=null;
                         ?>
 				  	</select>
 				</div>

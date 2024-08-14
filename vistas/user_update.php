@@ -17,24 +17,22 @@
     }
 ?>
 
-<div class="container is-fluid mb-6">
-<?php
-    if($id == $_SESSION["id"]){///usuario que inició sesión
-?> 
-        <h1 class="title">Mi Cuenta</h1>
-        <h2 class="subtitle">Actualizar datos de cuenta</h2>
-<?php
-    } else { 
-?>
-        <h1 class="title">Usuarios</h1>
-        <h2 class="subtitle">Actualizar usuario</h2>
-<?php
-    }
-?> 
-
-</div>
-
 <div class="container pb-6 pt-6">
+	<div class="is-fluid mb-2">
+		<?php
+			if($id == $_SESSION["id"]){///usuario que inició sesión
+		?> 
+				<h1 class="title">Mi Cuenta</h1>
+				<h2 class="subtitle">Actualizar datos de cuenta</h2>
+		<?php
+			} else { 
+		?>
+				<h1 class="title">Usuarios</h1>
+				<h2 class="subtitle">Actualizar usuario</h2>
+		<?php
+			}
+		?> 
+	</div>
 
 <?php 
     include("./inc/btn_back.php");
@@ -90,6 +88,30 @@
                             }
                         }
                         $categorias=null;
+                        ?>
+				  	</select>
+				</div>
+		  	</div>
+			<div class="column is-narrow">
+				<span>Punto de Impresión</span><br>
+		    	<div class="select is-rounded">
+				  	<select name="punto_impresion" >   
+                        <?php
+                        $punimp = con();
+                        $punimp = $punimp->query("SELECT * FROM puntos_impresion");
+                        if($punimp->rowCount()>0){
+                            $punimp = $punimp->fetchAll();
+                            foreach($punimp as $key){
+                                if($datos["punto_impresion_id"] == $key['punto_impresion_id']){
+                                    echo '
+                                    	<option value="'.$key['punto_impresion_id'].'" selected="" >'.$key['punimp_nombre'].' (Actual)</option>
+                                    ';
+                                } else {
+                                    echo '<option value="'.$key['punto_impresion_id'].'" >'.$key['punimp_nombre'].'</option>';
+                                }
+                            }
+                        }
+                        $punimp=null;
                         ?>
 				  	</select>
 				</div>

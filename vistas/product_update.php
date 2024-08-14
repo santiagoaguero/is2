@@ -11,12 +11,12 @@
         exit();
     }
 ?>
-<div class="container is-fluid mb-6">
-	<h1 class="title">Productos</h1>
-	<h2 class="subtitle">Actualizar producto</h2>
-</div>
 
 <div class="container pb-6 pt-6">
+	<div class="is-fluid mb-2">
+		<h1 class="title">Productos</h1>
+		<h2 class="subtitle">Actualizar producto</h2>
+	</div>
 <?php 
     include("./inc/btn_back.php");
 
@@ -58,6 +58,15 @@
 				  	<input class="input" type="text" name="producto_precio" pattern="[0-9.]{1,25}" maxlength="25" required value="<?php 
                     //echo number_format($datos["producto_precio"], 0, ',', '.');se guarda como entero -> 9.000 y no 9000
 					echo $datos["producto_precio"];
+                    ?>" >
+				</div>
+		  	</div>
+			<div class="column">
+		    	<div class="control">
+					<span>Precio Compra</span>
+				  	<input class="input" type="text" name="producto_precio_compra" pattern="[0-9.]{1,25}" maxlength="25" required value="<?php 
+                    //echo number_format($datos["producto_precio_compra"], 0, ',', '.');se guarda como entero -> 9.000 y no 9000
+					echo $datos["producto_precio_compra"];
                     ?>" >
 				</div>
 		  	</div>
@@ -175,6 +184,30 @@
                             }
                         }
                         $proveedores=null;
+                        ?>
+				  	</select>
+				</div>
+		  	</div>
+			<div class="column">
+				<span>Depósito</span><br>
+		    	<div class="select is-rounded">
+				  	<select name="producto_deposito" >   
+                        <?php
+                        $deposito = con();
+                        $deposito = $deposito->query("SELECT * FROM depositos");
+                        if($deposito->rowCount()>0){
+                            $deposito = $deposito->fetchAll();
+                            foreach($deposito as $dep){
+                                if($datos["deposito_id"] == $dep['deposito_id']){
+                                    echo '
+                                    <option value="'.$dep['deposito_id'].'" selected="" >'.$dep['dep_nombre'].' (Actual)</option>
+                                    ';
+                                } else {
+                                    echo '<option value="'.$dep['deposito_id'].'" >'.$dep['dep_nombre'].'</option>';
+                                }
+                            }
+                        }
+                        $deposito=null;
                         ?>
 				  	</select>
 				</div>

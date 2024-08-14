@@ -5,7 +5,28 @@ require_once("../inc/session_start.php");
 // Obtener los datos del objeto JSON
 $data = json_decode(file_get_contents('php://input'), true);
 $ruc = $data['ruc'];
+$forma_pago = $data['forma_pago'];
 $productos = $data['productos'];
+
+// Obtener los datos del timbrado
+$busca_timbrado = "SELECT T.timbrado_id, T.numero, T.fecha_emision, T.fecha_vencimiento
+  FROM usuario U
+  LEFT JOIN puntos_impresion P
+  ON U.punto_impresion_id = P.punto_impresion_id
+  LEFT JOIN timbrados T
+  ON P.timbrado_id = T.timbrado_id
+  WHERE U.usuario_id = '".$_SESSION['id']."'
+  AND T.fecha_vencimiento >= '".date("Y-m-d")."'
+  AND T.estado = 1
+";
+$conexion=con();
+$timbrado_sql = $conexion->query($busca_timbrado);
+if ($timbrado_sql->rowCount() > 0) {
+  $timbrado_data = $timbrado_sql->fetch();
+  $timbrado = $timbrado_data["timbrado_id"];
+} else {
+  echo('No se encontró un timbrado disponible para cargar esta factura');
+}
 
 //busca cliente para asociar a la factura
 $busca_cliente = "SELECT cliente_id, cliente_nombre, cliente_direccion FROM clientes WHERE cliente_ruc = '$ruc'";
@@ -16,6 +37,12 @@ $cliente = $cliente->fetch();
 $clienteId = $cliente["cliente_id"];
 $cliente_nom = $cliente["cliente_nombre"];
 $cliente_dir = $cliente["cliente_direccion"];
+
+//busca forma de pago para asociar a la factura
+$busca_forma_pago = "SELECT descripcion FROM formas_pago WHERE forma_pago_id = '$forma_pago'";
+$conexion=con();
+$forma_pago_res = $conexion->query($busca_forma_pago);
+$forma_pago_descripcion = $forma_pago_res->fetch()['descripcion'];
 
 //busca ultimo numero de factura
 $consulta = "SELECT factura_numero FROM facturas ORDER BY factura_numero DESC LIMIT 1";
@@ -74,9 +101,9 @@ $facturaHTML = '
       </div>
       <div id="project">
         <div id="timbrado">
-          <div>TIMBRADO: 145145145</div>
-          <div>FECHA INICIO VIGENCIA: 01/01/2023</div>
-          <div>FECHA FIN VIGENCIA: 31/12/2024</div>
+          <div>TIMBRADO: '.$timbrado_data["numero"].'</div>
+          <div>FECHA INICIO VIGENCIA: '.$timbrado_data["fecha_emision"].'</div>
+          <div>FECHA FIN VIGENCIA: '.$timbrado_data["fecha_vencimiento"].'</div>
         </div>
 
           <div><strong>RUC:</strong><br />80012345-6</div>
@@ -86,7 +113,7 @@ $facturaHTML = '
     </header>
     <div class="cliente">
       <div>Fecha: '.$fechaES.' </div>
-      <div>Condicion de Venta: Contado</div>
+      <div>Forma de Pago: '.$forma_pago_descripcion.'</div>
       <div>Nombre: ' . $cliente_nom . '</div>
       <div>RUC: ' . $ruc . '</div>
       <div>Direccion: ' . $cliente_dir . '</div>
@@ -186,13 +213,15 @@ $facturaHTML .= '
     </html>';
 
 // Consulta preparada para insertar la nueva factura en la base de datos
-$consultaInsertar = "INSERT INTO facturas (factura_fecha, cliente_id, usuario_id, total_venta, factura_estado, factura_numero) VALUES (:facturaFecha, :clienteId, :usuarioId, :totalVenta, :factura_estado, :factura_numero)";
+$consultaInsertar = "INSERT INTO facturas (factura_fecha, timbrado_id, forma_pago_id, cliente_id, usuario_id, total_venta, factura_estado, factura_numero) VALUES (:facturaFecha, :timbrado_id, :forma_pago_id, :clienteId, :usuarioId, :totalVenta, :factura_estado, :factura_numero)";
 
 // Preparar la consulta
 $insertar = $conexion->prepare($consultaInsertar);
 
 // Asignar los valores a los parámetros de la consulta preparada
 $insertar->bindValue(':facturaFecha', $fechaFact);
+$insertar->bindValue(':timbrado_id', $timbrado);
+$insertar->bindValue(':forma_pago_id', $forma_pago);
 $insertar->bindValue(':clienteId', $clienteId);
 $insertar->bindValue(':usuarioId', $usuarioId);
 $insertar->bindValue(':totalVenta', $totalVenta);
